@@ -1,0 +1,26 @@
+# Python/Django
+venv/
+__pycache__/
+db.sqlite3
+*.pyc
+
+# Node.js/Vite
+node_modules/
+dist/
+.pnpm-store/
+
+# Environment variables
+.env
+*.env.*
+!.env.example
+
+# OS/IDE specific
+.DS_Store
+.vscode/
+.cursor/
+.idea/
+
+# Build artifacts
+/build
+/dist
+*.egg-info 
