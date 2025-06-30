@@ -3,7 +3,7 @@ import HomePage from "./pages/home-page/HomePage";
 import "./App.css";
 import SignUp from "./pages/sign-up/SignUp.tsx";
 import SignIn from "./pages/sign-in/SignIn.tsx";
-import DashboardPage from "./pages/DashboardPage";
+import Dashboard from "./pages/dashboard/Dashboard.tsx";
 import SignOutPage from "./pages/SignOutPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import { useEffect } from "react";
@@ -38,7 +38,7 @@ function App() {
 
         {/* Private Routes */}
         <Route element={<PrivateRoute />}>
-          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Route>
 
         {/* Not Found */}
