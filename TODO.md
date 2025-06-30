@@ -74,14 +74,14 @@ This section details the setup, configuration, and API endpoint creation for the
   - [x] Manually create the `api/urls.py` file.
 
 - **API Endpoints** (Reference: `backend-guide.md`, `api-documentation.md`, `database-guide.md`)
-  - [ ] **User Registration (`/register/`)**:
-    - [ ] In `api/serializers.py`, create `UserRegistrationSerializer`.
-      - [ ] Make `first_name` and `last_name` required fields.
-      - [ ] In the `validate` method, use Django's built-in `validate_password` to enforce strong passwords.
-      - [ ] Override the `create` method to assign `email` to the `username` field and use `set_password` to hash the password.
-    - [ ] In `api/views.py`, create `UserRegistrationView` as a `CreateAPIView` with `permission_classes = [AllowAny]`.
-    - [ ] Override the `create` method in the view to generate and return `access` and `refresh` tokens along with user data upon successful registration.
-    - [ ] Add the `path('register/', ...)` to `api/urls.py`.
+  - [x] **User Registration (`/register/`)**:
+    - [x] In `api/serializers.py`, create `UserRegistrationSerializer`.
+      - [x] Make `first_name` and `last_name` required fields.
+      - [x] In the `validate` method, use Django's built-in `validate_password` to enforce strong passwords.
+      - [x] Override the `create` method to assign `email` to the `username` field and use `set_password` to hash the password.
+    - [x] In `api/views.py`, create `UserRegistrationView` as a `CreateAPIView` with `permission_classes = [AllowAny]`.
+    - [x] Override the `create` method in the view to generate and return `access` and `refresh` tokens along with user data upon successful registration.
+    - [x] Add the `path('register/', ...)` to `api/urls.py`.
   - [ ] **Current User Info (`/users/me/`)**:
     - [ ] In `api/serializers.py`, create `UserSerializer` exposing only `id`, `first_name`, `last_name`, and `email`.
     - [ ] In `api/views.py`, create `UserProfileView` as a `RetrieveAPIView` with `permission_classes = [IsAuthenticated]`.
