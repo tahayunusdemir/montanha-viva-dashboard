@@ -87,16 +87,16 @@ This section details the setup, configuration, and API endpoint creation for the
     - [x] In `api/views.py`, create `UserProfileView` as a `RetrieveAPIView` with `permission_classes = [IsAuthenticated]`.
     - [x] Override the `get_object` method to simply return `self.request.user`.
     - [x] Add the `path('users/me/', ...)` to `api/urls.py`.
-  - [ ] **Sample Data Endpoints**:
-    - [ ] In `api/models.py`, create the `Message` model with `content`, `created_at`, and a `author` foreign key to the `User` model.
-    - [ ] Register the `Message` model in `api/admin.py`.
-    - [ ] Run `python manage.py makemigrations` and `python manage.py migrate`.
-    - [ ] In `api/views.py`, create `PublicDataView` (`AllowAny`) and `ProtectedDataView` (`IsAuthenticated`).
-    - [ ] Add paths for `/public-data/` and `/protected-data/` to `api/urls.py`.
+  - [x] **Sample Data Endpoints**:
+    - [x] In `api/models.py`, create the `Message` model with `content`, `created_at`, and a `author` foreign key to the `User` model.
+    - [x] Register the `Message` model in `api/admin.py`.
+    - [x] Run `python manage.py makemigrations` and `python manage.py migrate`.
+    - [x] In `api/views.py`, create `PublicDataView` (`AllowAny`) and `ProtectedDataView` (`IsAuthenticated`).
+    - [x] Add paths for `/public-data/` and `/protected-data/` to `api/urls.py`.
 
 - **Administration** (Reference: `backend-guide.md`)
-  - [ ] Create a superuser: `python manage.py createsuperuser`.
-  - [ ] Use the superuser credentials to test the `/api/token/` endpoint.
+  - [x] Create a superuser: `python manage.py createsuperuser`.
+  - [x] Use the superuser credentials to test the `/api/token/` endpoint.
 
 ---
 
