@@ -117,18 +117,18 @@ This section covers the setup of the React application with Vite, adding core li
 
 - **Core Systems Implementation** (Reference: `frontend-guide.md`, `design-guide.md`)
   - [x] **MUI Theme (`src/theme/`)**: Create a theme file that defines the `palette` (with primary color `#1976D2`, error color `#D32F2F`, etc.) and `typography` scales as specified in the design guide. Wrap the application in `<ThemeProvider>`.
-  - [ ] **Axios (`src/lib/axios.ts`)**:
-    - [ ] Create and export a central `axios` instance with the `baseURL` set from environment variables.
-    - [ ] Implement a **request interceptor** to read the `accessToken` from the Zustand store and add the `Authorization: Bearer <token>` header to every outgoing request.
-    - [ ] Implement a **response interceptor** to handle `401 Unauthorized` errors.
-      - [ ] On `401`, attempt to fetch a new `accessToken` using the `refreshToken` from the store via the `/token/refresh/` endpoint.
-      - [ ] If successful, update tokens in the store and automatically retry the original failed request.
-      - [ ] If refresh fails, trigger the `logout` action in the store and redirect the user to the login page.
-  - [ ] **API Services (`src/services/auth.ts`)**: Create and export typed functions for `register`, `login`, and `getMe` that use the central axios instance.
-  - [ ] **State Management (`src/store/authStore.ts`)**:
-    - [ ] Create a Zustand store with `accessToken`, `refreshToken`, `user`, and `isAuthenticated` state.
-    - [ ] Define actions: `login` (saves tokens), `setUser` (saves user profile), `logout` (clears state).
-    - [ ] Wrap the store with the `persist` middleware to save state to `localStorage`, ensuring the session survives page reloads.
+  - [x] **Axios (`src/lib/axios.ts`)**:
+    - [x] Create and export a central `axios` instance with the `baseURL` set from environment variables.
+    - [x] Implement a **request interceptor** to read the `accessToken` from the Zustand store and add the `Authorization: Bearer <token>` header to every outgoing request.
+    - [x] Implement a **response interceptor** to handle `401 Unauthorized` errors.
+      - [x] On `401`, attempt to fetch a new `accessToken` using the `refreshToken` from the store via the `/token/refresh/` endpoint.
+      - [x] If successful, update tokens in the store and automatically retry the original failed request.
+      - [x] If refresh fails, trigger the `logout` action in the store and redirect the user to the login page.
+  - [x] **API Services (`src/services/auth.ts`)**: Create and export typed functions for `register`, `login`, and `getMe` that use the central axios instance.
+  - [x] **State Management (`src/store/authStore.ts`)**:
+    - [x] Create a Zustand store with `accessToken`, `refreshToken`, `user`, and `isAuthenticated` state.
+    - [x] Define actions: `login` (saves tokens), `setUser` (saves user profile), `logout` (clears state).
+    - [x] Wrap the store with the `persist` middleware to save state to `localStorage`, ensuring the session survives page reloads.
 
 - **Pages & Routing** (Reference: `frontend-guide.md`)
   - [ ] **Routing (`App.tsx`)**: Set up all routes using `react-router-dom`.
