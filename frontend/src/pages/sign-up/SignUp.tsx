@@ -117,11 +117,13 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
     },
   });
   const login = useAuthStore((state) => state.login);
+  const setUser = useAuthStore((state) => state.setUser);
 
   const mutation = useMutation<AuthResponse, Error, RegisterData>({
     mutationFn: register,
     onSuccess: (data) => {
       login({ access: data.access, refresh: data.refresh });
+      setUser(data.user);
       navigate("/dashboard");
     },
   });

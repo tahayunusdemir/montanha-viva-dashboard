@@ -1,48 +1,48 @@
 import api from "../lib/axios";
-import type { AuthResponse, Tokens, User } from "../types";
+import type { User, Tokens, AuthResponse } from "../types";
 import type {
-  LoginCredentials,
   RegisterData,
+  LoginCredentials,
   ChangePasswordData,
-} from "../types/auth.ts";
+} from "../types/auth";
 
 export const register = async (data: RegisterData): Promise<AuthResponse> => {
-  const response = await api.post("/register/", data);
+  const response = await api.post<AuthResponse>("/users/register/", data);
   return response.data;
 };
 
-export const login = async (credentials: LoginCredentials): Promise<Tokens> => {
-  const response = await api.post("/token/", {
-    username: credentials.email,
-    password: credentials.password,
-  });
+export const login = async (
+  credentials: LoginCredentials,
+): Promise<AuthResponse> => {
+  const response = await api.post<AuthResponse>("/users/token/", credentials);
   return response.data;
 };
 
 export const getMe = async (): Promise<User> => {
-  const response = await api.get("/users/me/");
+  const response = await api.get<User>("/users/me/");
   return response.data;
 };
 
-export const refreshToken = async (refresh: string): Promise<Tokens> => {
-  const response = await api.post("/token/refresh/", { refresh });
+export const refreshToken = async (
+  refresh: string,
+): Promise<{ access: string }> => {
+  const response = await api.post<{ access: string }>("/users/token/refresh/", {
+    refresh,
+  });
   return response.data;
 };
 
-export const updateMe = async (data: {
-  first_name: string;
-  last_name: string;
-}): Promise<User> => {
+export const updateMe = async (data: Partial<RegisterData>): Promise<User> => {
   const response = await api.patch<User>("/users/me/", data);
   return response.data;
 };
 
-export const changePassword = async (data: ChangePasswordData) => {
-  const response = await api.post("/users/set_password/", data);
-  return response.data;
+export const changePassword = async (
+  data: ChangePasswordData,
+): Promise<void> => {
+  await api.put("/users/me/change-password/", data);
 };
 
-export const deleteAccount = async () => {
-  const response = await api.delete("/users/me/");
-  return response.data;
+export const deleteAccount = async (): Promise<void> => {
+  await api.delete("/users/me/");
 };

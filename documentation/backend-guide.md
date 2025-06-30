@@ -292,3 +292,21 @@ The general pattern is **Serializer → View → URL**. These components are cre
 3.  **URL (`[app_name]/urls.py`):** Maps a URL path to its corresponding view within the app.
 
 A key implementation is the **User Registration Endpoint**:
+
+- The `UserRegistrationSerializer` validates strong passwords using Django's built-in validators.
+- The `UserRegistrationView` is customized to not only create the user but also generate and return `access` and `refresh` tokens in the same response. This streamlines the frontend flow.
+
+### Creating a New App
+
+The project follows a modular structure where core features are encapsulated in separate Django apps, and their corresponding API endpoints are organized within the main `api` app.
+
+1.  **Create the Django App**:
+    Navigate to the `backend` directory and run the `startapp` command. For example, to create a `feedback` app:
+    ```bash
+    cd backend
+    python manage.py startapp feedback
+    ```
+2.  **Create the API Module**:
+    Inside the `backend/api/` directory, create a new folder for the app's endpoints (e.g., `feedback/`). Inside this new folder, create the necessary files: `__init__.py`, `views.py`, `serializers.py`, and `urls.py`.
+3.  **Register the App**:
+    Finally, add the new app to the `INSTALLED_APPS` list in `core/settings.py`. For a `feedback` app, you would add `'feedback.apps.FeedbackConfig'`.

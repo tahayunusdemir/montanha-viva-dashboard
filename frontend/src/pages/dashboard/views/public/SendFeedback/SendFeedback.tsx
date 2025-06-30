@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Alert,
   Button,
@@ -6,17 +6,21 @@ import {
   FormControl,
   FormLabel,
   IconButton,
-  MenuItem,
   Paper,
-  Select,
   Stack,
   TextField,
   Typography,
+  CircularProgress,
+  Select,
+  MenuItem,
+  InputLabel,
+  SelectChangeEvent,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import CloseIcon from "@mui/icons-material/Close";
 import PageLayout from "@/pages/dashboard/components/PageLayout";
+import { useCreateFeedback } from "@/services/feedback";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -30,29 +34,39 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-const categories = [
-  "General Feedback",
-  "Bug Report",
-  "Feature Request",
-  "UI/UX Suggestion",
-  "Other",
-];
-
 export default function SendFeedback() {
-  const [category, setCategory] = React.useState("");
-  const [subject, setSubject] = React.useState("");
-  const [message, setMessage] = React.useState("");
-  const [file, setFile] = React.useState<File | null>(null);
-  const [error, setError] = React.useState("");
-  const [success, setSuccess] = React.useState("");
+  const [subject, setSubject] = useState("");
+  const [message, setMessage] = useState("");
+  const [category, setCategory] = useState("general");
+  const [file, setFile] = useState<File | null>(null);
+  const [formError, setFormError] = useState("");
+
+  const createFeedbackMutation = useCreateFeedback();
+
+  useEffect(() => {
+    if (createFeedbackMutation.isSuccess) {
+      // Reset form after successful submission
+      setSubject("");
+      setMessage("");
+      setFile(null);
+      setCategory("general");
+      setFormError("");
+      const fileInput = document.getElementById(
+        "file-upload",
+      ) as HTMLInputElement;
+      if (fileInput) {
+        fileInput.value = "";
+      }
+      window.scrollTo(0, 0);
+    }
+  }, [createFeedbackMutation.isSuccess]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
     if (selectedFile) {
       if (selectedFile.size > 5 * 1024 * 1024) {
-        setError("File size should not exceed 5MB.");
+        setFormError("File size should not exceed 5MB.");
         setFile(null);
-        setSuccess("");
         const fileInput = document.getElementById(
           "file-upload",
         ) as HTMLInputElement;
@@ -60,7 +74,7 @@ export default function SendFeedback() {
           fileInput.value = "";
         }
       } else {
-        setError("");
+        setFormError("");
         setFile(selectedFile);
       }
     }
@@ -78,28 +92,17 @@ export default function SendFeedback() {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // TODO: Implement backend submission logic
-    console.log({
-      category,
-      subject,
-      message,
-      fileName: file?.name,
-      fileSize: file?.size,
-    });
-    // Reset form after submission
-    setCategory("");
-    setSubject("");
-    setMessage("");
-    setFile(null);
-    setError("");
-    setSuccess("Your feedback has been successfully submitted!");
-    const fileInput = document.getElementById(
-      "file-upload",
-    ) as HTMLInputElement;
-    if (fileInput) {
-      fileInput.value = "";
+
+    const formData = new FormData();
+    formData.append("subject", subject);
+    formData.append("message", message);
+    formData.append("category", category);
+
+    if (file) {
+      formData.append("document", file);
     }
-    window.scrollTo(0, 0);
+
+    createFeedbackMutation.mutate(formData);
   };
 
   return (
@@ -107,9 +110,9 @@ export default function SendFeedback() {
       <Typography variant="h4" sx={{ mb: 2 }}>
         Send Feedback
       </Typography>
-      {success && (
+      {createFeedbackMutation.isSuccess && (
         <Alert severity="success" sx={{ mb: 2, maxWidth: 600, mx: "auto" }}>
-          {success}
+          Your feedback has been successfully submitted!
         </Alert>
       )}
       <Card
@@ -121,20 +124,19 @@ export default function SendFeedback() {
         }}
       >
         <Stack spacing={3} sx={{ p: { xs: 2, sm: 3 } }}>
-          <FormControl fullWidth required>
-            <FormLabel htmlFor="category-select" sx={{ mb: 1 }}>
-              Category
-            </FormLabel>
+          <FormControl fullWidth>
+            <InputLabel id="category-select-label">Category</InputLabel>
             <Select
+              labelId="category-select-label"
               id="category-select"
               value={category}
-              onChange={(e) => setCategory(e.target.value)}
+              label="Category"
+              onChange={(e: SelectChangeEvent) => setCategory(e.target.value)}
             >
-              {categories.map((cat) => (
-                <MenuItem key={cat} value={cat}>
-                  {cat}
-                </MenuItem>
-              ))}
+              <MenuItem value="general">General Inquiry</MenuItem>
+              <MenuItem value="bug">Bug Report</MenuItem>
+              <MenuItem value="feature">Feature Request</MenuItem>
+              <MenuItem value="other">Other</MenuItem>
             </Select>
           </FormControl>
           <FormControl fullWidth required>
@@ -143,8 +145,6 @@ export default function SendFeedback() {
             </FormLabel>
             <TextField
               id="subject-input"
-              variant="outlined"
-              fullWidth
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
             />
@@ -157,7 +157,7 @@ export default function SendFeedback() {
               id="message-input"
               multiline
               rows={4}
-              variant="standard"
+              variant="outlined"
               fullWidth
               value={message}
               onChange={(e) => setMessage(e.target.value)}
@@ -172,6 +172,7 @@ export default function SendFeedback() {
                 variant="outlined"
                 tabIndex={-1}
                 startIcon={<CloudUploadIcon />}
+                disabled={createFeedbackMutation.isPending}
               >
                 Upload file
                 <VisuallyHiddenInput
@@ -204,14 +205,24 @@ export default function SendFeedback() {
                 >
                   {file.name}
                 </Typography>
-                <IconButton onClick={handleRemoveFile} size="small">
+                <IconButton
+                  onClick={handleRemoveFile}
+                  size="small"
+                  disabled={createFeedbackMutation.isPending}
+                >
                   <CloseIcon fontSize="small" />
                 </IconButton>
               </Paper>
             )}
-            {error && (
-              <Alert severity="error" onClose={() => setError("")}>
-                {error}
+            {formError && (
+              <Alert severity="error" onClose={() => setFormError("")}>
+                {formError}
+              </Alert>
+            )}
+            {createFeedbackMutation.isError && (
+              <Alert severity="error">
+                {createFeedbackMutation.error.message ||
+                  "An unexpected error occurred."}
               </Alert>
             )}
           </Stack>
@@ -219,8 +230,13 @@ export default function SendFeedback() {
             type="submit"
             variant="contained"
             sx={{ mt: 2, alignSelf: "flex-end" }}
+            disabled={createFeedbackMutation.isPending}
           >
-            Send Feedback
+            {createFeedbackMutation.isPending ? (
+              <CircularProgress size={24} />
+            ) : (
+              "Send Feedback"
+            )}
           </Button>
         </Stack>
       </Card>

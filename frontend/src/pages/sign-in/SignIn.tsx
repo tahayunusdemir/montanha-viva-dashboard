@@ -28,7 +28,7 @@ import AppTheme from "../../theme/AppTheme";
 import { login } from "../../services/auth";
 import { useAuthStore } from "../../store/authStore";
 import type { LoginCredentials } from "../../types/auth";
-import type { Tokens } from "../../types";
+import type { AuthResponse } from "../../types";
 
 // Helper to extract error messages from Axios error responses
 const getErrorMessage = (error: unknown): string => {
@@ -107,11 +107,13 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
     },
   });
   const loginAction = useAuthStore((state) => state.login);
+  const setUser = useAuthStore((state) => state.setUser);
 
-  const mutation = useMutation<Tokens, Error, LoginCredentials>({
+  const mutation = useMutation<AuthResponse, Error, LoginCredentials>({
     mutationFn: login,
     onSuccess: (data) => {
       loginAction({ access: data.access, refresh: data.refresh });
+      setUser(data.user);
       navigate("/dashboard");
     },
   });

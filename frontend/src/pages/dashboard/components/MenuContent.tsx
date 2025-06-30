@@ -25,6 +25,7 @@ import BookRoundedIcon from "@mui/icons-material/BookRounded";
 import MessageRoundedIcon from "@mui/icons-material/MessageRounded";
 import RateReviewRoundedIcon from "@mui/icons-material/RateReviewRounded";
 import { Divider } from "@mui/material";
+import { useAuthStore } from "@/store/authStore";
 
 const publicListItems = [
   { path: "/dashboard", text: "Home", icon: <HomeRoundedIcon /> },
@@ -119,6 +120,7 @@ const secondaryListItems = [
 
 export default function MenuContent() {
   const location = useLocation();
+  const { user } = useAuthStore();
   return (
     <Stack sx={{ flexGrow: 1, p: 1, justifyContent: "space-between" }}>
       <List dense>
@@ -135,21 +137,29 @@ export default function MenuContent() {
           </ListItem>
         ))}
       </List>
-      <Divider />
-      <List dense>
-        {adminListItems.map((item) => (
-          <ListItem key={item.path} disablePadding sx={{ display: "block" }}>
-            <ListItemButton
-              component={Link}
-              to={item.path}
-              selected={location.pathname === item.path}
-            >
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+      {user?.is_staff && (
+        <>
+          <Divider />
+          <List dense>
+            {adminListItems.map((item) => (
+              <ListItem
+                key={item.path}
+                disablePadding
+                sx={{ display: "block" }}
+              >
+                <ListItemButton
+                  component={Link}
+                  to={item.path}
+                  selected={location.pathname === item.path}
+                >
+                  <ListItemIcon>{item.icon}</ListItemIcon>
+                  <ListItemText primary={item.text} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+        </>
+      )}
       <Divider />
       <List dense>
         {secondaryListItems.map((item) => (

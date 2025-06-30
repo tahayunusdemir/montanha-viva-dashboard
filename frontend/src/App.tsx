@@ -10,6 +10,7 @@ import SignUp from "@/pages/sign-up/SignUp";
 import Dashboard from "@/pages/dashboard/Dashboard";
 import NotFoundPage from "@/pages/NotFoundPage";
 import PrivateRoute from "@/components/PrivateRoute";
+import AdminRoute from "@/components/AdminRoute";
 import HomeView from "./pages/dashboard/views/public/HomeView/HomeView";
 import About from "./pages/dashboard/views/public/About/About";
 import FloraEncyclopedia from "./pages/dashboard/views/public/FloraEncyclopedia/FloraEncyclopedia";
@@ -39,6 +40,7 @@ function App() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<Dashboard />}>
+            {/* Publicly accessible dashboard routes */}
             <Route index element={<HomeView />} />
             <Route path="about" element={<About />} />
             <Route path="flora-encyclopedia" element={<FloraEncyclopedia />} />
@@ -56,31 +58,38 @@ function App() {
               element={<NotificationHistory />}
             />
             <Route path="profile" element={<Profile />} />
-            <Route
-              path="admin/user-management"
-              element={<AdminUserManagement />}
-            />
-            <Route
-              path="admin/station-management"
-              element={<AdminStationManagament />}
-            />
-            <Route
-              path="admin/routes-management"
-              element={<AdminRoutesManagement />}
-            />
-            <Route path="admin/qr-management" element={<AdminQRManagement />} />
-            <Route
-              path="admin/wiki-management"
-              element={<AdminWikiManagement />}
-            />
-            <Route
-              path="admin/notification-management"
-              element={<AdminNotificationManagement />}
-            />
-            <Route
-              path="admin/feedback-management"
-              element={<AdminFeedbackManagement />}
-            />
+
+            {/* Admin-only routes */}
+            <Route element={<AdminRoute />}>
+              <Route
+                path="admin/user-management"
+                element={<AdminUserManagement />}
+              />
+              <Route
+                path="admin/station-management"
+                element={<AdminStationManagament />}
+              />
+              <Route
+                path="admin/routes-management"
+                element={<AdminRoutesManagement />}
+              />
+              <Route
+                path="admin/qr-management"
+                element={<AdminQRManagement />}
+              />
+              <Route
+                path="admin/wiki-management"
+                element={<AdminWikiManagement />}
+              />
+              <Route
+                path="admin/notification-management"
+                element={<AdminNotificationManagement />}
+              />
+              <Route
+                path="admin/feedback-management"
+                element={<AdminFeedbackManagement />}
+              />
+            </Route>
           </Route>
         </Route>
         <Route path="*" element={<NotFoundPage />} />
