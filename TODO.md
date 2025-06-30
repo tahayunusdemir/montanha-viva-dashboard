@@ -51,22 +51,22 @@ This section covers the foundational steps for setting up the project's infrastr
 This section details the setup, configuration, and API endpoint creation for the Django backend application.
 
 - **Project Setup & Basic Configuration** (Reference: `backend-guide.md`)
-  - [ ] Create the `backend/` directory and `cd` into it.
-  - [ ] Create and activate a Python virtual environment (e.g., `python -m venv venv && venv\Scripts\activate`).
-  - [ ] Install required packages: `pip install django djangorestframework psycopg2-binary django-environ djangorestframework-simplejwt django-cors-headers gunicorn`.
-  - [ ] Freeze dependencies: `pip freeze > requirements.txt`.
-  - [ ] Create the Django project (`django-admin startproject core .`) and an app (`python manage.py startapp api`).
+  - [x] Create the `backend/` directory and `cd` into it.
+  - [x] Create and activate a Python virtual environment (e.g., `python -m venv venv && venv\Scripts\activate`).
+  - [x] Install required packages: `pip install django djangorestframework psycopg2-binary django-environ djangorestframework-simplejwt django-cors-headers gunicorn`.
+  - [x] Freeze dependencies: `pip freeze > requirements.txt`.
+  - [x] Create the Django project (`django-admin startproject core .`) and an app (`python manage.py startapp api`).
 
 - **Environment Variables & Settings** (Reference: `backend-guide.md`)
-  - [ ] Create `.env` file with `SECRET_KEY`, `DEBUG=True`, and `DATABASE_URL=postgres://user:password@db:5432/dbname`.
-  - [ ] Create a corresponding `.env.example` file.
-  - [ ] Configure `core/settings.py`:
-    - [ ] Add `rest_framework`, `corsheaders`, `rest_framework_simplejwt`, and `api` to `INSTALLED_APPS`.
-    - [ ] Add `corsheaders.middleware.CorsMiddleware` to the top of the `MIDDLEWARE` list.
-    - [ ] Configure `DATABASES` to read from `DATABASE_URL` using `django-environ`.
-    - [ ] Set `CORS_ALLOWED_ORIGINS` to include the frontend development URL (e.g., `http://localhost:5173`).
-    - [ ] Configure `REST_FRAMEWORK` to set `DEFAULT_AUTHENTICATION_CLASSES` to use `JWTAuthentication` and `DEFAULT_PERMISSION_CLASSES` to `IsAuthenticated`.
-    - [ ] Configure `SIMPLE_JWT` to set token lifetimes.
+  - [x] Create `.env` file with `SECRET_KEY`, `DEBUG=True`, and `DATABASE_URL=postgres://user:password@db:5432/dbname`.
+  - [x] Create a corresponding `.env.example` file.
+  - [x] Configure `core/settings.py`:
+    - [x] Add `rest_framework`, `corsheaders`, `rest_framework_simplejwt`, and `api` to `INSTALLED_APPS`.
+    - [x] Add `corsheaders.middleware.CorsMiddleware` to the top of the `MIDDLEWARE` list.
+    - [x] Configure `DATABASES` to read from `DATABASE_URL` using `django-environ`.
+    - [x] Set `CORS_ALLOWED_ORIGINS` to include the frontend development URL (e.g., `http://localhost:5173`).
+    - [x] Configure `REST_FRAMEWORK` to set `DEFAULT_AUTHENTICATION_CLASSES` to use `JWTAuthentication` and `DEFAULT_PERMISSION_CLASSES` to `IsAuthenticated`.
+    - [x] Configure `SIMPLE_JWT` to set token lifetimes.
 
 - **URL Routing** (Reference: `backend-guide.md`, `api-documentation.md`)
   - [ ] In `core/urls.py`, route `/api/` to `api.urls` using `include()`.
