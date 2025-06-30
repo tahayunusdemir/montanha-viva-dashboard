@@ -26,10 +26,10 @@ This section covers the foundational steps for setting up the project's infrastr
   - [x] Activate the hooks by running `pre-commit install`.
 
 - **Containerization (Docker & Docker Compose)** (Reference: `devops-guide.md`, `README.md`)
-  - [ ] **Backend (`backend/Dockerfile`)**:
-    - [ ] Implement a multi-stage build to optimize the final image size.
-    - [ ] **Stage 1 (`builder`):** Use a Python base image, copy `requirements.txt`, and compile dependencies into wheels using `pip wheel`.
-    - [ ] **Stage 2 (Final):** Use a slim Python image, copy compiled wheels from the `builder` stage, install them, copy the application code, and set `gunicorn` as the `CMD`.
+  - [x] **Backend (`backend/Dockerfile`)**:
+    - [x] Implement a multi-stage build to optimize the final image size.
+    - [x] **Stage 1 (`builder`):** Use a Python base image, copy `requirements.txt`, and compile dependencies into wheels using `pip wheel`.
+    - [x] **Stage 2 (Final):** Use a slim Python image, copy compiled wheels from the `builder` stage, install them, copy the application code, and set `gunicorn` as the `CMD`.
   - [ ] **Frontend (`frontend/Dockerfile`)**:
     - [ ] Implement a multi-stage build for both development and production.
     - [ ] **Stage 1 (`base`):** Use a Node base image, install `pnpm`, copy `package.json` files, and install dependencies.
