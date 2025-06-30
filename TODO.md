@@ -137,5 +137,5 @@ This section covers the setup of the React application with Vite, adding core li
   - [x] **`SignUpPage.tsx` (`/sign-up`)**: Use `react-hook-form` for a form with `firstName`, `lastName`, `email`, and `password` fields. Use `useMutation` from TanStack Query to call the `register` service. On success, redirect to `/dashboard`. Display backend validation errors using the `error` state from the mutation and an MUI `<Alert>`.
   - [x] **`SignInPage.tsx` (`/sign-in`)**: Use `react-hook-form` for a form with `email` and `password` fields. Use `useMutation` from TanStack Query to call the `login` service. On success, redirect to `/dashboard`. Display backend validation errors using the `error` state from the mutation and an MUI `<Alert>`.
   - [x] **`DashboardPage.tsx` (`/dashboard`)**: Display user data and provide options to sign out.
-  - [ ] **`SignOutPage.tsx` (`/sign-out`)**: Redirect to sign-in page after sign out.
+  - [x] **`SignOutPage.tsx` (`/sign-out`)**: Redirect to sign-in page after sign out.
   - [ ] **`NotFoundPage.tsx` (`/not-found`)**: Display a 404 error page.
