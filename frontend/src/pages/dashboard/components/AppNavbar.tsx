@@ -12,6 +12,7 @@ import SideMenuMobile from "./SideMenuMobile";
 import MenuButton from "./MenuButton";
 import ThemeToggleButton from "@/components/ThemeToggleButton";
 import Logo from "@/components/Logo";
+import { Link } from "react-router-dom";
 
 const Toolbar = styled(MuiToolbar)({
   width: "100%",
@@ -64,7 +65,9 @@ export default function AppNavbar() {
             spacing={1}
             sx={{ justifyContent: "center", mr: "auto" }}
           >
-            <Logo />
+            <Link to="/dashboard">
+              <Logo />
+            </Link>
           </Stack>
           <ThemeToggleButton />
           <MenuButton aria-label="menu" onClick={toggleDrawer(true)}>

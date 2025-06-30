@@ -9,3 +9,9 @@ export interface LoginCredentials {
   email: string;
   password?: string;
 }
+
+export interface ChangePasswordData {
+  current_password?: string;
+  new_password?: string;
+  re_new_password?: string;
+}

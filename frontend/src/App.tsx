@@ -1,50 +1,91 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import HomePage from "./pages/home-page/HomePage";
-import "./App.css";
-import SignUp from "./pages/sign-up/SignUp.tsx";
-import SignIn from "./pages/sign-in/SignIn.tsx";
-import Dashboard from "./pages/dashboard/Dashboard.tsx";
-import SignOutPage from "./pages/SignOutPage";
-import NotFoundPage from "./pages/NotFoundPage";
-import { useEffect } from "react";
-import { useAuthStore } from "./store/authStore";
-import { getMe } from "./services/auth.ts";
-import PrivateRoute from "./components/PrivateRoute";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import HomePage from "@/pages/home-page/HomePage";
+import SignIn from "@/pages/sign-in/SignIn";
+import SignUp from "@/pages/sign-up/SignUp";
+import Dashboard from "@/pages/dashboard/Dashboard";
+import NotFoundPage from "@/pages/NotFoundPage";
+import PrivateRoute from "@/components/PrivateRoute";
+import HomeView from "./pages/dashboard/views/public/HomeView/HomeView";
+import About from "./pages/dashboard/views/public/About/About";
+import FloraEncyclopedia from "./pages/dashboard/views/public/FloraEncyclopedia/FloraEncyclopedia";
+import RoutesEncyclopedia from "./pages/dashboard/views/public/RoutesEncyclopedia/RoutesEncyclopedia";
+import PlantIdentifier from "./pages/dashboard/views/public/PlantIdentifier/PlantIdentifier";
+import QRCodes from "./pages/dashboard/views/public/QRCodes/QRCodes";
+import SensorData from "./pages/dashboard/views/public/SensorData/SensorData";
+import PointsAndRewards from "./pages/dashboard/views/public/PointsAndRewards/PointsAndRewards";
+import SendFeedback from "./pages/dashboard/views/public/SendFeedback/SendFeedback";
+import NotificationHistory from "./pages/dashboard/views/public/NotificationHistory/NotificationHistory";
+import Profile from "./pages/dashboard/views/public/Profile/Profile";
+import AdminUserManagement from "./pages/dashboard/views/admin/AdminUserManagement/AdminUserManagement";
+import AdminStationManagament from "./pages/dashboard/views/admin/AdminStationManagament/AdminStationManagament";
+import AdminRoutesManagement from "./pages/dashboard/views/admin/AdminRoutesManagement/AdminRoutesManagement";
+import AdminQRManagement from "./pages/dashboard/views/admin/AdminQRManagement/AdminQRManagement";
+import AdminWikiManagement from "./pages/dashboard/views/admin/AdminWikiManagement/AdminWikiManagement";
+import AdminNotificationManagement from "./pages/dashboard/views/admin/AdminNotificationManagement/AdminNotificationManagement";
+import AdminFeedbackManagement from "./pages/dashboard/views/admin/AdminFeedbackManagement/AdminFeedbackManagement";
 
 function App() {
-  const { accessToken, setUser, logout } = useAuthStore();
-
-  useEffect(() => {
-    const checkUser = async () => {
-      if (accessToken) {
-        try {
-          const user = await getMe();
-          setUser(user);
-        } catch (error) {
-          logout();
-        }
-      }
-    };
-    checkUser();
-  }, [accessToken, setUser, logout]);
-
   return (
-    <BrowserRouter>
+    <Router>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/" element={<Navigate to="/home-page" replace />} />
+        <Route path="/home-page" element={<HomePage />} />
         <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/sign-out" element={<SignOutPage />} />
-
-        {/* Private Routes */}
+        <Route path="/sign-up" element={<SignUp />} />
         <Route element={<PrivateRoute />}>
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard" element={<Dashboard />}>
+            <Route index element={<HomeView />} />
+            <Route path="about" element={<About />} />
+            <Route path="flora-encyclopedia" element={<FloraEncyclopedia />} />
+            <Route
+              path="routes-encyclopedia"
+              element={<RoutesEncyclopedia />}
+            />
+            <Route path="plant-identifier" element={<PlantIdentifier />} />
+            <Route path="qr-codes" element={<QRCodes />} />
+            <Route path="sensor-data" element={<SensorData />} />
+            <Route path="points-and-rewards" element={<PointsAndRewards />} />
+            <Route path="send-feedback" element={<SendFeedback />} />
+            <Route
+              path="notification-history"
+              element={<NotificationHistory />}
+            />
+            <Route path="profile" element={<Profile />} />
+            <Route
+              path="admin/user-management"
+              element={<AdminUserManagement />}
+            />
+            <Route
+              path="admin/station-management"
+              element={<AdminStationManagament />}
+            />
+            <Route
+              path="admin/routes-management"
+              element={<AdminRoutesManagement />}
+            />
+            <Route path="admin/qr-management" element={<AdminQRManagement />} />
+            <Route
+              path="admin/wiki-management"
+              element={<AdminWikiManagement />}
+            />
+            <Route
+              path="admin/notification-management"
+              element={<AdminNotificationManagement />}
+            />
+            <Route
+              path="admin/feedback-management"
+              element={<AdminFeedbackManagement />}
+            />
+          </Route>
         </Route>
-
-        {/* Not Found */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
-    </BrowserRouter>
+    </Router>
   );
 }
 

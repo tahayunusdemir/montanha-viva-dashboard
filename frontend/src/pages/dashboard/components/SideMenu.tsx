@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuthStore } from "@/store/authStore";
 
 const drawerWidth = 240;
@@ -51,7 +51,9 @@ export default function SideMenu() {
           p: 1.5,
         }}
       >
-        <Logo />
+        <Link to="/dashboard">
+          <Logo />
+        </Link>
       </Box>
       <Divider />
       <Box
