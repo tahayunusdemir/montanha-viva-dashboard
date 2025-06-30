@@ -1,14 +1,15 @@
-import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useAuthStore } from "./store/authStore";
-import { getMe } from "./services/auth.ts";
-import PrivateRoute from "./components/PrivateRoute";
-import HomePage from "./pages/HomePage";
-import SignUpPage from "./pages/SignUpPage";
-import SignInPage from "./pages/SignInPage";
+import HomePage from "./pages/home-page/HomePage";
+import "./App.css";
+import SignUp from "./pages/sign-up/SignUp.tsx";
+import SignIn from "./pages/sign-in/SignIn.tsx";
 import DashboardPage from "./pages/DashboardPage";
 import SignOutPage from "./pages/SignOutPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import { useEffect } from "react";
+import { useAuthStore } from "./store/authStore";
+import { getMe } from "./services/auth.ts";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   const { accessToken, setUser, logout } = useAuthStore();
@@ -30,10 +31,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Public Routes */}
         <Route path="/" element={<HomePage />} />
-        <Route path="/sign-up" element={<SignUpPage />} />
-        <Route path="/sign-in" element={<SignInPage />} />
+        <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-out" element={<SignOutPage />} />
 
         {/* Private Routes */}
