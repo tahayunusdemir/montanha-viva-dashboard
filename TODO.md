@@ -135,7 +135,7 @@ This section covers the setup of the React application with Vite, adding core li
   - [x] **Protected Routes**: Create a `PrivateRoute` component that checks `isAuthenticated` from the Zustand store and uses `<Navigate to="/sign-in" />` to redirect unauthenticated users.
   - [x] **Global User Fetch**: In `App.tsx`, use a `useEffect` hook to check for a token on app load. If a token exists, call the `getMe` service to fetch and store user data globally.
   - [x] **`SignUpPage.tsx` (`/sign-up`)**: Use `react-hook-form` for a form with `firstName`, `lastName`, `email`, and `password` fields. Use `useMutation` from TanStack Query to call the `register` service. On success, redirect to `/dashboard`. Display backend validation errors using the `error` state from the mutation and an MUI `<Alert>`.
-  - [ ] **`SignInPage.tsx` (`/sign-in`)**: Use `react-hook-form` for a form with `email` and `password` fields. Use `useMutation` from TanStack Query to call the `login` service. On success, redirect to `/dashboard`. Display backend validation errors using the `error` state from the mutation and an MUI `<Alert>`.
+  - [x] **`SignInPage.tsx` (`/sign-in`)**: Use `react-hook-form` for a form with `email` and `password` fields. Use `useMutation` from TanStack Query to call the `login` service. On success, redirect to `/dashboard`. Display backend validation errors using the `error` state from the mutation and an MUI `<Alert>`.
   - [ ] **`DashboardPage.tsx` (`/dashboard`)**: Display user data and provide options to sign out.
   - [ ] **`SignOutPage.tsx` (`/sign-out`)**: Redirect to sign-in page after sign out.
   - [ ] **`NotFoundPage.tsx` (`/not-found`)**: Display a 404 error page.
