@@ -111,7 +111,7 @@ This section covers the setup of the React application with Vite, adding core li
 
 - **Configuration & Project Architecture** (Reference: `frontend-guide.md`)
   - [x] Establish the `src/` folder structure: `assets`, `components`, `hooks`, `lib`, `pages`, `services`, `store`, `theme`, `types`.
-  - [ ] Configure `.eslintrc.cjs` and `.prettierrc` for code quality.
+  - [x] Configure `eslint.config.js` and `.prettierrc` for code quality.
   - [ ] Configure `vitest.config.ts` to set up a `jsdom` test environment.
   - [ ] Create `frontend/.env` with `VITE_API_BASE_URL=http://127.0.0.1:8000/api`.
 
