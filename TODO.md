@@ -69,9 +69,9 @@ This section details the setup, configuration, and API endpoint creation for the
     - [x] Configure `SIMPLE_JWT` to set token lifetimes.
 
 - **URL Routing** (Reference: `backend-guide.md`, `api-documentation.md`)
-  - [ ] In `core/urls.py`, route `/api/` to `api.urls` using `include()`.
-  - [ ] In `core/urls.py`, add paths for `TokenObtainPairView` (`/api/token/`) and `TokenRefreshView` (`/api/token/refresh/`).
-  - [ ] Manually create the `api/urls.py` file.
+  - [x] In `core/urls.py`, route `/api/` to `api.urls` using `include()`.
+  - [x] In `core/urls.py`, add paths for `TokenObtainPairView` (`/api/token/`) and `TokenRefreshView` (`/api/token/refresh/`).
+  - [x] Manually create the `api/urls.py` file.
 
 - **API Endpoints** (Reference: `backend-guide.md`, `api-documentation.md`, `database-guide.md`)
   - [ ] **User Registration (`/register/`)**:
