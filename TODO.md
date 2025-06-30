@@ -82,11 +82,11 @@ This section details the setup, configuration, and API endpoint creation for the
     - [x] In `api/views.py`, create `UserRegistrationView` as a `CreateAPIView` with `permission_classes = [AllowAny]`.
     - [x] Override the `create` method in the view to generate and return `access` and `refresh` tokens along with user data upon successful registration.
     - [x] Add the `path('register/', ...)` to `api/urls.py`.
-  - [ ] **Current User Info (`/users/me/`)**:
-    - [ ] In `api/serializers.py`, create `UserSerializer` exposing only `id`, `first_name`, `last_name`, and `email`.
-    - [ ] In `api/views.py`, create `UserProfileView` as a `RetrieveAPIView` with `permission_classes = [IsAuthenticated]`.
-    - [ ] Override the `get_object` method to simply return `self.request.user`.
-    - [ ] Add the `path('users/me/', ...)` to `api/urls.py`.
+  - [x] **Current User Info (`/users/me/`)**:
+    - [x] In `api/serializers.py`, create `UserSerializer` exposing only `id`, `first_name`, `last_name`, and `email`.
+    - [x] In `api/views.py`, create `UserProfileView` as a `RetrieveAPIView` with `permission_classes = [IsAuthenticated]`.
+    - [x] Override the `get_object` method to simply return `self.request.user`.
+    - [x] Add the `path('users/me/', ...)` to `api/urls.py`.
   - [ ] **Sample Data Endpoints**:
     - [ ] In `api/models.py`, create the `Message` model with `content`, `created_at`, and a `author` foreign key to the `User` model.
     - [ ] Register the `Message` model in `api/admin.py`.
