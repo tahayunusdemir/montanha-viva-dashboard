@@ -30,19 +30,19 @@ This section covers the foundational steps for setting up the project's infrastr
     - [x] Implement a multi-stage build to optimize the final image size.
     - [x] **Stage 1 (`builder`):** Use a Python base image, copy `requirements.txt`, and compile dependencies into wheels using `pip wheel`.
     - [x] **Stage 2 (Final):** Use a slim Python image, copy compiled wheels from the `builder` stage, install them, copy the application code, and set `gunicorn` as the `CMD`.
-  - [ ] **Frontend (`frontend/Dockerfile`)**:
-    - [ ] Implement a multi-stage build for both development and production.
-    - [ ] **Stage 1 (`base`):** Use a Node base image, install `pnpm`, copy `package.json` files, and install dependencies.
-    - [ ] **Stage 2 (`dev`):** Build on `base`, copy all source code, and set the `CMD` to run the Vite dev server (`pnpm dev`).
-    - [ ] **Stage 3 (`build`):** Build on `base`, copy source code, and run `pnpm run build` to generate static assets.
-    - [ ] **Stage 4 (`prod`):** Use a lightweight `nginx` image, copy the `dist` folder from the `build` stage, and copy the custom Nginx configuration.
-  - [ ] **Nginx Config (`frontend/nginx.conf`)**:
-    - [ ] Configure Nginx to serve static files.
-    - [ ] Add the `try_files $uri $uri/ /index.html;` directive to handle client-side routing for the single-page application.
-  - [ ] **Docker Compose (`docker-compose.yml`)**:
-    - [ ] Define the `db` service using the official `postgres` image, setting environment variables and a volume for data persistence.
-    - [ ] Define the `backend` service, specifying the build context, overriding the `command` to use Django's dev server, mounting volumes for hot-reloading, and mapping port `8000`.
-    - [ ] Define the `frontend` service, specifying the build context with `target: dev`, mounting volumes for hot-reloading, and mapping port `5173`.
+  - [x] **Frontend (`frontend/Dockerfile`)**:
+    - [x] Implement a multi-stage build for both development and production.
+    - [x] **Stage 1 (`base`):** Use a Node base image, install `pnpm`, copy `package.json` files, and install dependencies.
+    - [x] **Stage 2 (`dev`):** Build on `base`, copy all source code, and set the `CMD` to run the Vite dev server (`pnpm dev`).
+    - [x] **Stage 3 (`build`):** Build on `base`, copy source code, and run `pnpm run build` to generate static assets.
+    - [x] **Stage 4 (`prod`):** Use a lightweight `nginx` image, copy the `dist` folder from the `build` stage, and copy the custom Nginx configuration.
+  - [x] **Nginx Config (`frontend/nginx.conf`)**:
+    - [x] Configure Nginx to serve static files.
+    - [x] Add the `try_files $uri $uri/ /index.html;` directive to handle client-side routing for the single-page application.
+  - [x] **Docker Compose (`docker-compose.yml`)**:
+    - [x] Define the `db` service using the official `postgres` image, setting environment variables and a volume for data persistence.
+    - [x] Define the `backend` service, specifying the build context, overriding the `command` to use Django's dev server, mounting volumes for hot-reloading, and mapping port `8000`.
+    - [x] Define the `frontend` service, specifying the build context with `target: dev`, mounting volumes for hot-reloading, and mapping port `5173`.
 
 ---
 
@@ -135,4 +135,7 @@ This section covers the setup of the React application with Vite, adding core li
   - [ ] **Protected Routes**: Create a `PrivateRoute` component that checks `isAuthenticated` from the Zustand store and uses `<Navigate to="/sign-in" />` to redirect unauthenticated users.
   - [ ] **Global User Fetch**: In `App.tsx`, use a `useEffect` hook to check for a token on app load. If a token exists, call the `getMe` service to fetch and store user data globally.
   - [ ] **`SignUpPage.tsx` (`/sign-up`)**: Use `react-hook-form` for a form with `firstName`, `lastName`, `email`, and `password` fields. Use `useMutation` from TanStack Query to call the `register` service. On success, redirect to `/dashboard`. Display backend validation errors using the `error` state from the mutation and an MUI `<Alert>`.
-  - [ ] \*\*`
+  - [ ] **`SignInPage.tsx` (`/sign-in`)**: Use `react-hook-form` for a form with `email` and `password` fields. Use `useMutation` from TanStack Query to call the `login` service. On success, redirect to `/dashboard`. Display backend validation errors using the `error` state from the mutation and an MUI `<Alert>`.
+  - [ ] **`DashboardPage.tsx` (`/dashboard`)**: Display user data and provide options to sign out.
+  - [ ] **`SignOutPage.tsx` (`/sign-out`)**: Redirect to sign-in page after sign out.
+  - [ ] **`NotFoundPage.tsx` (`/not-found`)**: Display a 404 error page.
