@@ -1,5 +1,5 @@
 # Stage 1: base - Installs all dependencies
-FROM node:18-alpine AS base
+FROM node:20-alpine AS base
 RUN npm install -g pnpm
 WORKDIR /app
 COPY package.json pnpm-lock.yaml* ./

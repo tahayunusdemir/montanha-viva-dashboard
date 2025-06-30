@@ -4,10 +4,8 @@ import { Container, Box, Typography, Button } from "@mui/material";
 
 const DashboardPage = () => {
   const navigate = useNavigate();
-  const { user, logout } = useAuthStore((state) => ({
-    user: state.user,
-    logout: state.logout,
-  }));
+  const user = useAuthStore((state) => state.user);
+  const logout = useAuthStore((state) => state.logout);
 
   const handleLogout = () => {
     logout();

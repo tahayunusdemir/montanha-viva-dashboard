@@ -40,9 +40,11 @@ This section covers the foundational steps for setting up the project's infrastr
     - [x] Configure Nginx to serve static files.
     - [x] Add the `try_files $uri $uri/ /index.html;` directive to handle client-side routing for the single-page application.
   - [x] **Docker Compose (`docker-compose.yml`)**:
-    - [x] Define the `db` service using the official `postgres` image, setting environment variables and a volume for data persistence.
-    - [x] Define the `backend` service, specifying the build context, overriding the `command` to use Django's dev server, mounting volumes for hot-reloading, and mapping port `8000`.
-    - [x] Define the `frontend` service, specifying the build context with `target: dev`, mounting volumes for hot-reloading, and mapping port `5173`.
+    - [x] Define the `db` service using the official `postgres` image, setting environment variables, a volume for data persistence, and a `healthcheck` to ensure it's ready before other services start.
+    - [x] Define the `backend` service, specifying the build context, overriding the `command` to use Django's dev server, mounting volumes for hot-reloading, mapping port `8000`, and using `depends_on` to wait for the database.
+    - [x] Define the `frontend` service, specifying the build context with `target: dev`, mounting volumes for hot-reloading (including an anonymous volume for `node_modules`), and mapping port `5173`.
+  - [x] **Frontend Dockerignore (`frontend/.dockerignore`)**:
+    - [x] Create a `.dockerignore` file in the `frontend` directory to exclude `node_modules`, `.env`, and other unnecessary files from the Docker build context, improving build times.
 
 ---
 
@@ -112,11 +114,12 @@ This section covers the setup of the React application with Vite, adding core li
 - **Configuration & Project Architecture** (Reference: `frontend-guide.md`)
   - [x] Establish the `src/` folder structure: `assets`, `components`, `hooks`, `lib`, `pages`, `services`, `store`, `theme`, `types`.
   - [x] Configure `eslint.config.js` and `.prettierrc` for code quality.
-  - [x] Configure `vite.config.ts` to set up a `jsdom` test environment.
+  - [x] Configure `vite.config.ts` to set up a `jsdom` test environment and use the `--host` flag in the `dev` script to expose the server.
   - [x] Create `frontend/.env` with `VITE_API_BASE_URL=http://127.0.0.1:8000/api`.
 
 - **Core Systems Implementation** (Reference: `frontend-guide.md`, `design-guide.md`)
-  - [x] **MUI Theme (`src/theme/`)**: Create a theme file that defines the `palette` (with primary color `#1976D2`, error color `#D32F2F`, etc.) and `typography` scales as specified in the design guide. Wrap the application in `<ThemeProvider>`.
+  - [x] **MUI Theme (`src/theme/`)**: Create a theme file that defines the `palette` (with primary color `#1976D2`, error color `#D32F2F`, etc.) and `typography` scales as specified in the design guide. Wrap the application in `<ThemeProvider>` and `<CssBaseline>`.
+  - [x] **TanStack Query (`src/main.tsx`)**: Wrap the application in a `QueryClientProvider` to enable server state management.
   - [x] **Axios (`src/lib/axios.ts`)**:
     - [x] Create and export a central `axios` instance with the `baseURL` set from environment variables.
     - [x] Implement a **request interceptor** to read the `accessToken` from the Zustand store and add the `Authorization: Bearer <token>` header to every outgoing request.
@@ -134,6 +137,7 @@ This section covers the setup of the React application with Vite, adding core li
   - [x] **Routing (`App.tsx`)**: Set up all routes using `react-router-dom`.
   - [x] **Protected Routes**: Create a `PrivateRoute` component that checks `isAuthenticated` from the Zustand store and uses `<Navigate to="/sign-in" />` to redirect unauthenticated users.
   - [x] **Global User Fetch**: In `App.tsx`, use a `useEffect` hook to check for a token on app load. If a token exists, call the `getMe` service to fetch and store user data globally.
+  - [x] **`HomePage.tsx` (`/`)**: Create a welcoming landing page with navigation links to the sign-in and sign-up pages.
   - [x] **`SignUpPage.tsx` (`/sign-up`)**: Use `react-hook-form` for a form with `firstName`, `lastName`, `email`, and `password` fields. Use `useMutation` from TanStack Query to call the `register` service. On success, redirect to `/dashboard`. Display backend validation errors using the `error` state from the mutation and an MUI `<Alert>`.
   - [x] **`SignInPage.tsx` (`/sign-in`)**: Use `react-hook-form` for a form with `email` and `password` fields. Use `useMutation` from TanStack Query to call the `login` service. On success, redirect to `/dashboard`. Display backend validation errors using the `error` state from the mutation and an MUI `<Alert>`.
   - [x] **`DashboardPage.tsx` (`/dashboard`)**: Display user data and provide options to sign out.
