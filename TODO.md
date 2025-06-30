@@ -105,12 +105,12 @@ This section details the setup, configuration, and API endpoint creation for the
 This section covers the setup of the React application with Vite, adding core libraries, and creating the necessary UI/UX flow.
 
 - **Project Setup & Dependencies** (Reference: `frontend-guide.md`)
-  - [ ] Create the project: `pnpm create vite frontend --template react-ts`.
-  - [ ] Install main dependencies: `pnpm add @mui/material @emotion/react @emotion/styled @mui/icons-material react-router-dom @tanstack/react-query axios zustand react-hook-form`.
-  - [ ] Install dev dependencies: `pnpm add -D eslint prettier @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-plugin-react vitest @testing-library/react`.
+  - [x] Create the project: `pnpm create vite frontend --template react-ts`.
+  - [x] Install main dependencies: `pnpm add @mui/material @emotion/react @emotion/styled @mui/icons-material react-router-dom @tanstack/react-query axios zustand react-hook-form`.
+  - [x] Install dev dependencies: `pnpm add -D eslint prettier @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-plugin-react vitest @testing-library/react`.
 
 - **Configuration & Project Architecture** (Reference: `frontend-guide.md`)
-  - [ ] Establish the `src/` folder structure: `assets`, `components`, `hooks`, `lib`, `pages`, `services`, `store`, `theme`, `types`.
+  - [x] Establish the `src/` folder structure: `assets`, `components`, `hooks`, `lib`, `pages`, `services`, `store`, `theme`, `types`.
   - [ ] Configure `.eslintrc.cjs` and `.prettierrc` for code quality.
   - [ ] Configure `vitest.config.ts` to set up a `jsdom` test environment.
   - [ ] Create `frontend/.env` with `VITE_API_BASE_URL=http://127.0.0.1:8000/api`.
