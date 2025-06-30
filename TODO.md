@@ -8,41 +8,41 @@ This document outlines the detailed tasks for developing the Montanha Viva proje
 
 This section covers the foundational steps for setting up the project's infrastructure, version control, and code quality tools.
 
--   **Version Control (Git & GitHub)** (Reference: `devops-guide.md`)
-    -   [x] Initialize the Git repository in the project's root directory (`git init`).
-    -   [x] Create a `.gitignore` file to exclude sensitive information and generated files.
-        -   [x] Add `venv/`, `__pycache__/`, `db.sqlite3` for Python/Django.
-        -   [x] Add `node_modules/`, `dist/` for Node.js/Vite.
-        -   [x] Add `.env`, `*.env.*`, `!.env.example` for environment variables.
-        -   [x] Add OS/IDE-specific files like `.DS_Store`, `.vscode/`.
-    -   [x] Create a new repository on GitHub.
-    -   [x] Link the local repository to the remote (`git remote add origin <URL>`) and push the initial commit (`git push -u origin main`).
+- **Version Control (Git & GitHub)** (Reference: `devops-guide.md`)
+  - [x] Initialize the Git repository in the project's root directory (`git init`).
+  - [x] Create a `.gitignore` file to exclude sensitive information and generated files.
+    - [x] Add `venv/`, `__pycache__/`, `db.sqlite3` for Python/Django.
+    - [x] Add `node_modules/`, `dist/` for Node.js/Vite.
+    - [x] Add `.env`, `*.env.*`, `!.env.example` for environment variables.
+    - [x] Add OS/IDE-specific files like `.DS_Store`, `.vscode/`.
+  - [x] Create a new repository on GitHub.
+  - [x] Link the local repository to the remote (`git remote add origin <URL>`) and push the initial commit (`git push -u origin main`).
 
--   **Code Quality (Pre-commit)** (Reference: `devops-guide.md`)
-    -   [ ] Install the `pre-commit` tool (`pip install pre-commit`).
-    -   [ ] Create the `.pre-commit-config.yaml` file in the project's root directory.
-    -   [ ] Configure hooks for the backend: `black` (auto-formatting) and `flake8` (linting).
-    -   [ ] Configure hooks for the frontend: `prettier` (auto-formatting) and `eslint` (linting).
-    -   [ ] Activate the hooks by running `pre-commit install`.
+- **Code Quality (Pre-commit)** (Reference: `devops-guide.md`)
+  - [x] Install the `pre-commit` tool (`pip install pre-commit`).
+  - [x] Create the `.pre-commit-config.yaml` file in the project's root directory.
+  - [x] Configure hooks for the backend: `black` (auto-formatting) and `flake8` (linting).
+  - [x] Configure hooks for the frontend: `prettier` (auto-formatting) and `eslint` (linting).
+  - [x] Activate the hooks by running `pre-commit install`.
 
--   **Containerization (Docker & Docker Compose)** (Reference: `devops-guide.md`, `README.md`)
-    -   [ ] **Backend (`backend/Dockerfile`)**:
-        -   [ ] Implement a multi-stage build to optimize the final image size.
-        -   [ ] **Stage 1 (`builder`):** Use a Python base image, copy `requirements.txt`, and compile dependencies into wheels using `pip wheel`.
-        -   [ ] **Stage 2 (Final):** Use a slim Python image, copy compiled wheels from the `builder` stage, install them, copy the application code, and set `gunicorn` as the `CMD`.
-    -   [ ] **Frontend (`frontend/Dockerfile`)**:
-        -   [ ] Implement a multi-stage build for both development and production.
-        -   [ ] **Stage 1 (`base`):** Use a Node base image, install `pnpm`, copy `package.json` files, and install dependencies.
-        -   [ ] **Stage 2 (`dev`):** Build on `base`, copy all source code, and set the `CMD` to run the Vite dev server (`pnpm dev`).
-        -   [ ] **Stage 3 (`build`):** Build on `base`, copy source code, and run `pnpm run build` to generate static assets.
-        -   [ ] **Stage 4 (`prod`):** Use a lightweight `nginx` image, copy the `dist` folder from the `build` stage, and copy the custom Nginx configuration.
-    -   [ ] **Nginx Config (`frontend/nginx.conf`)**:
-        -   [ ] Configure Nginx to serve static files.
-        -   [ ] Add the `try_files $uri $uri/ /index.html;` directive to handle client-side routing for the single-page application.
-    -   [ ] **Docker Compose (`docker-compose.yml`)**:
-        -   [ ] Define the `db` service using the official `postgres` image, setting environment variables and a volume for data persistence.
-        -   [ ] Define the `backend` service, specifying the build context, overriding the `command` to use Django's dev server, mounting volumes for hot-reloading, and mapping port `8000`.
-        -   [ ] Define the `frontend` service, specifying the build context with `target: dev`, mounting volumes for hot-reloading, and mapping port `5173`.
+- **Containerization (Docker & Docker Compose)** (Reference: `devops-guide.md`, `README.md`)
+  - [ ] **Backend (`backend/Dockerfile`)**:
+    - [ ] Implement a multi-stage build to optimize the final image size.
+    - [ ] **Stage 1 (`builder`):** Use a Python base image, copy `requirements.txt`, and compile dependencies into wheels using `pip wheel`.
+    - [ ] **Stage 2 (Final):** Use a slim Python image, copy compiled wheels from the `builder` stage, install them, copy the application code, and set `gunicorn` as the `CMD`.
+  - [ ] **Frontend (`frontend/Dockerfile`)**:
+    - [ ] Implement a multi-stage build for both development and production.
+    - [ ] **Stage 1 (`base`):** Use a Node base image, install `pnpm`, copy `package.json` files, and install dependencies.
+    - [ ] **Stage 2 (`dev`):** Build on `base`, copy all source code, and set the `CMD` to run the Vite dev server (`pnpm dev`).
+    - [ ] **Stage 3 (`build`):** Build on `base`, copy source code, and run `pnpm run build` to generate static assets.
+    - [ ] **Stage 4 (`prod`):** Use a lightweight `nginx` image, copy the `dist` folder from the `build` stage, and copy the custom Nginx configuration.
+  - [ ] **Nginx Config (`frontend/nginx.conf`)**:
+    - [ ] Configure Nginx to serve static files.
+    - [ ] Add the `try_files $uri $uri/ /index.html;` directive to handle client-side routing for the single-page application.
+  - [ ] **Docker Compose (`docker-compose.yml`)**:
+    - [ ] Define the `db` service using the official `postgres` image, setting environment variables and a volume for data persistence.
+    - [ ] Define the `backend` service, specifying the build context, overriding the `command` to use Django's dev server, mounting volumes for hot-reloading, and mapping port `8000`.
+    - [ ] Define the `frontend` service, specifying the build context with `target: dev`, mounting volumes for hot-reloading, and mapping port `5173`.
 
 ---
 
@@ -50,53 +50,53 @@ This section covers the foundational steps for setting up the project's infrastr
 
 This section details the setup, configuration, and API endpoint creation for the Django backend application.
 
--   **Project Setup & Basic Configuration** (Reference: `backend-guide.md`)
-    -   [ ] Create the `backend/` directory and `cd` into it.
-    -   [ ] Create and activate a Python virtual environment (e.g., `python -m venv venv && venv\Scripts\activate`).
-    -   [ ] Install required packages: `pip install django djangorestframework psycopg2-binary django-environ djangorestframework-simplejwt django-cors-headers gunicorn`.
-    -   [ ] Freeze dependencies: `pip freeze > requirements.txt`.
-    -   [ ] Create the Django project (`django-admin startproject core .`) and an app (`python manage.py startapp api`).
+- **Project Setup & Basic Configuration** (Reference: `backend-guide.md`)
+  - [ ] Create the `backend/` directory and `cd` into it.
+  - [ ] Create and activate a Python virtual environment (e.g., `python -m venv venv && venv\Scripts\activate`).
+  - [ ] Install required packages: `pip install django djangorestframework psycopg2-binary django-environ djangorestframework-simplejwt django-cors-headers gunicorn`.
+  - [ ] Freeze dependencies: `pip freeze > requirements.txt`.
+  - [ ] Create the Django project (`django-admin startproject core .`) and an app (`python manage.py startapp api`).
 
--   **Environment Variables & Settings** (Reference: `backend-guide.md`)
-    -   [ ] Create `.env` file with `SECRET_KEY`, `DEBUG=True`, and `DATABASE_URL=postgres://user:password@db:5432/dbname`.
-    -   [ ] Create a corresponding `.env.example` file.
-    -   [ ] Configure `core/settings.py`:
-        -   [ ] Add `rest_framework`, `corsheaders`, `rest_framework_simplejwt`, and `api` to `INSTALLED_APPS`.
-        -   [ ] Add `corsheaders.middleware.CorsMiddleware` to the top of the `MIDDLEWARE` list.
-        -   [ ] Configure `DATABASES` to read from `DATABASE_URL` using `django-environ`.
-        -   [ ] Set `CORS_ALLOWED_ORIGINS` to include the frontend development URL (e.g., `http://localhost:5173`).
-        -   [ ] Configure `REST_FRAMEWORK` to set `DEFAULT_AUTHENTICATION_CLASSES` to use `JWTAuthentication` and `DEFAULT_PERMISSION_CLASSES` to `IsAuthenticated`.
-        -   [ ] Configure `SIMPLE_JWT` to set token lifetimes.
+- **Environment Variables & Settings** (Reference: `backend-guide.md`)
+  - [ ] Create `.env` file with `SECRET_KEY`, `DEBUG=True`, and `DATABASE_URL=postgres://user:password@db:5432/dbname`.
+  - [ ] Create a corresponding `.env.example` file.
+  - [ ] Configure `core/settings.py`:
+    - [ ] Add `rest_framework`, `corsheaders`, `rest_framework_simplejwt`, and `api` to `INSTALLED_APPS`.
+    - [ ] Add `corsheaders.middleware.CorsMiddleware` to the top of the `MIDDLEWARE` list.
+    - [ ] Configure `DATABASES` to read from `DATABASE_URL` using `django-environ`.
+    - [ ] Set `CORS_ALLOWED_ORIGINS` to include the frontend development URL (e.g., `http://localhost:5173`).
+    - [ ] Configure `REST_FRAMEWORK` to set `DEFAULT_AUTHENTICATION_CLASSES` to use `JWTAuthentication` and `DEFAULT_PERMISSION_CLASSES` to `IsAuthenticated`.
+    - [ ] Configure `SIMPLE_JWT` to set token lifetimes.
 
--   **URL Routing** (Reference: `backend-guide.md`, `api-documentation.md`)
-    -   [ ] In `core/urls.py`, route `/api/` to `api.urls` using `include()`.
-    -   [ ] In `core/urls.py`, add paths for `TokenObtainPairView` (`/api/token/`) and `TokenRefreshView` (`/api/token/refresh/`).
-    -   [ ] Manually create the `api/urls.py` file.
+- **URL Routing** (Reference: `backend-guide.md`, `api-documentation.md`)
+  - [ ] In `core/urls.py`, route `/api/` to `api.urls` using `include()`.
+  - [ ] In `core/urls.py`, add paths for `TokenObtainPairView` (`/api/token/`) and `TokenRefreshView` (`/api/token/refresh/`).
+  - [ ] Manually create the `api/urls.py` file.
 
--   **API Endpoints** (Reference: `backend-guide.md`, `api-documentation.md`, `database-guide.md`)
-    -   [ ] **User Registration (`/register/`)**:
-        -   [ ] In `api/serializers.py`, create `UserRegistrationSerializer`.
-            -   [ ] Make `first_name` and `last_name` required fields.
-            -   [ ] In the `validate` method, use Django's built-in `validate_password` to enforce strong passwords.
-            -   [ ] Override the `create` method to assign `email` to the `username` field and use `set_password` to hash the password.
-        -   [ ] In `api/views.py`, create `UserRegistrationView` as a `CreateAPIView` with `permission_classes = [AllowAny]`.
-        -   [ ] Override the `create` method in the view to generate and return `access` and `refresh` tokens along with user data upon successful registration.
-        -   [ ] Add the `path('register/', ...)` to `api/urls.py`.
-    -   [ ] **Current User Info (`/users/me/`)**:
-        -   [ ] In `api/serializers.py`, create `UserSerializer` exposing only `id`, `first_name`, `last_name`, and `email`.
-        -   [ ] In `api/views.py`, create `UserProfileView` as a `RetrieveAPIView` with `permission_classes = [IsAuthenticated]`.
-        -   [ ] Override the `get_object` method to simply return `self.request.user`.
-        -   [ ] Add the `path('users/me/', ...)` to `api/urls.py`.
-    -   [ ] **Sample Data Endpoints**:
-        -   [ ] In `api/models.py`, create the `Message` model with `content`, `created_at`, and a `author` foreign key to the `User` model.
-        -   [ ] Register the `Message` model in `api/admin.py`.
-        -   [ ] Run `python manage.py makemigrations` and `python manage.py migrate`.
-        -   [ ] In `api/views.py`, create `PublicDataView` (`AllowAny`) and `ProtectedDataView` (`IsAuthenticated`).
-        -   [ ] Add paths for `/public-data/` and `/protected-data/` to `api/urls.py`.
+- **API Endpoints** (Reference: `backend-guide.md`, `api-documentation.md`, `database-guide.md`)
+  - [ ] **User Registration (`/register/`)**:
+    - [ ] In `api/serializers.py`, create `UserRegistrationSerializer`.
+      - [ ] Make `first_name` and `last_name` required fields.
+      - [ ] In the `validate` method, use Django's built-in `validate_password` to enforce strong passwords.
+      - [ ] Override the `create` method to assign `email` to the `username` field and use `set_password` to hash the password.
+    - [ ] In `api/views.py`, create `UserRegistrationView` as a `CreateAPIView` with `permission_classes = [AllowAny]`.
+    - [ ] Override the `create` method in the view to generate and return `access` and `refresh` tokens along with user data upon successful registration.
+    - [ ] Add the `path('register/', ...)` to `api/urls.py`.
+  - [ ] **Current User Info (`/users/me/`)**:
+    - [ ] In `api/serializers.py`, create `UserSerializer` exposing only `id`, `first_name`, `last_name`, and `email`.
+    - [ ] In `api/views.py`, create `UserProfileView` as a `RetrieveAPIView` with `permission_classes = [IsAuthenticated]`.
+    - [ ] Override the `get_object` method to simply return `self.request.user`.
+    - [ ] Add the `path('users/me/', ...)` to `api/urls.py`.
+  - [ ] **Sample Data Endpoints**:
+    - [ ] In `api/models.py`, create the `Message` model with `content`, `created_at`, and a `author` foreign key to the `User` model.
+    - [ ] Register the `Message` model in `api/admin.py`.
+    - [ ] Run `python manage.py makemigrations` and `python manage.py migrate`.
+    - [ ] In `api/views.py`, create `PublicDataView` (`AllowAny`) and `ProtectedDataView` (`IsAuthenticated`).
+    - [ ] Add paths for `/public-data/` and `/protected-data/` to `api/urls.py`.
 
--   **Administration** (Reference: `backend-guide.md`)
-    -   [ ] Create a superuser: `python manage.py createsuperuser`.
-    -   [ ] Use the superuser credentials to test the `/api/token/` endpoint.
+- **Administration** (Reference: `backend-guide.md`)
+  - [ ] Create a superuser: `python manage.py createsuperuser`.
+  - [ ] Use the superuser credentials to test the `/api/token/` endpoint.
 
 ---
 
@@ -104,35 +104,35 @@ This section details the setup, configuration, and API endpoint creation for the
 
 This section covers the setup of the React application with Vite, adding core libraries, and creating the necessary UI/UX flow.
 
--   **Project Setup & Dependencies** (Reference: `frontend-guide.md`)
-    -   [ ] Create the project: `pnpm create vite frontend --template react-ts`.
-    -   [ ] Install main dependencies: `pnpm add @mui/material @emotion/react @emotion/styled @mui/icons-material react-router-dom @tanstack/react-query axios zustand react-hook-form`.
-    -   [ ] Install dev dependencies: `pnpm add -D eslint prettier @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-plugin-react vitest @testing-library/react`.
+- **Project Setup & Dependencies** (Reference: `frontend-guide.md`)
+  - [ ] Create the project: `pnpm create vite frontend --template react-ts`.
+  - [ ] Install main dependencies: `pnpm add @mui/material @emotion/react @emotion/styled @mui/icons-material react-router-dom @tanstack/react-query axios zustand react-hook-form`.
+  - [ ] Install dev dependencies: `pnpm add -D eslint prettier @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-plugin-react vitest @testing-library/react`.
 
--   **Configuration & Project Architecture** (Reference: `frontend-guide.md`)
-    -   [ ] Establish the `src/` folder structure: `assets`, `components`, `hooks`, `lib`, `pages`, `services`, `store`, `theme`, `types`.
-    -   [ ] Configure `.eslintrc.cjs` and `.prettierrc` for code quality.
-    -   [ ] Configure `vitest.config.ts` to set up a `jsdom` test environment.
-    -   [ ] Create `frontend/.env` with `VITE_API_BASE_URL=http://127.0.0.1:8000/api`.
+- **Configuration & Project Architecture** (Reference: `frontend-guide.md`)
+  - [ ] Establish the `src/` folder structure: `assets`, `components`, `hooks`, `lib`, `pages`, `services`, `store`, `theme`, `types`.
+  - [ ] Configure `.eslintrc.cjs` and `.prettierrc` for code quality.
+  - [ ] Configure `vitest.config.ts` to set up a `jsdom` test environment.
+  - [ ] Create `frontend/.env` with `VITE_API_BASE_URL=http://127.0.0.1:8000/api`.
 
--   **Core Systems Implementation** (Reference: `frontend-guide.md`, `design-guide.md`)
-    -   [ ] **MUI Theme (`src/theme/`)**: Create a theme file that defines the `palette` (with primary color `#1976D2`, error color `#D32F2F`, etc.) and `typography` scales as specified in the design guide. Wrap the application in `<ThemeProvider>`.
-    -   [ ] **Axios (`src/lib/axios.ts`)**:
-        -   [ ] Create and export a central `axios` instance with the `baseURL` set from environment variables.
-        -   [ ] Implement a **request interceptor** to read the `accessToken` from the Zustand store and add the `Authorization: Bearer <token>` header to every outgoing request.
-        -   [ ] Implement a **response interceptor** to handle `401 Unauthorized` errors.
-            -   [ ] On `401`, attempt to fetch a new `accessToken` using the `refreshToken` from the store via the `/token/refresh/` endpoint.
-            -   [ ] If successful, update tokens in the store and automatically retry the original failed request.
-            -   [ ] If refresh fails, trigger the `logout` action in the store and redirect the user to the login page.
-    -   [ ] **API Services (`src/services/auth.ts`)**: Create and export typed functions for `register`, `login`, and `getMe` that use the central axios instance.
-    -   [ ] **State Management (`src/store/authStore.ts`)**:
-        -   [ ] Create a Zustand store with `accessToken`, `refreshToken`, `user`, and `isAuthenticated` state.
-        -   [ ] Define actions: `login` (saves tokens), `setUser` (saves user profile), `logout` (clears state).
-        -   [ ] Wrap the store with the `persist` middleware to save state to `localStorage`, ensuring the session survives page reloads.
+- **Core Systems Implementation** (Reference: `frontend-guide.md`, `design-guide.md`)
+  - [ ] **MUI Theme (`src/theme/`)**: Create a theme file that defines the `palette` (with primary color `#1976D2`, error color `#D32F2F`, etc.) and `typography` scales as specified in the design guide. Wrap the application in `<ThemeProvider>`.
+  - [ ] **Axios (`src/lib/axios.ts`)**:
+    - [ ] Create and export a central `axios` instance with the `baseURL` set from environment variables.
+    - [ ] Implement a **request interceptor** to read the `accessToken` from the Zustand store and add the `Authorization: Bearer <token>` header to every outgoing request.
+    - [ ] Implement a **response interceptor** to handle `401 Unauthorized` errors.
+      - [ ] On `401`, attempt to fetch a new `accessToken` using the `refreshToken` from the store via the `/token/refresh/` endpoint.
+      - [ ] If successful, update tokens in the store and automatically retry the original failed request.
+      - [ ] If refresh fails, trigger the `logout` action in the store and redirect the user to the login page.
+  - [ ] **API Services (`src/services/auth.ts`)**: Create and export typed functions for `register`, `login`, and `getMe` that use the central axios instance.
+  - [ ] **State Management (`src/store/authStore.ts`)**:
+    - [ ] Create a Zustand store with `accessToken`, `refreshToken`, `user`, and `isAuthenticated` state.
+    - [ ] Define actions: `login` (saves tokens), `setUser` (saves user profile), `logout` (clears state).
+    - [ ] Wrap the store with the `persist` middleware to save state to `localStorage`, ensuring the session survives page reloads.
 
--   **Pages & Routing** (Reference: `frontend-guide.md`)
-    -   [ ] **Routing (`App.tsx`)**: Set up all routes using `react-router-dom`.
-    -   [ ] **Protected Routes**: Create a `PrivateRoute` component that checks `isAuthenticated` from the Zustand store and uses `<Navigate to="/sign-in" />` to redirect unauthenticated users.
-    -   [ ] **Global User Fetch**: In `App.tsx`, use a `useEffect` hook to check for a token on app load. If a token exists, call the `getMe` service to fetch and store user data globally.
-    -   [ ] **`SignUpPage.tsx` (`/sign-up`)**: Use `react-hook-form` for a form with `firstName`, `lastName`, `email`, and `password` fields. Use `useMutation` from TanStack Query to call the `register` service. On success, redirect to `/dashboard`. Display backend validation errors using the `error` state from the mutation and an MUI `<Alert>`.
-    -   [ ] **`
+- **Pages & Routing** (Reference: `frontend-guide.md`)
+  - [ ] **Routing (`App.tsx`)**: Set up all routes using `react-router-dom`.
+  - [ ] **Protected Routes**: Create a `PrivateRoute` component that checks `isAuthenticated` from the Zustand store and uses `<Navigate to="/sign-in" />` to redirect unauthenticated users.
+  - [ ] **Global User Fetch**: In `App.tsx`, use a `useEffect` hook to check for a token on app load. If a token exists, call the `getMe` service to fetch and store user data globally.
+  - [ ] **`SignUpPage.tsx` (`/sign-up`)**: Use `react-hook-form` for a form with `firstName`, `lastName`, `email`, and `password` fields. Use `useMutation` from TanStack Query to call the `register` service. On success, redirect to `/dashboard`. Display backend validation errors using the `error` state from the mutation and an MUI `<Alert>`.
+  - [ ] \*\*`
