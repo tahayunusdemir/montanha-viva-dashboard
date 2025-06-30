@@ -113,7 +113,7 @@ This section covers the setup of the React application with Vite, adding core li
   - [x] Establish the `src/` folder structure: `assets`, `components`, `hooks`, `lib`, `pages`, `services`, `store`, `theme`, `types`.
   - [x] Configure `eslint.config.js` and `.prettierrc` for code quality.
   - [x] Configure `vite.config.ts` to set up a `jsdom` test environment.
-  - [ ] Create `frontend/.env` with `VITE_API_BASE_URL=http://127.0.0.1:8000/api`.
+  - [x] Create `frontend/.env` with `VITE_API_BASE_URL=http://127.0.0.1:8000/api`.
 
 - **Core Systems Implementation** (Reference: `frontend-guide.md`, `design-guide.md`)
   - [ ] **MUI Theme (`src/theme/`)**: Create a theme file that defines the `palette` (with primary color `#1976D2`, error color `#D32F2F`, etc.) and `typography` scales as specified in the design guide. Wrap the application in `<ThemeProvider>`.
