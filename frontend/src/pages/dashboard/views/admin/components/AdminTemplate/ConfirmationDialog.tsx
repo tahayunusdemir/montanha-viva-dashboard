@@ -3,9 +3,11 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogContentText,
   DialogActions,
   Button,
+  FormControl,
+  FormLabel,
+  Box,
 } from "@mui/material";
 
 interface ConfirmationDialogProps {
@@ -27,7 +29,20 @@ export default function ConfirmationDialog({
     <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>
       <DialogTitle color="error">{title}</DialogTitle>
       <DialogContent>
-        <DialogContentText>{contentText}</DialogContentText>
+        <FormControl
+          fullWidth
+          component="fieldset"
+          variant="standard"
+          sx={{ mt: 1 }}
+        >
+          <FormLabel
+            component="legend"
+            sx={{ color: "text.secondary", fontSize: "0.95rem", mb: 1 }}
+          >
+            {title}
+          </FormLabel>
+          <Box sx={{ mt: 1, mb: 1, color: "text.primary" }}>{contentText}</Box>
+        </FormControl>
       </DialogContent>
       <DialogActions sx={{ p: 2, gap: 1 }}>
         <Button variant="outlined" onClick={onClose}>

@@ -188,7 +188,7 @@ class ChangePasswordView(generics.UpdateAPIView):
         )
 
         if serializer.is_valid():
-            self.object.set_password(serializer.data.get("new_password"))
+            self.object.set_password(serializer.validated_data.get("new_password"))
             self.object.save()
             return Response(status=status.HTTP_204_NO_CONTENT)
 

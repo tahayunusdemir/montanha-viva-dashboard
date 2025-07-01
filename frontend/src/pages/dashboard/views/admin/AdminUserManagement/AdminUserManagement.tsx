@@ -1,7 +1,14 @@
 import React, { useState, useMemo } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Alert, Chip } from "@mui/material";
+import {
+  Alert,
+  Chip,
+  FormControl,
+  FormLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
 import { getUsers, deleteUser, updateUser, createUser } from "@/services/user";
 import { AdminUser, UserUpdatePayload, CreateUserPayload } from "@/types/user";
 import AdminTemplate from "../components/AdminTemplate/AdminTemplate";
@@ -12,6 +19,7 @@ import AddUserModal from "./components/AddUserModal";
 export default function AdminUserManagement() {
   const queryClient = useQueryClient();
   const [searchText, setSearchText] = useState("");
+  const [roleFilter, setRoleFilter] = useState<string>("All");
   const [isViewModalOpen, setViewModalOpen] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [isAddModalOpen, setAddModalOpen] = useState(false);
@@ -122,14 +130,27 @@ export default function AdminUserManagement() {
 
   const filteredData = useMemo(() => {
     const users = data ?? [];
-    if (!searchText) return users;
-    return users.filter(
+    let filteredUsers = users;
+
+    if (roleFilter !== "All") {
+      filteredUsers = filteredUsers.filter((user) => {
+        if (roleFilter === "Super Admin") return user.role === "Super Admin";
+        if (roleFilter === "Admin")
+          return user.is_staff && user.role !== "Super Admin";
+        if (roleFilter === "User") return !user.is_staff;
+        return true;
+      });
+    }
+
+    if (!searchText) return filteredUsers;
+
+    return filteredUsers.filter(
       (user) =>
         user.first_name.toLowerCase().includes(searchText.toLowerCase()) ||
         user.last_name.toLowerCase().includes(searchText.toLowerCase()) ||
         user.email.toLowerCase().includes(searchText.toLowerCase()),
     );
-  }, [data, searchText]);
+  }, [data, searchText, roleFilter]);
 
   const columns: GridColDef<AdminUser>[] = [
     { field: "id", headerName: "ID", width: 90 },
@@ -185,6 +206,21 @@ export default function AdminUserManagement() {
     ? { message: getApiErrorMessage(createMutation.error) }
     : null;
 
+  const filterSlot = (
+    <FormControl size="small" sx={{ minWidth: 120 }}>
+      <FormLabel>Role</FormLabel>
+      <Select
+        value={roleFilter}
+        onChange={(e) => setRoleFilter(e.target.value)}
+      >
+        <MenuItem value="All">All</MenuItem>
+        <MenuItem value="Super Admin">Super Admin</MenuItem>
+        <MenuItem value="Admin">Admin</MenuItem>
+        <MenuItem value="User">User</MenuItem>
+      </Select>
+    </FormControl>
+  );
+
   return (
     <>
       {notification && (
@@ -209,6 +245,7 @@ export default function AdminUserManagement() {
         isError={isError}
         error={error as { message: string } | null}
         addButtonLabel="Add User"
+        filterSlot={filterSlot}
       />
       <UserDetailsModal
         open={isViewModalOpen}

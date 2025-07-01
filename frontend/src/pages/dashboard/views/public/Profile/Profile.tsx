@@ -15,6 +15,8 @@ import {
   Tab,
   Tabs,
   Typography,
+  FormControl,
+  FormLabel,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import PageLayout from "@/pages/dashboard/components/PageLayout";
@@ -163,16 +165,17 @@ export default function Profile() {
           </Typography>
           <Card>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-              <Tabs
-                value={tabValue}
-                onChange={handleTabChange}
-                aria-label="profile management tabs"
-                sx={{ pl: 3 }}
-              >
-                <Tab label="Profile Information" id="profile-tab-0" />
-                <Tab label="Password Reset" id="profile-tab-1" />
-                <Tab label="Delete Account" id="profile-tab-2" />
-              </Tabs>
+              <FormControl component="fieldset" sx={{ pl: 3, width: "100%" }}>
+                <Tabs
+                  value={tabValue}
+                  onChange={handleTabChange}
+                  aria-label="profile management tabs"
+                >
+                  <Tab label="Profile Information" id="profile-tab-0" />
+                  <Tab label="Password Reset" id="profile-tab-1" />
+                  <Tab label="Delete Account" id="profile-tab-2" />
+                </Tabs>
+              </FormControl>
             </Box>
             <CardContent>
               <TabPanel value={tabValue} index={0}>

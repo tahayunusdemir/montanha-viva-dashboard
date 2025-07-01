@@ -8,7 +8,7 @@ import {
   TextField,
   Stack,
   FormControl,
-  InputLabel,
+  FormLabel,
   Select,
   MenuItem,
   Alert,
@@ -84,15 +84,17 @@ export default function AddUserModal({
                 control={control}
                 rules={{ required: "First name is required" }}
                 render={({ field }) => (
-                  <TextField
-                    {...field}
-                    label="First Name"
-                    fullWidth
-                    required
-                    autoFocus
-                    error={!!errors.first_name}
-                    helperText={errors.first_name?.message}
-                  />
+                  <FormControl fullWidth error={!!errors.first_name}>
+                    <FormLabel>First Name</FormLabel>
+                    <TextField
+                      {...field}
+                      fullWidth
+                      required
+                      autoFocus
+                      error={!!errors.first_name}
+                      helperText={errors.first_name?.message}
+                    />
+                  </FormControl>
                 )}
               />
               <Controller
@@ -100,14 +102,16 @@ export default function AddUserModal({
                 control={control}
                 rules={{ required: "Last name is required" }}
                 render={({ field }) => (
-                  <TextField
-                    {...field}
-                    label="Last Name"
-                    fullWidth
-                    required
-                    error={!!errors.last_name}
-                    helperText={errors.last_name?.message}
-                  />
+                  <FormControl fullWidth error={!!errors.last_name}>
+                    <FormLabel>Last Name</FormLabel>
+                    <TextField
+                      {...field}
+                      fullWidth
+                      required
+                      error={!!errors.last_name}
+                      helperText={errors.last_name?.message}
+                    />
+                  </FormControl>
                 )}
               />
             </Stack>
@@ -122,15 +126,17 @@ export default function AddUserModal({
                 },
               }}
               render={({ field }) => (
-                <TextField
-                  {...field}
-                  label="Email"
-                  type="email"
-                  fullWidth
-                  required
-                  error={!!errors.email}
-                  helperText={errors.email?.message}
-                />
+                <FormControl fullWidth error={!!errors.email}>
+                  <FormLabel>Email</FormLabel>
+                  <TextField
+                    {...field}
+                    type="email"
+                    fullWidth
+                    required
+                    error={!!errors.email}
+                    helperText={errors.email?.message}
+                  />
+                </FormControl>
               )}
             />
             <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
@@ -145,15 +151,17 @@ export default function AddUserModal({
                   },
                 }}
                 render={({ field }) => (
-                  <TextField
-                    {...field}
-                    label="Password"
-                    type="password"
-                    fullWidth
-                    required
-                    error={!!errors.password}
-                    helperText={errors.password?.message}
-                  />
+                  <FormControl fullWidth error={!!errors.password}>
+                    <FormLabel>Password</FormLabel>
+                    <TextField
+                      {...field}
+                      type="password"
+                      fullWidth
+                      required
+                      error={!!errors.password}
+                      helperText={errors.password?.message}
+                    />
+                  </FormControl>
                 )}
               />
               <Controller
@@ -165,15 +173,17 @@ export default function AddUserModal({
                     value === watch("password") || "Passwords do not match",
                 }}
                 render={({ field }) => (
-                  <TextField
-                    {...field}
-                    label="Confirm Password"
-                    type="password"
-                    fullWidth
-                    required
-                    error={!!errors.re_password}
-                    helperText={errors.re_password?.message}
-                  />
+                  <FormControl fullWidth error={!!errors.re_password}>
+                    <FormLabel>Confirm Password</FormLabel>
+                    <TextField
+                      {...field}
+                      type="password"
+                      fullWidth
+                      required
+                      error={!!errors.re_password}
+                      helperText={errors.re_password?.message}
+                    />
+                  </FormControl>
                 )}
               />
             </Stack>
@@ -182,7 +192,7 @@ export default function AddUserModal({
               control={control}
               render={({ field }) => (
                 <FormControl fullWidth>
-                  <InputLabel id="role-select-label">Role</InputLabel>
+                  <FormLabel id="role-select-label">Role</FormLabel>
                   <Select {...field} labelId="role-select-label" label="Role">
                     <MenuItem value="User">User</MenuItem>
                     <MenuItem value="Admin">Admin</MenuItem>

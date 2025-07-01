@@ -6,7 +6,7 @@ import {
   DialogActions,
   Button,
   FormControl,
-  InputLabel,
+  FormLabel,
   Select,
   MenuItem,
   SelectChangeEvent,
@@ -31,11 +31,11 @@ export default function EditFeedbackModal({
       <DialogTitle>Edit Feedback Status</DialogTitle>
       <DialogContent>
         <FormControl fullWidth margin="normal">
-          <InputLabel>Status</InputLabel>
+          <FormLabel>Status</FormLabel>
           <Select
             value={feedback?.status || ""}
-            label="Status"
             onChange={onStatusChange}
+            sx={{ mt: 1 }}
           >
             <MenuItem value="pending">Pending</MenuItem>
             <MenuItem value="in_progress">In Progress</MenuItem>

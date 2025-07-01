@@ -124,13 +124,15 @@ export default function SendFeedback() {
         }}
       >
         <Stack spacing={3} sx={{ p: { xs: 2, sm: 3 } }}>
+          {/* Category */}
           <FormControl fullWidth>
-            <InputLabel id="category-select-label">Category</InputLabel>
+            <FormLabel htmlFor="category-select" sx={{ mb: 1 }}>
+              Category
+            </FormLabel>
             <Select
               labelId="category-select-label"
               id="category-select"
               value={category}
-              label="Category"
               onChange={(e: SelectChangeEvent) => setCategory(e.target.value)}
             >
               <MenuItem value="general">General Inquiry</MenuItem>
@@ -139,6 +141,7 @@ export default function SendFeedback() {
               <MenuItem value="other">Other</MenuItem>
             </Select>
           </FormControl>
+          {/* Subject */}
           <FormControl fullWidth required>
             <FormLabel htmlFor="subject-input" sx={{ mb: 1 }}>
               Subject
@@ -149,12 +152,13 @@ export default function SendFeedback() {
               onChange={(e) => setSubject(e.target.value)}
             />
           </FormControl>
+          {/* Message */}
           <FormControl fullWidth required>
             <FormLabel htmlFor="message-input" sx={{ mb: 1 }}>
               Message
             </FormLabel>
             <TextField
-              id="message-input"
+              id="standard-multiline-static"
               multiline
               rows={4}
               variant="outlined"
@@ -163,69 +167,72 @@ export default function SendFeedback() {
               onChange={(e) => setMessage(e.target.value)}
             />
           </FormControl>
-          <Stack spacing={1.5}>
-            <FormLabel>Attachment (Optional)</FormLabel>
-            <Stack direction="row" spacing={1} alignItems="center">
-              <Button
-                component="label"
-                role={undefined}
-                variant="outlined"
-                tabIndex={-1}
-                startIcon={<CloudUploadIcon />}
-                disabled={createFeedbackMutation.isPending}
-              >
-                Upload file
-                <VisuallyHiddenInput
-                  id="file-upload"
-                  type="file"
-                  onChange={handleFileChange}
-                />
-              </Button>
-              <Typography variant="caption" color="text.secondary">
-                Max file size: 5MB.
-              </Typography>
-            </Stack>
-            {file && (
-              <Paper
-                variant="outlined"
-                sx={{
-                  p: 1,
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <Typography
-                  variant="body2"
-                  sx={{
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  {file.name}
-                </Typography>
-                <IconButton
-                  onClick={handleRemoveFile}
-                  size="small"
+          {/* Attachment */}
+          <FormControl fullWidth>
+            <FormLabel sx={{ mb: 1 }}>Attachment (Optional)</FormLabel>
+            <Stack spacing={1.5}>
+              <Stack direction="row" spacing={1} alignItems="center">
+                <Button
+                  component="label"
+                  role={undefined}
+                  variant="outlined"
+                  tabIndex={-1}
+                  startIcon={<CloudUploadIcon />}
                   disabled={createFeedbackMutation.isPending}
                 >
-                  <CloseIcon fontSize="small" />
-                </IconButton>
-              </Paper>
-            )}
-            {formError && (
-              <Alert severity="error" onClose={() => setFormError("")}>
-                {formError}
-              </Alert>
-            )}
-            {createFeedbackMutation.isError && (
-              <Alert severity="error">
-                {createFeedbackMutation.error.message ||
-                  "An unexpected error occurred."}
-              </Alert>
-            )}
-          </Stack>
+                  Upload file
+                  <VisuallyHiddenInput
+                    id="file-upload"
+                    type="file"
+                    onChange={handleFileChange}
+                  />
+                </Button>
+                <Typography variant="caption" color="text.secondary">
+                  Max file size: 5MB.
+                </Typography>
+              </Stack>
+              {file && (
+                <Paper
+                  variant="outlined"
+                  sx={{
+                    p: 1,
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {file.name}
+                  </Typography>
+                  <IconButton
+                    onClick={handleRemoveFile}
+                    size="small"
+                    disabled={createFeedbackMutation.isPending}
+                  >
+                    <CloseIcon fontSize="small" />
+                  </IconButton>
+                </Paper>
+              )}
+              {formError && (
+                <Alert severity="error" onClose={() => setFormError("")}>
+                  {formError}
+                </Alert>
+              )}
+              {createFeedbackMutation.isError && (
+                <Alert severity="error">
+                  {createFeedbackMutation.error.message ||
+                    "An unexpected error occurred."}
+                </Alert>
+              )}
+            </Stack>
+          </FormControl>
           <Button
             type="submit"
             variant="contained"

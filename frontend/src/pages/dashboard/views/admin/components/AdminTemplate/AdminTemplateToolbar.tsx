@@ -1,10 +1,16 @@
 import React from "react";
-import { Box, TextField, Button, InputAdornment } from "@mui/material";
+import {
+  Box,
+  TextField,
+  Button,
+  InputAdornment,
+  FormControl,
+  FormLabel,
+} from "@mui/material";
 import { Add, Search as SearchIcon } from "@mui/icons-material";
-import { GridToolbarContainer } from "@mui/x-data-grid";
 
 interface AdminTemplateToolbarProps {
-  onAdd: () => void;
+  onAdd?: () => void;
   addButtonLabel: string;
   onSearchTextChange: (value: string) => void;
   searchText: string;
@@ -19,7 +25,7 @@ export default function AdminTemplateToolbar({
   filterSlot,
 }: AdminTemplateToolbarProps) {
   return (
-    <GridToolbarContainer
+    <Box
       sx={{
         p: 2,
         display: "flex",
@@ -27,29 +33,47 @@ export default function AdminTemplateToolbar({
         alignItems: "center",
         flexWrap: "wrap",
         gap: 2,
+        borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
       }}
     >
-      <Button variant="contained" startIcon={<Add />} onClick={onAdd} autoFocus>
-        {addButtonLabel}
-      </Button>
-      <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
-        <TextField
-          variant="outlined"
-          size="small"
-          placeholder="Search..."
-          value={searchText}
-          onChange={(e) => onSearchTextChange(e.target.value)}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon fontSize="small" />
-              </InputAdornment>
-            ),
-          }}
-          sx={{ minWidth: 200 }}
-        />
+      {onAdd && (
+        <Button
+          variant="contained"
+          startIcon={<Add />}
+          onClick={onAdd}
+          autoFocus
+        >
+          {addButtonLabel}
+        </Button>
+      )}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          gap: 2,
+          alignItems: "flex-end",
+        }}
+      >
+        <FormControl>
+          <FormLabel>Search</FormLabel>
+          <TextField
+            variant="outlined"
+            size="small"
+            placeholder="Search..."
+            value={searchText}
+            onChange={(e) => onSearchTextChange(e.target.value)}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon fontSize="small" />
+                </InputAdornment>
+              ),
+            }}
+            sx={{ minWidth: 200 }}
+          />
+        </FormControl>
         {filterSlot}
       </Box>
-    </GridToolbarContainer>
+    </Box>
   );
 }

@@ -2,12 +2,8 @@ import React, { useState, useMemo, useEffect } from "react";
 import {
   Chip,
   SelectChangeEvent,
-  Box,
-  Tooltip,
-  IconButton,
 } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import { Visibility, Edit, Delete } from "@mui/icons-material";
 import {
   useFeedback,
   useUpdateFeedback,
@@ -18,9 +14,8 @@ import AdminTemplate from "../components/AdminTemplate/AdminTemplate";
 import FeedbackDetailsModal from "./components/FeedbackDetailsModal";
 import EditFeedbackModal from "./components/EditFeedbackModal";
 import {
-  TextField,
   FormControl,
-  InputLabel,
+  FormLabel,
   Select,
   MenuItem,
 } from "@mui/material";
@@ -148,24 +143,20 @@ export default function AdminFeedbackManagement() {
         }
         isError={isError}
         error={error}
-        onAdd={() => {
-          /* Placeholder for future add functionality */
-        }}
         onEdit={handleEditOpen}
         onDelete={handleDelete}
         onView={handleViewOpen}
-        addButtonLabel="Add Feedback"
         deleteConfirmationText="Are you sure you want to delete this feedback? This action cannot be undone."
         onSearch={setSearchText}
         filterSlot={
           <FormControl size="small" sx={{ minWidth: 150 }}>
-            <InputLabel>Status</InputLabel>
+            <FormLabel sx={{ mb: 1 }}>Status</FormLabel>
             <Select
               value={statusFilter}
-              label="Status"
               onChange={(e) =>
                 setStatusFilter(e.target.value as FeedbackStatus | "")
               }
+              displayEmpty
             >
               <MenuItem value="">
                 <em>All</em>

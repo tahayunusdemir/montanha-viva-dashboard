@@ -9,7 +9,6 @@ import {
   FormLabel,
   OutlinedInput,
   Stack,
-  TextField,
   Typography,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
@@ -106,15 +105,19 @@ export default function PasswordResetTab({
             },
           }}
           render={({ field }) => (
-            <FormControl fullWidth>
+            <FormControl fullWidth variant="outlined">
               <FormLabel htmlFor="new-password">New Password</FormLabel>
-              <TextField
+              <OutlinedInput
                 {...field}
                 id="new-password"
                 type="password"
                 error={!!errors.new_password}
-                helperText={errors.new_password?.message}
               />
+              {errors.new_password && (
+                <Typography variant="caption" color="error">
+                  {errors.new_password.message}
+                </Typography>
+              )}
             </FormControl>
           )}
         />
@@ -127,17 +130,21 @@ export default function PasswordResetTab({
               value === watch("new_password") || "The passwords do not match",
           }}
           render={({ field }) => (
-            <FormControl fullWidth>
+            <FormControl fullWidth variant="outlined">
               <FormLabel htmlFor="re-new-password">
                 New Password (Confirm)
               </FormLabel>
-              <TextField
+              <OutlinedInput
                 {...field}
                 id="re-new-password"
                 type="password"
                 error={!!errors.re_new_password}
-                helperText={errors.re_new_password?.message}
               />
+              {errors.re_new_password && (
+                <Typography variant="caption" color="error">
+                  {errors.re_new_password.message}
+                </Typography>
+              )}
             </FormControl>
           )}
         />

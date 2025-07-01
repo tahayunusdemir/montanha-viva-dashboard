@@ -9,7 +9,7 @@ import {
   LinearProgress,
   styled,
 } from "@mui/material";
-import { DataGrid, GridColDef, GridOverlay } from "@mui/x-data-grid";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Visibility, Edit, Delete } from "@mui/icons-material";
 import AdminTemplateToolbar from "./AdminTemplateToolbar";
 import ConfirmationDialog from "./ConfirmationDialog";
@@ -90,7 +90,7 @@ interface AdminTemplateProps<T extends { id: number | string }> {
   title: string;
   data: T[];
   columns: GridColDef<T>[];
-  onAdd: () => void;
+  onAdd?: () => void;
   onEdit: (item: T) => void;
   onDelete: (id: number | string) => void;
   onView: (item: T) => void;
@@ -197,42 +197,42 @@ export default function AdminTemplate<T extends { id: number | string }>({
       <Typography variant="h4" gutterBottom>
         {title}
       </Typography>
-      <Paper variant="outlined" sx={{ height: 650, width: "100%" }}>
-        <DataGrid
-          rows={data}
-          columns={memoizedColumns}
-          loading={isLoading}
-          slots={{
-            toolbar: () => (
-              <AdminTemplateToolbar
-                addButtonLabel={addButtonLabel}
-                onAdd={onAdd}
-                searchText={searchText}
-                onSearchTextChange={handleSearchChange}
-                filterSlot={filterSlot}
-              />
-            ),
-            loadingOverlay: () => <LinearProgress />,
-            noRowsOverlay: CustomNoRowsOverlay,
-          }}
-          sx={{
-            border: 0,
-            "& .MuiDataGrid-columnHeaders": {
-              backgroundColor: (theme) =>
-                theme.palette.mode === "light" ? "grey.50" : "grey.900",
-            },
-            "& .MuiDataGrid-footerContainer": {
-              borderTop: (theme) => `1px solid ${theme.palette.divider}`,
-            },
-          }}
-          initialState={{
-            pagination: {
-              paginationModel: { pageSize: 10 },
-            },
-          }}
-          pageSizeOptions={[5, 10, 20]}
-          disableRowSelectionOnClick
+      <Paper variant="outlined" sx={{ width: "100%" }}>
+        <AdminTemplateToolbar
+          addButtonLabel={addButtonLabel}
+          onAdd={onAdd}
+          searchText={searchText}
+          onSearchTextChange={handleSearchChange}
+          filterSlot={filterSlot}
         />
+        <Box sx={{ height: 650, width: "100%" }}>
+          <DataGrid
+            rows={data}
+            columns={memoizedColumns}
+            loading={isLoading}
+            slots={{
+              loadingOverlay: () => <LinearProgress />,
+              noRowsOverlay: CustomNoRowsOverlay,
+            }}
+            sx={{
+              border: 0,
+              "& .MuiDataGrid-columnHeaders": {
+                backgroundColor: (theme) =>
+                  theme.palette.mode === "light" ? "grey.50" : "grey.900",
+              },
+              "& .MuiDataGrid-footerContainer": {
+                borderTop: (theme) => `1px solid ${theme.palette.divider}`,
+              },
+            }}
+            initialState={{
+              pagination: {
+                paginationModel: { pageSize: 10 },
+              },
+            }}
+            pageSizeOptions={[5, 10, 20]}
+            disableRowSelectionOnClick
+          />
+        </Box>
       </Paper>
 
       <ConfirmationDialog

@@ -6,6 +6,8 @@ import {
   Stack,
   Typography,
   Box,
+  FormControl,
+  FormLabel,
 } from "@mui/material";
 
 interface DeleteAccountTabProps {
@@ -18,30 +20,38 @@ export default function DeleteAccountTab({
   onDelete,
 }: DeleteAccountTabProps) {
   return (
-    <Stack spacing={2}>
-      <Typography variant="body1">
-        Permanently remove your account and all of its content from the
-        platform. This action is not reversible, so please continue with
-        caution.
-      </Typography>
-      <Alert severity="error" sx={{ mb: 2 }}>
-        This action cannot be undone. Are you sure you want to delete your
-        account?
-      </Alert>
-      <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-        <Button
-          variant="contained"
-          color="error"
-          onClick={onDelete}
-          disabled={loading}
-        >
-          {loading ? (
-            <CircularProgress size={24} color="inherit" />
-          ) : (
-            "Delete My Account"
-          )}
-        </Button>
-      </Box>
-    </Stack>
+    <FormControl fullWidth component="fieldset" variant="standard">
+      <FormLabel
+        component="legend"
+        sx={{ color: "error.main", fontWeight: 600, mb: 2 }}
+      >
+        Delete Account
+      </FormLabel>
+      <Stack spacing={2}>
+        <Typography variant="body1">
+          Permanently remove your account and all of its content from the
+          platform. This action is not reversible, so please continue with
+          caution.
+        </Typography>
+        <Alert severity="error" sx={{ mb: 2 }}>
+          This action cannot be undone. Are you sure you want to delete your
+          account?
+        </Alert>
+        <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+          <Button
+            variant="contained"
+            color="error"
+            onClick={onDelete}
+            disabled={loading}
+          >
+            {loading ? (
+              <CircularProgress size={24} color="inherit" />
+            ) : (
+              "Delete My Account"
+            )}
+          </Button>
+        </Box>
+      </Stack>
+    </FormControl>
   );
 }

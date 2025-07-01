@@ -10,6 +10,8 @@ import {
   Chip,
   Divider,
   Paper,
+  FormControl,
+  FormLabel,
 } from "@mui/material";
 import { Feedback, FeedbackStatus } from "@/types/feedback";
 
@@ -35,12 +37,21 @@ const DetailItem = ({
   label: string;
   value: React.ReactNode;
 }) => (
-  <Box>
-    <Typography variant="caption" color="text.secondary" component="div">
+  <FormControl
+    fullWidth
+    margin="dense"
+    component="fieldset"
+    variant="standard"
+    sx={{ mb: 2 }}
+  >
+    <FormLabel
+      component="legend"
+      sx={{ color: "text.secondary", fontSize: "0.75rem", mb: 0.5 }}
+    >
       {label}
-    </Typography>
+    </FormLabel>
     <Box sx={{ mt: 0.5, wordBreak: "break-word" }}>{value}</Box>
-  </Box>
+  </FormControl>
 );
 
 export default function FeedbackDetailsModal({
@@ -113,10 +124,19 @@ export default function FeedbackDetailsModal({
 
         <Divider sx={{ my: 2 }} />
 
-        <Box>
-          <Typography variant="caption" color="text.secondary" component="div">
+        <FormControl
+          fullWidth
+          margin="dense"
+          component="fieldset"
+          variant="standard"
+          sx={{ mb: 2 }}
+        >
+          <FormLabel
+            component="legend"
+            sx={{ color: "text.secondary", fontSize: "0.75rem", mb: 0.5 }}
+          >
             Message
-          </Typography>
+          </FormLabel>
           <Paper
             variant="outlined"
             sx={{
@@ -131,17 +151,22 @@ export default function FeedbackDetailsModal({
           >
             <Typography variant="body1">{feedback.message}</Typography>
           </Paper>
-        </Box>
+        </FormControl>
 
         {feedback.document && (
-          <Box sx={{ mt: 2 }}>
-            <Typography
-              variant="caption"
-              color="text.secondary"
-              component="div"
+          <FormControl
+            fullWidth
+            margin="dense"
+            component="fieldset"
+            variant="standard"
+            sx={{ mb: 2 }}
+          >
+            <FormLabel
+              component="legend"
+              sx={{ color: "text.secondary", fontSize: "0.75rem", mb: 0.5 }}
             >
               Attachment
-            </Typography>
+            </FormLabel>
             <Button
               variant="outlined"
               component="a"
@@ -152,7 +177,7 @@ export default function FeedbackDetailsModal({
             >
               Download Document
             </Button>
-          </Box>
+          </FormControl>
         )}
       </DialogContent>
       <DialogActions>

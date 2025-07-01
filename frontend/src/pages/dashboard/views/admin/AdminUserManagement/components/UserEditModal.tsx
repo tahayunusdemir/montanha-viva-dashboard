@@ -6,7 +6,7 @@ import {
   DialogActions,
   Button,
   FormControl,
-  InputLabel,
+  FormLabel,
   Select,
   MenuItem,
   SelectChangeEvent,
@@ -82,7 +82,7 @@ export default function UserEditModal({
             {user.first_name} {user.last_name}
           </Typography>
           <FormControl fullWidth>
-            <InputLabel id="role-select-label">Role</InputLabel>
+            <FormLabel id="role-select-label">Role</FormLabel>
             <Select
               labelId="role-select-label"
               id="role-select"

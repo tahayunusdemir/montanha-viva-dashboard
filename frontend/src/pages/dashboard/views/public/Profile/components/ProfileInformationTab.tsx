@@ -24,6 +24,25 @@ type FormData = {
   last_name: string;
 };
 
+function FormControlFormLabel({
+  label,
+  id,
+  children,
+  disabled = false,
+}: {
+  label: string;
+  id: string;
+  children: React.ReactNode;
+  disabled?: boolean;
+}) {
+  return (
+    <FormControl fullWidth disabled={disabled}>
+      <FormLabel htmlFor={id}>{label}</FormLabel>
+      {children}
+    </FormControl>
+  );
+}
+
 export default function ProfileInformationTab({
   user,
   onUpdate,
@@ -82,10 +101,13 @@ export default function ProfileInformationTab({
               name="first_name"
               control={control}
               render={({ field }) => (
-                <FormControl fullWidth disabled={!isEditMode}>
-                  <FormLabel htmlFor="first-name">First Name</FormLabel>
+                <FormControlFormLabel
+                  label="First Name"
+                  id="first-name"
+                  disabled={!isEditMode}
+                >
                   <OutlinedInput id="first-name" {...field} />
-                </FormControl>
+                </FormControlFormLabel>
               )}
             />
           </Grid>
@@ -94,26 +116,27 @@ export default function ProfileInformationTab({
               name="last_name"
               control={control}
               render={({ field }) => (
-                <FormControl fullWidth disabled={!isEditMode}>
-                  <FormLabel htmlFor="last-name">Last Name</FormLabel>
+                <FormControlFormLabel
+                  label="Last Name"
+                  id="last-name"
+                  disabled={!isEditMode}
+                >
                   <OutlinedInput id="last-name" {...field} />
-                </FormControl>
+                </FormControlFormLabel>
               )}
             />
           </Grid>
         </Grid>
-        <FormControl fullWidth disabled>
-          <FormLabel htmlFor="email">Email</FormLabel>
+        <FormControlFormLabel label="Email" id="email" disabled>
           <OutlinedInput id="email" value={user.email} readOnly />
-        </FormControl>
-        <FormControl fullWidth disabled>
-          <FormLabel htmlFor="points">Points</FormLabel>
+        </FormControlFormLabel>
+        <FormControlFormLabel label="Points" id="points" disabled>
           <OutlinedInput
             id="points"
             value={user.points !== undefined ? user.points : "N/A"}
             readOnly
           />
-        </FormControl>
+        </FormControlFormLabel>
       </Stack>
       <Box sx={{ mt: 3, display: "flex", justifyContent: "flex-end" }}>
         {isEditMode ? (

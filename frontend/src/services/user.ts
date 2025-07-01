@@ -2,14 +2,14 @@ import api from "@/lib/axios";
 import { AdminUser, UserUpdatePayload, CreateUserPayload } from "@/types/user";
 
 export const getUsers = async (): Promise<AdminUser[]> => {
-  const response = await api.get("/admin/users/");
+  const response = await api.get("/users/admin/users/");
   return response.data;
 };
 
 export const createUser = async (
   userData: CreateUserPayload,
 ): Promise<AdminUser> => {
-  const response = await api.post("/admin/users/", userData);
+  const response = await api.post("/users/admin/users/", userData);
   return response.data;
 };
 
@@ -20,7 +20,7 @@ export const updateUser = async ({
   id: number;
   payload: UserUpdatePayload;
 }): Promise<AdminUser> => {
-  const response = await api.patch(`/admin/users/${id}/`, payload);
+  const response = await api.patch(`/users/admin/users/${id}/`, payload);
   return response.data;
 };
 
