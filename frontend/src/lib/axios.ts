@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useAuthStore } from "../store/authStore";
-import { refreshToken as refreshTokenService } from "../services/auth.ts";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
@@ -14,27 +13,38 @@ api.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error),
+  (error) => {
+    return Promise.reject(error);
+  },
 );
 
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    return response;
+  },
   async (error) => {
     const originalRequest = error.config;
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
+
+      const refreshToken = useAuthStore.getState().refreshToken;
+
+      if (!refreshToken) {
+        useAuthStore.getState().logout(true);
+        return Promise.reject(error);
+      }
+
       try {
-        const refreshToken = useAuthStore.getState().refreshToken;
-        if (!refreshToken) {
-          useAuthStore.getState().logout();
-          return Promise.reject(error);
-        }
-        const { access } = await refreshTokenService(refreshToken);
-        useAuthStore.getState().login({ access, refresh: refreshToken });
+        const response = await axios.post<{ access: string }>(
+          `${import.meta.env.VITE_API_BASE_URL}/users/token/refresh/`,
+          { refresh: refreshToken },
+        );
+        const { access } = response.data;
+        useAuthStore.getState().setAccessToken(access);
         originalRequest.headers.Authorization = `Bearer ${access}`;
         return api(originalRequest);
-      } catch (refreshError) {
-        useAuthStore.getState().logout();
+      } catch (refreshError: any) {
+        useAuthStore.getState().logout(true);
         return Promise.reject(refreshError);
       }
     }

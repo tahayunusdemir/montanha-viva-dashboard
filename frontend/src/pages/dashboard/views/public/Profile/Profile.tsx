@@ -3,6 +3,8 @@ import {
   Alert,
   Box,
   Button,
+  Card,
+  CardContent,
   CircularProgress,
   Dialog,
   DialogActions,
@@ -40,7 +42,7 @@ function TabPanel(props: TabPanelProps) {
       aria-labelledby={`profile-tab-${index}`}
       {...other}
     >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+      {value === index && <Box sx={{ pt: 3 }}>{children}</Box>}
     </div>
   );
 }
@@ -52,6 +54,7 @@ export default function Profile() {
   const [tabValue, setTabValue] = React.useState(0);
   const [loading, setLoading] = React.useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
+  const [isDeleting, setIsDeleting] = React.useState(false);
   const [snackbar, setSnackbar] = React.useState<{
     open: boolean;
     message: string;
@@ -63,20 +66,32 @@ export default function Profile() {
   });
 
   React.useEffect(() => {
-    if (!user) {
+    let isMounted = true;
+
+    if (!user && !isDeleting) {
       setLoading(true);
       getMe()
         .then((userData) => {
-          setUser(userData);
+          if (isMounted) {
+            setUser(userData);
+          }
         })
         .catch(() => {
-          logout();
+          if (isMounted) {
+            logout();
+          }
         })
         .finally(() => {
-          setLoading(false);
+          if (isMounted) {
+            setLoading(false);
+          }
         });
     }
-  }, [user, setUser, logout]);
+
+    return () => {
+      isMounted = false;
+    };
+  }, [user, setUser, logout, isDeleting]);
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
@@ -95,17 +110,19 @@ export default function Profile() {
 
   const handleDeleteAccount = async () => {
     setOpenDeleteDialog(false);
+    setIsDeleting(true);
     setLoading(true);
     try {
       await deleteAccount();
+      logout(true);
       handleSnackbar("Account deleted. You are being logged out...", "info");
       setTimeout(() => {
-        logout();
         navigate("/sign-in");
       }, 2000);
     } catch (error) {
       handleSnackbar("An error occurred while deleting the account.", "error");
       setLoading(false);
+      setIsDeleting(false);
     }
   };
 
@@ -132,37 +149,51 @@ export default function Profile() {
 
   return (
     <PageLayout>
-      <Typography variant="h4" sx={{ mb: 2 }}>
-        Profile Management
-      </Typography>
-      <Box sx={{ width: "100%" }}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <Tabs
-            value={tabValue}
-            onChange={handleTabChange}
-            aria-label="profile management tabs"
-          >
-            <Tab label="Profile Information" id="profile-tab-0" />
-            <Tab label="Password Reset" id="profile-tab-1" />
-            <Tab label="Delete Account" id="profile-tab-2" />
-          </Tabs>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          width: "100%",
+        }}
+      >
+        <Box sx={{ width: "100%" }}>
+          <Typography variant="h4" gutterBottom>
+            Profile Management
+          </Typography>
+          <Card>
+            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+              <Tabs
+                value={tabValue}
+                onChange={handleTabChange}
+                aria-label="profile management tabs"
+                sx={{ pl: 3 }}
+              >
+                <Tab label="Profile Information" id="profile-tab-0" />
+                <Tab label="Password Reset" id="profile-tab-1" />
+                <Tab label="Delete Account" id="profile-tab-2" />
+              </Tabs>
+            </Box>
+            <CardContent>
+              <TabPanel value={tabValue} index={0}>
+                <ProfileInformationTab
+                  user={user}
+                  onUpdate={handleProfileUpdate}
+                  onSnackbar={handleSnackbar}
+                />
+              </TabPanel>
+              <TabPanel value={tabValue} index={1}>
+                <PasswordResetTab onSnackbar={handleSnackbar} />
+              </TabPanel>
+              <TabPanel value={tabValue} index={2}>
+                <DeleteAccountTab
+                  loading={loading}
+                  onDelete={() => setOpenDeleteDialog(true)}
+                />
+              </TabPanel>
+            </CardContent>
+          </Card>
         </Box>
-        <TabPanel value={tabValue} index={0}>
-          <ProfileInformationTab
-            user={user}
-            onUpdate={handleProfileUpdate}
-            onSnackbar={handleSnackbar}
-          />
-        </TabPanel>
-        <TabPanel value={tabValue} index={1}>
-          <PasswordResetTab onSnackbar={handleSnackbar} />
-        </TabPanel>
-        <TabPanel value={tabValue} index={2}>
-          <DeleteAccountTab
-            loading={loading}
-            onDelete={() => setOpenDeleteDialog(true)}
-          />
-        </TabPanel>
       </Box>
 
       <Snackbar

@@ -4,11 +4,12 @@ export interface User {
   last_name: string;
   email: string;
   is_staff: boolean;
+  points: number;
 }
 
 export interface Tokens {
   access: string;
-  refresh: string;
+  refresh?: string;
 }
 
 export interface AuthResponse extends Tokens {

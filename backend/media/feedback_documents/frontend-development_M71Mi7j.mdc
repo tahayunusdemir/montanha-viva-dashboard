@@ -1,0 +1,90 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+# Frontend Geliştirme Kuralları (Geliştirilmiş)
+
+Bu kurallar, frontend geliştirme görevleri için yapay zeka asistanının davranışını yönlendirir ve profesyonel tasarım standartlarını belirler.
+
+## 1. Rol ve Yaklaşım
+
+- **Frontend Tasarımcı Rolü**: Sadece bir geliştirici değil, aynı zamanda modern, estetik ve kullanıcı odaklı arayüzler tasarlayan proaktif bir UI/UX tasarımcısı gibi davran. @Responsive Design: Best Practices & Examples gibi endüstri standartlarını takip et.
+- **Teknoloji**: Ana UI kütüphanesi olarak **Material-UI (MUI)** kullan.
+- **Tasarım Felsefesi**:
+    - **Mobile-First (Önce Mobil)**: Tasarıma en küçük ekran boyutundan (mobil) başla ve daha büyük ekranlara (tablet, masaüstü) doğru genişlet. Bu yaklaşım, temel işlevselliğe odaklanmayı sağlar ve gereksiz karmaşıklığı önler.
+    - **Minimalizm**: "Az daha çoktur" ilkesini benimse. Sadece gerekli olan elemanları kullanarak temiz, okunabilir ve hızlı yüklenen arayüzler oluştur.
+    - **Kullanıcı Dostu**: Sezgisel, erişilebilir ve tutarlı bir kullanıcı deneyimi sun. Fitts Yasası gibi prensipleri göz önünde bulundurarak butonlar ve interaktif elemanlar için geniş tıklama alanları bırak.
+
+## 2. Proje Yapısı (`dashboard` Odaklı)
+
+Proje, özellikle `src/pages/dashboard/` altında modüler bir yapıya sahiptir. Bu yapıya kesinlikle uyulmalıdır.
+
+- **`Dashboard.tsx`**: Ana layout bileşenidir. Sol menü (`SideMenu`), üst gezinti çubuğu (`AppNavbar`) ve `react-router`'dan gelen sayfa içeriklerini gösteren `<Outlet />`'i barındırır.
+- **`views/`**: Her bir sayfanın ana içeriğini temsil eden bileşenleri içerir. Örneğin, @`HomeView.tsx` ana sayfa içeriğini, @`UsersView.tsx` ise kullanıcılar sayfasının içeriğini oluşturur. Bu bileşenler, genellikle `components/` klasöründeki daha küçük parçalardan oluşur.
+- **`components/`**: Dashboard genelinde yeniden kullanılabilen tüm UI bileşenlerinin bulunduğu yerdir. Örnekler: @`StatCard.tsx`, @`ChartUserByCountry.tsx`, @`CustomizedDataGrid.tsx`.
+- **`internals/`**: Doğrudan UI olmayan, yardımcı kodları barındırır.
+    - **`data/`**: Mock data veya veri tanımlamalarını içerir, örn: @`gridData.tsx`.
+    - **`components/`**: @`CustomIcons.tsx` gibi çok temel ve spesifik ikon/bileşenleri içerir.
+- **`theme/customizations/`**: Dashboard'a özgü MUI bileşen tema özelleştirmelerini içerir. Örnek: @`dataGrid.ts`, @`charts.ts`.
+
+## 3. Tema ve Stil Mimarisi
+
+Proje, hem paylaşılan (shared) hem de sayfaya özgü temaları yönetmek için organize bir mimari kullanır.
+
+-   **Temel Tasarım Değişkenleri (Design Tokens)**:
+    -   Tüm temel renk paletleri (örn. `brand`, `gray`), tipografi ölçekleri ve gölgeler @`themePrimitives.ts` dosyasında merkezi olarak tanımlanmıştır. Yeni bir renk eklenmesi veya mevcut bir rengin değiştirilmesi gerektiğinde **sadece bu dosya düzenlenmelidir**.
+-   **Genel Tema Sağlayıcısı (Global Theme Provider)**:
+    -   @`AppTheme.tsx` dosyası, tüm uygulama için ana tema sağlayıcısıdır. `themePrimitives.ts`'den gelen temel değişkenleri ve `customizations/` klasöründeki bileşen özelleştirmelerini birleştirerek nihai temayı oluşturur.
+-   **Bileşen Özelleştirmeleri (`shared-theme/customizations/`)**:
+    -   Global MUI bileşen stilleri, bu klasörde mantıksal olarak gruplandırılmıştır:
+        -   @`inputs.tsx`: Butonlar, metin alanları, vb.
+        -   @`dataDisplay.tsx`: Listeler, chipler, vb.
+        -   @`navigation.tsx`: Menüler, linkler, vb.
+        -   @`surfaces.ts`: Kartlar, akordiyonlar, vb.
+        -   @`feedback.tsx`: Alarmlar, diyaloglar, vb.
+-   **Sayfaya Özgü Tema (Dashboard Theme)**:
+    -   Dashboard'a özgü bileşenler (örn. DataGrid, Charts) için yapılan özelleştirmeler `src/pages/dashboard/theme/customizations/` altında bulunur.
+
+## 4. Tasarım ve Kodlama Standartları
+
+### Duyarlılık (Responsiveness)
+
+- **Esnek Yerleşim (Flexible Layout)**: Tüm bileşenler (layout, resimler, metin blokları) esnek olmalıdır. `Grid`, `Stack`, ve `Box` gibi MUI bileşenlerini etkin kullan.
+- **Kesme Noktaları (Breakpoints)**: Tasarımın en az üç ana kesme noktasını (mobil, tablet, masaüstü) desteklediğinden emin ol.
+- **Optimize Edilmiş Görseller**: Özellikle mobil cihazlar için resim dosyalarını optimize et (sıkıştırma, doğru boyutlandırma). İkonlar ve logolar için piksellenmeyi önleyen **SVG** formatını tercih et.
+
+### Material-UI `Grid` Kullanımı
+
+Proje genelinde tutarlılığı sağlamak için `Grid` bileşenini kullanırken aşağıdaki formata öncelik ver. Bu, standart MUI API'sından farklı olabilir ancak proje için bir kuraldır.
+
+```typescript
+import Grid from '@mui/material/Grid';
+
+// Örnek Kullanım (HomeView.tsx'den alınmıştır)
+<Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+  {/* ... içerik ... */}
+</Grid>
+```
+
+### Form Yapısı (Form Structure)
+
+Form elemanlarında tutarlılığı sağlamak için `TextField` bileşeni yerine daha temel bileşenleri bir araya getiren bir yapı tercih edilmelidir. Bu yaklaşım, form elemanları üzerinde daha ayrıntılı kontrol sağlar.
+
+- **Yapı**: Her bir form alanı için `FormControl`, `FormLabel` ve `OutlinedInput` bileşenlerini birlikte kullanın.
+- **Gerekçe**: Bu, formların uygulama genelinde tutarlı bir DOM yapısına sahip olmasını ve stil özelleştirmelerinin daha kolay yönetilmesini sağlar.
+
+**Örnek Kullanım:**
+
+### UI Desenleri (UI Patterns)
+
+- **Kart Tabanlı Arayüzler**: İçeriği organize etmek için kart (Card) bileşenlerini kullan. Kartlar, farklı ekran boyutlarına kolayca uyum sağlayan modüler yapılardır.
+- **Aşamalı Gösterim (Progressive Disclosure)**: Mobil ekranlarda karmaşıklığı azaltmak için ana navigasyonu `Drawer` (çekmece menü) içine gizle. Kritik olmayan bilgileri `Accordion` veya `Tabs` gibi bileşenlerle göster.
+
+## 5. Başvuru Dosyaları
+
+Projenin genel yapısını ve temasını anlamak için aşağıdaki dosyalara başvurulabilir:
+
+- Ana uygulama girişi ve tema yapılandırması: @`Dashboard.tsx`
+- Paylaşılan tema ayarları: @`AppTheme.tsx`
+- Proje bağımlılıkları: @`package.json`

@@ -28,26 +28,42 @@ import { useAuthStore } from "../../store/authStore";
 import type { RegisterData } from "../../types/auth";
 import type { AuthResponse } from "../../types";
 
-// Helper to extract error messages from Axios error responses
+// Helper to extract and format error messages from Axios error responses
 const getErrorMessage = (error: unknown): string => {
-  if (error instanceof AxiosError && error.response) {
+  if (error instanceof AxiosError && error.response?.data) {
     const { data } = error.response;
-    if (data && typeof data === "object") {
-      // Handle generic detail message
-      const detail = data.detail as string | undefined;
-      if (detail) {
-        return detail;
+
+    // Handle standard DRF validation errors
+    if (typeof data === "object" && data !== null && !data.detail) {
+      const errorMessages: string[] = [];
+
+      for (const key in data) {
+        const value = data[key as keyof typeof data];
+        if (Array.isArray(value)) {
+          if (key === "email" && value[0].includes("already exists")) {
+            errorMessages.push(
+              "A user with this email already exists. Please log in or use another email.",
+            );
+          } else if (key === "password") {
+            errorMessages.push(...value);
+          } else {
+            // For other fields, prepend the field name
+            errorMessages.push(...value.map((msg) => `${key}: ${msg}`));
+          }
+        }
       }
-      // Extract the first error message from other backend responses
-      const errorKey = Object.keys(data)[0];
-      const errorMessage = data[errorKey as keyof typeof data];
-      if (Array.isArray(errorMessage)) {
-        return errorMessage[0];
+
+      if (errorMessages.length > 0) {
+        return errorMessages.join(" ");
       }
-      return String(errorMessage);
+    }
+
+    // Handle generic 'detail' message
+    if (data.detail) {
+      return data.detail;
     }
   }
-  return "An unexpected error occurred. Please try again.";
+  return "An unexpected error occurred during sign-up. Please check your details and try again.";
 };
 
 type SignUpFormData = {
@@ -122,7 +138,7 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
   const mutation = useMutation<AuthResponse, Error, RegisterData>({
     mutationFn: register,
     onSuccess: (data) => {
-      login({ access: data.access, refresh: data.refresh });
+      login({ access: data.access });
       setUser(data.user);
       navigate("/dashboard");
     },

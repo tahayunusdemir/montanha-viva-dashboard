@@ -4,15 +4,12 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
-# The UserRegistrationView has been moved to the 'users' app.
 
-
-# These views are kept as examples but are currently not used in any URL configuration.
 class PublicDataView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request):
-        return Response({"message": "This is public data."})
+        return Response({"message": " Great! Backend is updated."})
 
 
 class ProtectedDataView(APIView):

@@ -104,6 +104,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
     defaultValues: {
       email: "",
       password: "",
+      rememberMe: false,
     },
   });
   const loginAction = useAuthStore((state) => state.login);
@@ -112,7 +113,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
   const mutation = useMutation<AuthResponse, Error, LoginCredentials>({
     mutationFn: login,
     onSuccess: (data) => {
-      loginAction({ access: data.access, refresh: data.refresh });
+      loginAction({ access: data.access });
       setUser(data.user);
       navigate("/dashboard");
     },
@@ -211,9 +212,21 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
                 </FormControl>
               )}
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
+            <Controller
+              name="rememberMe"
+              control={control}
+              render={({ field }) => (
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      {...field}
+                      checked={field.value}
+                      color="primary"
+                    />
+                  }
+                  label="Remember me"
+                />
+              )}
             />
             <ForgotPassword open={open} handleClose={handleClose} />
             <Button

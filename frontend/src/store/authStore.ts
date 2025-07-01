@@ -1,45 +1,69 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, createJSONStorage } from "zustand/middleware";
 import type { User, Tokens } from "../types";
+import { logout as logoutService } from "../services/auth";
 
 interface AuthState {
   accessToken: string | null;
   refreshToken: string | null;
-  isAuthenticated: boolean;
   user: User | null;
-  login: (tokens: Tokens) => void;
-  logout: () => void;
-  setUser: (user: User) => void;
+  isAuthenticated: boolean;
 }
 
-export const useAuthStore = create<AuthState>()(
+interface AuthActions {
+  login: (data: Tokens) => void;
+  logout: (localOnly?: boolean) => Promise<void>;
+  setUser: (user: User | null) => void;
+  setAccessToken: (token: string) => void;
+}
+
+const initialState: AuthState = {
+  accessToken: null,
+  refreshToken: null,
+  user: null,
+  isAuthenticated: false,
+};
+
+export const useAuthStore = create<AuthState & AuthActions>()(
   persist(
     (set) => ({
-      accessToken: null,
-      refreshToken: null,
-      isAuthenticated: false,
-      user: null,
-      login: (tokens: Tokens) => {
+      ...initialState,
+      login: ({ access, refresh }) => {
         set({
-          accessToken: tokens.access,
-          refreshToken: tokens.refresh,
+          accessToken: access,
+          refreshToken: refresh,
           isAuthenticated: true,
         });
       },
-      logout: () => {
-        set({
-          accessToken: null,
-          refreshToken: null,
-          isAuthenticated: false,
-          user: null,
-        });
+      logout: async (localOnly = false) => {
+        if (!localOnly) {
+          try {
+            await logoutService();
+          } catch (error) {
+            console.error("Backend logout failed:", error);
+          }
+        }
+        set(initialState);
       },
-      setUser: (user: User) => {
-        set({ user });
+      setUser: (user) => {
+        // When setting user data, also update authentication status
+        set({ user, isAuthenticated: !!user });
+      },
+      setAccessToken: (token: string) => {
+        set({ accessToken: token });
       },
     }),
     {
-      name: "auth-storage", // name of the item in the storage (must be unique)
+      name: "auth-storage", // Unique name for localStorage item
+      storage: createJSONStorage(() => localStorage), // Specify localStorage
+      // This is the crucial security enhancement:
+      // Only `isAuthenticated` and `user` are persisted to localStorage.
+      // `accessToken` is kept in memory only, mitigating XSS risks.
+      partialize: (state) => ({
+        isAuthenticated: state.isAuthenticated,
+        user: state.user,
+        refreshToken: state.refreshToken,
+      }),
     },
   ),
 );

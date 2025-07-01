@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Feedback
-from users.serializers import CustomUserSerializer
+from users.serializers import UserProfileSerializer
 
 
 class FeedbackListDetailSerializer(serializers.ModelSerializer):
@@ -8,7 +8,7 @@ class FeedbackListDetailSerializer(serializers.ModelSerializer):
     Serializer for listing and retrieving feedback, including nested user details.
     """
 
-    user_details = CustomUserSerializer(source="user", read_only=True)
+    user_details = UserProfileSerializer(source="user", read_only=True)
 
     class Meta:
         model = Feedback

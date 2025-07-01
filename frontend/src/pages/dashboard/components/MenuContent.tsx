@@ -30,14 +30,14 @@ import { useAuthStore } from "@/store/authStore";
 const publicListItems = [
   { path: "/dashboard", text: "Home", icon: <HomeRoundedIcon /> },
   {
+    path: "/dashboard/routes-encyclopedia",
+    text: "Routes Encyclopedia",
+    icon: <RouteRoundedIcon />,
+  },
+  {
     path: "/dashboard/flora-encyclopedia",
     text: "Flora Encyclopedia",
     icon: <MenuBookRoundedIcon />,
-  },
-  {
-    path: "/dashboard/routes-encyclopedia",
-    text: "Routes Encyclopedia",
-    icon: <MapRoundedIcon />,
   },
   {
     path: "/dashboard/plant-identifier",
@@ -68,19 +68,9 @@ const adminListItems = [
     icon: <RouterRoundedIcon />,
   },
   {
-    path: "/dashboard/admin/routes-management",
-    text: "Routes Management",
-    icon: <RouteRoundedIcon />,
-  },
-  {
     path: "/dashboard/admin/qr-management",
     text: "QR Management",
     icon: <QrCode2RoundedIcon />,
-  },
-  {
-    path: "/dashboard/admin/wiki-management",
-    text: "Wiki Management",
-    icon: <BookRoundedIcon />,
   },
   {
     path: "/dashboard/admin/notification-management",
