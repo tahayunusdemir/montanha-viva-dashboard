@@ -94,7 +94,8 @@ interface AdminTemplateProps<T extends { id: number | string }> {
   onEdit: (item: T) => void;
   onDelete: (id: number | string) => void;
   onView: (item: T) => void;
-  onSearch?: (searchTerm: string) => void;
+  onSearchChange: (searchTerm: string) => void;
+  searchText: string;
   isLoading: boolean;
   isError: boolean;
   error?: { message: string } | null;
@@ -111,7 +112,8 @@ export default function AdminTemplate<T extends { id: number | string }>({
   onEdit,
   onDelete,
   onView,
-  onSearch,
+  onSearchChange,
+  searchText,
   isLoading,
   isError,
   error,
@@ -121,7 +123,6 @@ export default function AdminTemplate<T extends { id: number | string }>({
 }: AdminTemplateProps<T>) {
   const [itemToDelete, setItemToDelete] = useState<T | null>(null);
   const [isDeleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
-  const [searchText, setSearchText] = useState("");
 
   const handleDeleteOpen = useCallback((item: T) => {
     setItemToDelete(item);
@@ -137,13 +138,6 @@ export default function AdminTemplate<T extends { id: number | string }>({
     if (itemToDelete) {
       onDelete(itemToDelete.id);
       handleDeleteClose();
-    }
-  };
-
-  const handleSearchChange = (value: string) => {
-    setSearchText(value);
-    if (onSearch) {
-      onSearch(value);
     }
   };
 
@@ -202,7 +196,7 @@ export default function AdminTemplate<T extends { id: number | string }>({
           addButtonLabel={addButtonLabel}
           onAdd={onAdd}
           searchText={searchText}
-          onSearchTextChange={handleSearchChange}
+          onSearchTextChange={onSearchChange}
           filterSlot={filterSlot}
         />
         <Box sx={{ height: 650, width: "100%" }}>

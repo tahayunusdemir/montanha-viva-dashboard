@@ -51,10 +51,12 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist",
+    "rest_framework_csv",
     # Local apps
     "api",
     "feedback",
     "users",
+    "stations",
 ]
 
 MIDDLEWARE = [

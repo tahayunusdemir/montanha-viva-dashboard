@@ -240,7 +240,8 @@ export default function AdminUserManagement() {
         onEdit={handleEdit}
         onDelete={handleDelete}
         onView={handleView}
-        onSearch={setSearchText}
+        searchText={searchText}
+        onSearchChange={setSearchText}
         isLoading={isLoading}
         isError={isError}
         error={error as { message: string } | null}

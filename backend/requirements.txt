@@ -13,7 +13,8 @@ PyJWT==2.9.0
 sqlparse==0.5.3
 tzdata==2025.2
 django-anymail==10.2
+djangorestframework-csv==2.1.1
 
 # Testing
-pytest==8.4.1
-pytest-django==4.8.0
+pytest
+pytest-django
