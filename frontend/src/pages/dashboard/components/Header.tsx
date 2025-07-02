@@ -6,6 +6,7 @@ import { useAuthStore } from "@/store/authStore";
 import { Chip } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import { useNavigate } from "react-router-dom";
+import { WeatherWidget } from "./WeatherWidget";
 
 export default function Header() {
   const user = useAuthStore((state) => state.user);
@@ -30,11 +31,16 @@ export default function Header() {
     >
       <NavbarBreadcrumbs />
       <Stack direction="row" sx={{ gap: 1, alignItems: "center" }}>
+        <WeatherWidget />
         <Chip
           icon={<StarIcon />}
           label={user?.points ?? 0}
           onClick={handlePointsClick}
           sx={{
+            height: "2.25rem",
+            "& .MuiChip-icon": {
+              fontSize: "1rem",
+            },
             cursor: "pointer",
             "&:hover": {
               bgcolor: "action.hover",

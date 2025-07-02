@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     "flora",
     "routes",
     "qr",
+    "weather",
 ]
 
 MIDDLEWARE = [
@@ -180,3 +181,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # Email Configuration for Development
 # This prints emails to the console instead of sending them.
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+# Cache Configuration
+# Using a simple in-memory cache for development.
+# For production, a more robust cache like Redis would be recommended.
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "unique-snowflake",
+    }
+}

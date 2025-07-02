@@ -24,6 +24,7 @@ services:
       - ./backend/media:/app/media
       - ./data:/app/data
       - ./frontend:/frontend
+      - ./script:/app/script
     working_dir: /app
     ports:
       - "8000:8000"

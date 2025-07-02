@@ -15,39 +15,39 @@ import ThumbUpAltRoundedIcon from "@mui/icons-material/ThumbUpAltRounded";
 const items = [
   {
     icon: <SettingsSuggestRoundedIcon />,
-    title: "Adaptable performance",
+    title: "Data-Driven Sustainability",
     description:
-      "Our product effortlessly adjusts to your needs, boosting efficiency and simplifying your tasks.",
+      "Our platform uses real-time IoT data to promote environmental preservation and support sustainable practices in agriculture and tourism.",
   },
   {
     icon: <ConstructionRoundedIcon />,
-    title: "Built to last",
+    title: "Economic Empowerment",
     description:
-      "Experience unmatched durability that goes above and beyond with lasting investment.",
+      "By providing valuable data and promoting local biodiversity, we aim to support local businesses and create new opportunities in the region.",
   },
   {
     icon: <ThumbUpAltRoundedIcon />,
-    title: "Great user experience",
+    title: "Engaging Ecotourism",
     description:
-      "Integrate our product into your routine with an intuitive and easy-to-use interface.",
+      "Enhance your visit to the Serra da Gardunha with interactive trails and a rich, accessible database of local flora.",
   },
   {
     icon: <AutoFixHighRoundedIcon />,
-    title: "Innovative functionality",
+    title: "Innovative Technology",
     description:
-      "Stay ahead with features that set new standards, addressing your evolving needs better than the rest.",
+      "Leveraging IoT, data visualization, and mobile interactivity to create a unique connection between people and the environment.",
   },
   {
     icon: <SupportAgentRoundedIcon />,
-    title: "Reliable support",
+    title: "Community-Focused",
     description:
-      "Count on our responsive customer support, offering assistance that goes beyond the purchase.",
+      "Developed in collaboration with local partners to ensure our solutions meet the real-world needs of the community.",
   },
   {
     icon: <QueryStatsRoundedIcon />,
-    title: "Precision in every detail",
+    title: "Scientific Research Hub",
     description:
-      "Enjoy a meticulously crafted product where small touches make a significant impact on your overall experience.",
+      "A valuable resource for researchers and students, providing rich data for studies on biodiversity, ecology, and sustainability.",
   },
 ];
 
@@ -82,9 +82,9 @@ export default function Highlights() {
             Highlights
           </Typography>
           <Typography variant="body1" sx={{ color: "grey.400" }}>
-            Explore why our product stands out: adaptability, durability,
-            user-friendly design, and innovation. Enjoy reliable customer
-            support and precision in every detail.
+            From empowering local communities with data to creating unforgettable
+            ecotourism experiences, discover the core benefits that make Montanha
+            Viva a landmark project for sustainable development.
           </Typography>
         </Box>
         <Grid container spacing={2}>

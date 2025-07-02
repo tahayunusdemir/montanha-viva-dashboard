@@ -21,7 +21,7 @@ export default function LogoCollection() {
         align="center"
         sx={{ color: "text.primary", mb: 4 }}
       >
-        Our Sponsors
+        Proudly Supported By
       </Typography>
       <Grid container sx={{ justifyContent: "center", mt: 0.5 }}>
         <img src={sponsorsLogos} alt="Sponsors" style={logoStyle} />

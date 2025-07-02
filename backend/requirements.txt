@@ -19,3 +19,4 @@ qrcode[pil]==7.4.2
 # Testing
 pytest
 pytest-django
+requests==2.31.0

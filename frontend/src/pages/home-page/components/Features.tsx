@@ -6,6 +6,9 @@ import MuiChip from "@mui/material/Chip";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
+import dashboardImage from "@/assets/dashbaord.png";
+import plantImage from "@/assets/plant.png";
+import routeImage from "@/assets/route.png";
 
 import DevicesRoundedIcon from "@mui/icons-material/DevicesRounded";
 import EdgesensorHighRoundedIcon from "@mui/icons-material/EdgesensorHighRounded";
@@ -14,27 +17,27 @@ import ViewQuiltRoundedIcon from "@mui/icons-material/ViewQuiltRounded";
 const items = [
   {
     icon: <ViewQuiltRoundedIcon />,
-    title: "Dashboard",
+    title: "Intelligent Dashboard",
     description:
-      "This item could provide a snapshot of the most important metrics or data points related to the product.",
-    imageLight: `url("${import.meta.env.VITE_TEMPLATE_IMAGE_URL || "https://mui.com"}/static/images/templates/templates-images/dash-light.png")`,
-    imageDark: `url("${import.meta.env.VITE_TEMPLATE_IMAGE_URL || "https://mui.com"}/static/images/templates/templates-images/dash-dark.png")`,
+      "Visualize real-time IoT data from the Serra da Gardunha. Our dashboard provides insights into environmental conditions, supports sustainable agriculture, and empowers data-driven decisions for local stakeholders.",
+    imageLight: `url(${dashboardImage})`,
+    imageDark: `url(${dashboardImage})`,
   },
   {
     icon: <EdgesensorHighRoundedIcon />,
-    title: "Mobile integration",
+    title: "Interactive Smart Trails",
     description:
-      "This item could provide information about the mobile app version of the product.",
-    imageLight: `url("${import.meta.env.VITE_TEMPLATE_IMAGE_URL || "https://mui.com"}/static/images/templates/templates-images/mobile-light.png")`,
-    imageDark: `url("${import.meta.env.VITE_TEMPLATE_IMAGE_URL || "https://mui.com"}/static/images/templates/templates-images/mobile-dark.png")`,
+      "Turn a hike into an adventure. Use your mobile device to interact with QR codes along Gardunha's trails, unlocking fascinating details about the local flora and participating in an engaging, educational experience.",
+    imageLight: `url(${routeImage})`,
+    imageDark: `url(${routeImage})`,
   },
   {
     icon: <DevicesRoundedIcon />,
-    title: "Available on all platforms",
+    title: "Biodiversity Explorer",
     description:
-      "This item could let users know the product is available on all platforms, such as web, mobile, and desktop.",
-    imageLight: `url("${import.meta.env.VITE_TEMPLATE_IMAGE_URL || "https://mui.com"}/static/images/templates/templates-images/devices-light.png")`,
-    imageDark: `url("${import.meta.env.VITE_TEMPLATE_IMAGE_URL || "https://mui.com"}/static/images/templates/templates-images/devices-dark.png")`,
+      "Access a comprehensive database of Serra da Gardunha's unique plant life from any device. Learn about the traditional uses, medicinal properties, and ecological importance of the region's wild flora.",
+    imageLight: `url(${plantImage})`,
+    imageDark: `url(${plantImage})`,
   },
 ];
 
@@ -147,22 +150,23 @@ export default function Features() {
       id="features"
       sx={{ py: { xs: 8, sm: 16 }, scrollMarginTop: "80px" }}
     >
-      <Box sx={{ width: { sm: "100%", md: "60%" } }}>
+      <Box sx={{ width: "100%" }}>
         <Typography
           component="h2"
           variant="h4"
           gutterBottom
           sx={{ color: "text.primary" }}
         >
-          Product features
+          Our Core Features
         </Typography>
         <Typography
           variant="body1"
-          sx={{ color: "text.secondary", mb: { xs: 2, sm: 4 } }}
+          sx={{ color: "text.secondary", mb: 4 }}
         >
-          Provide a brief overview of the key features of the product. For
-          example, you could list the number of features, their types or
-          benefits, and add-ons.
+          Discover the tools we've built to connect you with the environment.
+          From real-time data monitoring to interactive nature guides, our
+          platform is designed to support sustainability, education, and
+          exploration.
         </Typography>
       </Box>
       <Box
@@ -175,7 +179,7 @@ export default function Features() {
         <div>
           <Box
             sx={{
-              display: { xs: "none", sm: "flex" },
+              display: "flex",
               flexDirection: "column",
               gap: 2,
               height: "100%",
@@ -234,8 +238,8 @@ export default function Features() {
         </div>
         <Box
           sx={{
-            display: { xs: "none", sm: "flex" },
-            width: { xs: "100%", md: "70%" },
+            display: "flex",
+            width: "100%",
             height: "var(--items-image-height)",
           }}
         >
@@ -244,7 +248,7 @@ export default function Features() {
             sx={{
               height: "100%",
               width: "100%",
-              display: { xs: "none", sm: "flex" },
+              display: "flex",
               pointerEvents: "none",
             }}
           >

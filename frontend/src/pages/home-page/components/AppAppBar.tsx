@@ -1,6 +1,7 @@
 import * as React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { styled, alpha } from "@mui/material/styles";
+import { Link as ScrollLink } from "react-scroll";
 import Box from "@mui/material/Box";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -39,16 +40,6 @@ export default function AppAppBar() {
     setOpen(newOpen);
   };
 
-  const scrollToSection = (sectionId: string) => {
-    const sectionElement = document.getElementById(sectionId);
-    const yOffset = -80;
-    if (sectionElement) {
-      const y =
-        sectionElement.getBoundingClientRect().top + window.scrollY + yOffset;
-      window.scrollTo({ top: y, behavior: "smooth" });
-    }
-  };
-
   return (
     <AppBar
       position="fixed"
@@ -76,7 +67,11 @@ export default function AppAppBar() {
                 variant="text"
                 color="info"
                 size="small"
-                onClick={() => scrollToSection("features")}
+                component={ScrollLink}
+                to="features"
+                spy
+                smooth
+                offset={-80}
               >
                 Features
               </Button>
@@ -84,7 +79,11 @@ export default function AppAppBar() {
                 variant="text"
                 color="info"
                 size="small"
-                onClick={() => scrollToSection("testimonials")}
+                component={ScrollLink}
+                to="testimonials"
+                spy
+                smooth
+                offset={-80}
               >
                 Testimonials
               </Button>
@@ -92,7 +91,11 @@ export default function AppAppBar() {
                 variant="text"
                 color="info"
                 size="small"
-                onClick={() => scrollToSection("highlights")}
+                component={ScrollLink}
+                to="highlights"
+                spy
+                smooth
+                offset={-80}
               >
                 Highlights
               </Button>
@@ -101,7 +104,11 @@ export default function AppAppBar() {
                 color="info"
                 size="small"
                 sx={{ minWidth: 0 }}
-                onClick={() => scrollToSection("faq")}
+                component={ScrollLink}
+                to="faq"
+                spy
+                smooth
+                offset={-80}
               >
                 FAQ
               </Button>
@@ -118,7 +125,7 @@ export default function AppAppBar() {
               color="primary"
               variant="text"
               size="small"
-              component={Link}
+              component={RouterLink}
               to="/sign-in"
             >
               Sign in
@@ -127,7 +134,7 @@ export default function AppAppBar() {
               color="primary"
               variant="contained"
               size="small"
-              component={Link}
+              component={RouterLink}
               to="/sign-up"
             >
               Sign up
@@ -165,23 +172,53 @@ export default function AppAppBar() {
                     <CloseRoundedIcon />
                   </IconButton>
                 </Box>
-                <MenuItem onClick={() => scrollToSection("features")}>
+                <MenuItem
+                  onClick={toggleDrawer(false)}
+                  component={ScrollLink}
+                  to="features"
+                  spy
+                  smooth
+                  offset={-80}
+                >
                   Features
                 </MenuItem>
-                <MenuItem onClick={() => scrollToSection("testimonials")}>
+                <MenuItem
+                  onClick={toggleDrawer(false)}
+                  component={ScrollLink}
+                  to="testimonials"
+                  spy
+                  smooth
+                  offset={-80}
+                >
                   Testimonials
                 </MenuItem>
-                <MenuItem onClick={() => scrollToSection("highlights")}>
+                <MenuItem
+                  onClick={toggleDrawer(false)}
+                  component={ScrollLink}
+                  to="highlights"
+                  spy
+                  smooth
+                  offset={-80}
+                >
                   Highlights
                 </MenuItem>
-                <MenuItem onClick={() => scrollToSection("faq")}>FAQ</MenuItem>
+                <MenuItem
+                  onClick={toggleDrawer(false)}
+                  component={ScrollLink}
+                  to="faq"
+                  spy
+                  smooth
+                  offset={-80}
+                >
+                  FAQ
+                </MenuItem>
                 <Divider sx={{ my: 3 }} />
                 <MenuItem>
                   <Button
                     color="primary"
                     variant="contained"
                     fullWidth
-                    component={Link}
+                    component={RouterLink}
                     to="/sign-up"
                   >
                     Sign up
@@ -192,7 +229,7 @@ export default function AppAppBar() {
                     color="primary"
                     variant="outlined"
                     fullWidth
-                    component={Link}
+                    component={RouterLink}
                     to="/sign-in"
                   >
                     Sign in

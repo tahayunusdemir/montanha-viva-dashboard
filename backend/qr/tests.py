@@ -56,7 +56,7 @@ class QRAppTests(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(
-            response.data["message"], f"{self.qr_code.points} puan kazandınız!"
+            response.data["message"], f"You have earned {self.qr_code.points} points!"
         )
 
         # Refresh user from DB to get updated points
@@ -81,7 +81,7 @@ class QRAppTests(APITestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(
-            response.data["message"], "Bu QR kodu daha önce zaten okuttunuz."
+            response.data["message"], "You have already scanned this QR code before."
         )
 
         self.user.refresh_from_db()
@@ -92,7 +92,7 @@ class QRAppTests(APITestCase):
         self.client.force_authenticate(user=self.user)
         response = self.client.post(self.scan_url, {"text_content": "non-existent-qr"})
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
-        self.assertEqual(response.data["error"], "Geçersiz veya tanınmayan QR kod.")
+        self.assertEqual(response.data["error"], "Invalid or unrecognized QR code.")
 
     def test_get_rewards_history(self):
         """Test fetching the rewards and scan history for a user."""
@@ -121,7 +121,7 @@ class QRAppTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(
             response.data["error"],
-            "İndirim kuponu oluşturmak için yeterli puanınız yok.",
+            "You do not have enough points to generate a discount coupon.",
         )
 
     def test_generate_coupon_with_sufficient_points(self):

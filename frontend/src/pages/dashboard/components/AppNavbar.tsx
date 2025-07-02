@@ -16,6 +16,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/store/authStore";
 import { Chip } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
+import { WeatherWidget } from "./WeatherWidget";
 
 const Toolbar = styled(MuiToolbar)({
   width: "100%",
@@ -78,11 +79,16 @@ export default function AppNavbar() {
               <Logo />
             </Link>
           </Stack>
+          <WeatherWidget />
           <Chip
             icon={<StarIcon />}
             label={user?.points ?? 0}
             onClick={handlePointsClick}
             sx={{
+              height: "2.25rem",
+              "& .MuiChip-icon": {
+                fontSize: "1rem",
+              },
               cursor: "pointer",
               "&:hover": {
                 bgcolor: "action.hover",

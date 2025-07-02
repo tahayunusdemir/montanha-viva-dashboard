@@ -108,12 +108,12 @@ export default function Hero() {
               sx={{
                 textAlign: "center",
                 color: "white",
-                width: { sm: "100%", md: "80%" },
+                width: "100%",
               }}
             >
-              Explore our cutting-edge dashboard, delivering high-quality
-              solutions tailored to your needs. Elevate your experience with
-              top-tier features and services.
+              Fusing Technology, Tourism, and Sustainability to reveal the
+              vibrant life of Serra da Gardunha. Explore a unique ecosystem
+              through our intelligent data platform.
             </Typography>
           </Stack>
         </StyledBox>

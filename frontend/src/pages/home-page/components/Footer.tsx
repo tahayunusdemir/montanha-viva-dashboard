@@ -2,22 +2,21 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import IconButton from "@mui/material/IconButton";
-import Link from "@mui/material/Link";
+import MuiLink from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import TwitterIcon from "@mui/icons-material/X";
 import Logo from "@/components/Logo";
 import partnersLogos from "@/assets/partners-logos.png";
+import { Link as ScrollLink } from "react-scroll";
 
 function Copyright() {
   return (
     <Typography variant="body2" sx={{ color: "text.secondary", mt: 1 }}>
       {"Copyright © "}
-      <Link color="text.secondary" href="https://mui.com/">
+      <MuiLink color="text.secondary" href="https://mui.com/">
         Montanha Viva
-      </Link>
+      </MuiLink>
       &nbsp;
       {new Date().getFullYear()}
     </Typography>
@@ -25,16 +24,6 @@ function Copyright() {
 }
 
 export default function Footer() {
-  const scrollToSection = (sectionId: string) => {
-    const sectionElement = document.getElementById(sectionId);
-    const yOffset = -80;
-    if (sectionElement) {
-      const y =
-        sectionElement.getBoundingClientRect().top + window.scrollY + yOffset;
-      window.scrollTo({ top: y, behavior: "smooth" });
-    }
-  };
-
   return (
     <Container
       sx={{
@@ -89,53 +78,54 @@ export default function Footer() {
           <Typography variant="body2" sx={{ fontWeight: "medium" }}>
             Product
           </Typography>
-          <Link
+          <MuiLink
+            component={ScrollLink}
+            to="features"
+            spy
+            smooth
+            offset={-80}
             color="text.secondary"
             variant="body2"
-            href="#features"
-            onClick={(e) => {
-              e.preventDefault();
-              scrollToSection("features");
-            }}
+            sx={{ cursor: "pointer" }}
           >
             Features
-          </Link>
-          <Link
+          </MuiLink>
+          <MuiLink
+            component={ScrollLink}
+            to="testimonials"
+            spy
+            smooth
+            offset={-80}
             color="text.secondary"
             variant="body2"
-            href="#testimonials"
-            onClick={(e) => {
-              e.preventDefault();
-              scrollToSection("testimonials");
-            }}
+            sx={{ cursor: "pointer" }}
           >
             Testimonials
-          </Link>
-          <Link
+          </MuiLink>
+          <MuiLink
+            component={ScrollLink}
+            to="highlights"
+            spy
+            smooth
+            offset={-80}
             color="text.secondary"
             variant="body2"
-            href="#highlights"
-            onClick={(e) => {
-              e.preventDefault();
-              scrollToSection("highlights");
-            }}
+            sx={{ cursor: "pointer" }}
           >
             Highlights
-          </Link>
-          <Link color="text.secondary" variant="body2" href="#">
-            Pricing
-          </Link>
-          <Link
+          </MuiLink>
+          <MuiLink
+            component={ScrollLink}
+            to="faq"
+            spy
+            smooth
+            offset={-80}
             color="text.secondary"
             variant="body2"
-            href="#faq"
-            onClick={(e) => {
-              e.preventDefault();
-              scrollToSection("faq");
-            }}
+            sx={{ cursor: "pointer" }}
           >
-            FAQs
-          </Link>
+            FAQ
+          </MuiLink>
         </Box>
       </Box>
       <Box
@@ -149,16 +139,30 @@ export default function Footer() {
         }}
       >
         <div>
-          <Link color="text.secondary" variant="body2" href="#">
+          <MuiLink color="text.secondary" variant="body2" href="#">
             Privacy Policy
-          </Link>
+          </MuiLink>
           <Typography sx={{ display: "inline", mx: 0.5, opacity: 0.5 }}>
             &nbsp;•&nbsp;
           </Typography>
-          <Link color="text.secondary" variant="body2" href="#">
+          <MuiLink color="text.secondary" variant="body2" href="#">
             Terms of Service
-          </Link>
+          </MuiLink>
           <Copyright />
+          <Typography
+            variant="caption"
+            sx={{
+              display: "block",
+              color: "text.secondary",
+              mt: 1,
+              maxWidth: "500px",
+            }}
+          >
+            Montanha Viva was funded by the Promove 2022 Program - a competition
+            promoted by the &quot;la Caixa&quot; Foundation and the Foundation
+            for Science and Technology, to boost the border regions of
+            Portugal&apos;s interior.
+          </Typography>
         </div>
         <Stack
           direction="row"
