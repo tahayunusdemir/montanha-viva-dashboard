@@ -15,7 +15,9 @@ from pathlib import Path
 import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+# BASE_DIR should point to the project root in the container, which is '/app'
+# The original Path(__file__).resolve().parent.parent pointed to '/app/backend'
+BASE_DIR = Path(os.getenv("PROJECT_ROOT", "/app"))
 
 # Initialize environment variables
 env = environ.Env()
@@ -57,6 +59,8 @@ INSTALLED_APPS = [
     "feedback",
     "users",
     "stations",
+    "flora",
+    "routes",
 ]
 
 MIDDLEWARE = [

@@ -28,6 +28,8 @@ import AdminStationManagament from "./pages/dashboard/views/admin/AdminStationMa
 import AdminQRManagement from "./pages/dashboard/views/admin/AdminQRManagement/AdminQRManagement";
 import AdminNotificationManagement from "./pages/dashboard/views/admin/AdminNotificationManagement/AdminNotificationManagement";
 import AdminFeedbackManagement from "./pages/dashboard/views/admin/AdminFeedbackManagement/AdminFeedbackManagement";
+import AdminRoutesManagement from "./pages/dashboard/views/admin/AdminRoutesManagement/AdminRoutesManagement";
+import AdminWikiManagement from "./pages/dashboard/views/admin/AdminWikiManagement/AdminWikiManagement";
 
 function App() {
   return (
@@ -80,6 +82,14 @@ function App() {
               <Route
                 path="admin/feedback-management"
                 element={<AdminFeedbackManagement />}
+              />
+              <Route
+                path="admin/routes-management"
+                element={<AdminRoutesManagement />}
+              />
+              <Route
+                path="admin/wiki-management"
+                element={<AdminWikiManagement />}
               />
             </Route>
           </Route>

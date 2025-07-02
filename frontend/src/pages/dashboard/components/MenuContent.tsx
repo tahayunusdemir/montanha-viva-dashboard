@@ -8,9 +8,9 @@ import Stack from "@mui/material/Stack";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
 import { Link, useLocation } from "react-router-dom";
-import MenuBookRoundedIcon from "@mui/icons-material/MenuBookRounded";
-import MapRoundedIcon from "@mui/icons-material/MapRounded";
 import YardRoundedIcon from "@mui/icons-material/YardRounded";
+import LocalFloristIcon from "@mui/icons-material/LocalFlorist";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
 import QrCodeScannerRoundedIcon from "@mui/icons-material/QrCodeScannerRounded";
 import SensorsRoundedIcon from "@mui/icons-material/SensorsRounded";
 import EmojiEventsRoundedIcon from "@mui/icons-material/EmojiEventsRounded";
@@ -21,11 +21,11 @@ import PeopleRoundedIcon from "@mui/icons-material/PeopleRounded";
 import RouterRoundedIcon from "@mui/icons-material/RouterRounded";
 import RouteRoundedIcon from "@mui/icons-material/RouteRounded";
 import QrCode2RoundedIcon from "@mui/icons-material/QrCode2Rounded";
-import BookRoundedIcon from "@mui/icons-material/BookRounded";
 import MessageRoundedIcon from "@mui/icons-material/MessageRounded";
 import RateReviewRoundedIcon from "@mui/icons-material/RateReviewRounded";
 import { Divider } from "@mui/material";
 import { useAuthStore } from "@/store/authStore";
+
 
 const publicListItems = [
   { path: "/dashboard", text: "Home", icon: <HomeRoundedIcon /> },
@@ -37,7 +37,7 @@ const publicListItems = [
   {
     path: "/dashboard/flora-encyclopedia",
     text: "Flora Encyclopedia",
-    icon: <MenuBookRoundedIcon />,
+    icon: <LocalFloristIcon />,
   },
   {
     path: "/dashboard/plant-identifier",
@@ -66,6 +66,16 @@ const adminListItems = [
     path: "/dashboard/admin/station-management",
     text: "Station Management",
     icon: <RouterRoundedIcon />,
+  },
+  {
+    path: "/dashboard/admin/routes-management",
+    text: "Routes Management",
+    icon: <RouteRoundedIcon />,
+  },
+  {
+    path: "/dashboard/admin/wiki-management",
+    text: "Wiki Management",
+    icon: <MenuBookIcon />,
   },
   {
     path: "/dashboard/admin/qr-management",

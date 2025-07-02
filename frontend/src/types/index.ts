@@ -20,3 +20,4 @@ export * from "./feedback";
 export * from "./flora";
 export * from "./routes";
 export * from "./station";
+export * from "./user";
