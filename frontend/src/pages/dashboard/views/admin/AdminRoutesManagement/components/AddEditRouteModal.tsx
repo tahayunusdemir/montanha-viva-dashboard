@@ -11,21 +11,18 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
-  Autocomplete,
-  Chip,
   Box,
   Typography,
   FormHelperText,
   styled,
 } from "@mui/material";
-import { useForm, Controller, SubmitHandler, FieldValues } from "react-hook-form";
+import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Route, RoutePayload, PointOfInterest } from "@/types";
+import { Route, RoutePayload } from "@/types";
 import {
   useCreateRoute,
   useUpdateRoute,
-  usePointsOfInterest,
 } from "@/services/routes";
 import { CloudUpload, InsertDriveFile, CheckCircle } from "@mui/icons-material";
 
@@ -50,11 +47,16 @@ const routeSchema = (isEditing: boolean) =>
       .nonnegative("Accumulated climb must be an integer"),
     start_point_gps: z.string().min(1, "Start point GPS is required"),
     description: z.string().min(1, "Description is required"),
-    interaction_fauna: z.string().optional(),
-    points_of_interest_ids: z.array(z.number()).optional(),
-    image_card: isEditing ? z.instanceof(FileList).optional() : fileSchema,
-    image_map: isEditing ? z.instanceof(FileList).optional() : fileSchema,
-    gpx_file: isEditing ? z.instanceof(FileList).optional() : fileSchema,
+    points_of_interest: z.string().optional(),
+    image_card: isEditing
+      ? z.instanceof(FileList).optional().nullable()
+      : fileSchema,
+    image_map: isEditing
+      ? z.instanceof(FileList).optional().nullable()
+      : fileSchema,
+    gpx_file: isEditing
+      ? z.instanceof(FileList).optional().nullable()
+      : fileSchema,
   });
 
 type RouteFormValues = z.infer<ReturnType<typeof routeSchema>>;
@@ -168,8 +170,6 @@ export default function AddEditRouteModal({
   route,
 }: AddEditRouteModalProps) {
   const isEditing = !!route;
-  const { data: pointsOfInterest = [], isLoading: poisLoading } =
-    usePointsOfInterest();
 
   const defaultValues: Partial<RouteFormValues> = {
     name: "",
@@ -182,8 +182,7 @@ export default function AddEditRouteModal({
     accumulated_climb_m: 0,
     start_point_gps: "",
     description: "",
-    interaction_fauna: "",
-    points_of_interest_ids: [],
+    points_of_interest: "",
   };
 
   const {
@@ -210,8 +209,7 @@ export default function AddEditRouteModal({
           accumulated_climb_m: route.accumulated_climb_m,
           start_point_gps: route.start_point_gps,
           description: route.description,
-          interaction_fauna: route.interaction_fauna || "",
-          points_of_interest_ids: route.points_of_interest.map((p) => p.id),
+          points_of_interest: route.points_of_interest || "",
         });
       } else {
         reset(defaultValues);
@@ -225,120 +223,105 @@ export default function AddEditRouteModal({
   const onSubmit: SubmitHandler<RouteFormValues> = (data) => {
     const payload: RoutePayload = {
       ...data,
-      interaction_fauna: data.interaction_fauna || "",
-      points_of_interest_ids: data.points_of_interest_ids || [],
-      image_card: data.image_card?.[0],
-      image_map: data.image_map?.[0],
-      gpx_file: data.gpx_file?.[0],
+      points_of_interest: data.points_of_interest || "",
+      image_card: data.image_card?.[0] || null,
+      image_map: data.image_map?.[0] || null,
+      gpx_file: data.gpx_file?.[0] || null,
     };
 
+    // For updates, don't send file fields if they weren't changed
     if (isEditing) {
       if (!payload.image_card) delete payload.image_card;
       if (!payload.image_map) delete payload.image_map;
       if (!payload.gpx_file) delete payload.gpx_file;
     }
 
-    if (route) {
-      updateRouteMutation.mutate(
-        { id: route.id, payload },
-        { onSuccess: onClose }
-      );
-    } else {
-      createRouteMutation.mutate(payload, { onSuccess: onClose });
-    }
-  };
+    const mutation = isEditing ? updateRouteMutation : createRouteMutation;
+    const mutationArgs = isEditing ? { id: route!.id, payload } : payload;
 
-  const isLoading =
-    createRouteMutation.isPending || updateRouteMutation.isPending;
+    // Type assertion to satisfy TypeScript
+    (mutation.mutate as (args: any, options: any) => void)(mutationArgs, {
+      onSuccess: onClose,
+    });
+  };
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
-      <DialogTitle>{route ? "Edit Route" : "Add New Route"}</DialogTitle>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <DialogContent>
-          <Grid container spacing={3}>
-            {/* Section: Route Details */}
-            <Grid size={{ xs: 12 }}>
-              <Typography variant="h6" gutterBottom>Route Details</Typography>
-            </Grid>
-            <Grid size={{ xs: 12, md: 8 }}>
+      <DialogTitle>{isEditing ? "Edit Route" : "Add New Route"}</DialogTitle>
+      <DialogContent>
+        <Box
+          component="form"
+          id="route-form"
+          onSubmit={handleSubmit(onSubmit)}
+          noValidate
+        >
+          <Grid container spacing={2} sx={{ mt: 1 }}>
+            {/* Basic Info */}
+            <Grid size={{ xs: 12, sm: 6 }}>
               <Controller
                 name="name"
                 control={control}
                 render={({ field }) => (
-                  <TextField {...field} label="Route Name" fullWidth error={!!errors.name} helperText={errors.name?.message} />
+                  <TextField
+                    {...field}
+                    label="Route Name"
+                    fullWidth
+                    required
+                    error={!!errors.name}
+                    helperText={errors.name?.message}
+                  />
                 )}
               />
             </Grid>
-            <Grid size={{ xs: 12, md: 4 }}>
-              <Controller
-                name="distance_km"
-                control={control}
-                render={({ field }) => (
-                  <TextField {...field} label="Distance (km)" fullWidth type="number" error={!!errors.distance_km} helperText={errors.distance_km?.message} />
-                )}
-              />
-            </Grid>
-            <Grid size={{ xs: 12, md: 4 }}>
+            <Grid size={{ xs: 12, sm: 6 }}>
               <Controller
                 name="duration"
                 control={control}
                 render={({ field }) => (
-                  <TextField {...field} label="Duration (e.g., 4h 30m)" fullWidth error={!!errors.duration} helperText={errors.duration?.message} />
+                  <TextField
+                    {...field}
+                    label="Duration (e.g., 4h 30min)"
+                    fullWidth
+                    required
+                    error={!!errors.duration}
+                    helperText={errors.duration?.message}
+                  />
                 )}
               />
             </Grid>
-            <Grid size={{ xs: 12, md: 4 }}>
+            
+            {/* Metrics */}
+            <Grid size={{ xs: 12, sm: 4 }}>
               <Controller
-                name="difficulty"
+                name="distance_km"
                 control={control}
                 render={({ field }) => (
-                  <FormControl fullWidth error={!!errors.difficulty}>
-                    <InputLabel>Difficulty</InputLabel>
-                    <Select {...field} label="Difficulty">
-                      <MenuItem value="Easy">Easy</MenuItem>
-                      <MenuItem value="Medium">Medium</MenuItem>
-                      <MenuItem value="Hard">Hard</MenuItem>
-                    </Select>
-                  </FormControl>
+                  <TextField
+                    {...field}
+                    label="Distance (km)"
+                    type="number"
+                    fullWidth
+                    required
+                    error={!!errors.distance_km}
+                    helperText={errors.distance_km?.message}
+                  />
                 )}
               />
-            </Grid>
-            <Grid size={{ xs: 12, md: 4 }}>
-              <Controller
-                name="route_type"
-                control={control}
-                render={({ field }) => (
-                  <FormControl fullWidth error={!!errors.route_type}>
-                    <InputLabel>Route Type</InputLabel>
-                    <Select {...field} label="Route Type">
-                      <MenuItem value="circular">Circular</MenuItem>
-                      <MenuItem value="linear">Linear</MenuItem>
-                    </Select>
-                  </FormControl>
-                )}
-              />
-            </Grid>
-            <Grid size={{ xs: 12 }}>
-              <Controller
-                name="description"
-                control={control}
-                render={({ field }) => (
-                  <TextField {...field} label="Description" fullWidth multiline rows={3} error={!!errors.description} helperText={errors.description?.message} />
-                )}
-              />
-            </Grid>
-
-            {/* Section: Altitude & Location */}
-            <Grid size={{ xs: 12 }} sx={{ mt: 2 }}>
-              <Typography variant="h6" gutterBottom>Altitude & Location</Typography>
             </Grid>
             <Grid size={{ xs: 12, sm: 4 }}>
               <Controller
-                name="altitude_min_m"
+                name="accumulated_climb_m"
                 control={control}
                 render={({ field }) => (
-                  <TextField {...field} label="Min Altitude (m)" fullWidth type="number" error={!!errors.altitude_min_m} helperText={errors.altitude_min_m?.message} />
+                  <TextField
+                    {...field}
+                    label="Accumulated Climb (m)"
+                    type="number"
+                    fullWidth
+                    required
+                    error={!!errors.accumulated_climb_m}
+                    helperText={errors.accumulated_climb_m?.message}
+                  />
                 )}
               />
             </Grid>
@@ -347,125 +330,151 @@ export default function AddEditRouteModal({
                 name="altitude_max_m"
                 control={control}
                 render={({ field }) => (
-                  <TextField {...field} label="Max Altitude (m)" fullWidth type="number" error={!!errors.altitude_max_m} helperText={errors.altitude_max_m?.message} />
-                )}
-              />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 4 }}>
-               <Controller
-                name="accumulated_climb_m"
-                control={control}
-                render={({ field }) => (
-                  <TextField {...field} label="Accumulated Climb (m)" fullWidth type="number" error={!!errors.accumulated_climb_m} helperText={errors.accumulated_climb_m?.message} />
-                )}
-              />
-            </Grid>
-             <Grid size={{ xs: 12 }}>
-               <Controller
-                name="start_point_gps"
-                control={control}
-                render={({ field }) => (
-                  <TextField {...field} label="Start Point GPS (e.g., 40º7'14.40N / 7º32'38.08W)" fullWidth error={!!errors.start_point_gps} helperText={errors.start_point_gps?.message} />
-                )}
-              />
-            </Grid>
-
-            {/* Section: Points of Interest & Fauna */}
-            <Grid size={{ xs: 12 }} sx={{ mt: 2 }}>
-                <Typography variant="h6" gutterBottom>Related Information</Typography>
-            </Grid>
-            <Grid size={{ xs: 12 }}>
-              <Controller
-                name="points_of_interest_ids"
-                control={control}
-                render={({ field }) => (
-                  <Autocomplete
-                    multiple
-                    loading={poisLoading}
-                    options={pointsOfInterest.map((p) => p.id)}
-                    getOptionLabel={(option) =>
-                      pointsOfInterest.find((p) => p.id === option)?.name || ""
-                    }
-                    value={field.value || []}
-                    onChange={(_, newValue) => field.onChange(newValue)}
-                    renderInput={(params) => (
-                      <TextField {...params} label="Points of Interest (Optional)" helperText="Select multiple points of interest related to this route." />
-                    )}
-                    renderTags={(value, getTagProps) =>
-                        value.map((option, index) => {
-                            const label = pointsOfInterest.find(p => p.id === option)?.name;
-                            return <Chip variant="outlined" label={label} {...getTagProps({ index })} />
-                        })
-                    }
+                  <TextField
+                    {...field}
+                    label="Max Altitude (m)"
+                    type="number"
+                    fullWidth
+                    required
+                    error={!!errors.altitude_max_m}
+                    helperText={errors.altitude_max_m?.message}
                   />
                 )}
               />
             </Grid>
-             <Grid size={{ xs: 12 }}>
+
+            {/* Selects */}
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <FormControl fullWidth error={!!errors.difficulty}>
+                <InputLabel>Difficulty</InputLabel>
+                <Controller
+                  name="difficulty"
+                  control={control}
+                  render={({ field }) => (
+                    <Select {...field} label="Difficulty">
+                      <MenuItem value="Easy">Easy</MenuItem>
+                      <MenuItem value="Medium">Medium</MenuItem>
+                      <MenuItem value="Hard">Hard</MenuItem>
+                    </Select>
+                  )}
+                />
+              </FormControl>
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <FormControl fullWidth error={!!errors.route_type}>
+                <InputLabel>Route Type</InputLabel>
+                <Controller
+                  name="route_type"
+                  control={control}
+                  render={({ field }) => (
+                    <Select {...field} label="Route Type">
+                      <MenuItem value="circular">Circular</MenuItem>
+                      <MenuItem value="linear">Linear</MenuItem>
+                    </Select>
+                  )}
+                />
+              </FormControl>
+            </Grid>
+
+            {/* Text Areas */}
+            <Grid size={{ xs: 12 }}>
               <Controller
-                name="interaction_fauna"
+                name="description"
                 control={control}
                 render={({ field }) => (
                   <TextField
                     {...field}
-                    label="Fauna Interaction (Optional)"
+                    label="Description"
+                    multiline
+                    rows={4}
                     fullWidth
+                    required
+                    error={!!errors.description}
+                    helperText={errors.description?.message}
+                  />
+                )}
+              />
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <Controller
+                name="points_of_interest"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="Points of Interest (comma-separated)"
                     multiline
                     rows={2}
-                    helperText="Describe any notable fauna interactions on this route."
+                    fullWidth
+                    error={!!errors.points_of_interest}
+                    helperText={errors.points_of_interest?.message}
                   />
                 )}
               />
             </Grid>
 
-            {/* Section: File Uploads */}
-            <Grid size={{ xs: 12 }} sx={{ mt: 2 }}>
-              <Typography variant="h6" gutterBottom>
-                Files
-              </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{mb: 2}}>
-                {!isEditing ? "All files are required when creating a new route." : "Upload new files only if you want to replace the existing ones."}
-              </Typography>
+            <Grid size={{ xs: 12 }}>
+              <Controller
+                name="start_point_gps"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="Start Point GPS"
+                    fullWidth
+                    required
+                    error={!!errors.start_point_gps}
+                    helperText={errors.start_point_gps?.message}
+                  />
+                )}
+              />
             </Grid>
-            <Grid size={{ xs: 12, md: 4 }}>
+
+            {/* File Inputs */}
+            <Grid size={{ xs: 12, sm: 4 }}>
               <FileInput
                 control={control}
                 name="image_card"
-                label="Card Image"
+                label="Upload Card Image"
                 existingFileUrl={route?.image_card}
                 accept="image/*"
                 error={errors.image_card}
               />
             </Grid>
-            <Grid size={{ xs: 12, md: 4 }}>
+            <Grid size={{ xs: 12, sm: 4 }}>
               <FileInput
                 control={control}
                 name="image_map"
-                label="Map Image"
+                label="Upload Map Image"
                 existingFileUrl={route?.image_map}
                 accept="image/*"
                 error={errors.image_map}
               />
             </Grid>
-            <Grid size={{ xs: 12, md: 4 }}>
+            <Grid size={{ xs: 12, sm: 4 }}>
               <FileInput
                 control={control}
                 name="gpx_file"
-                label="GPX File"
+                label="Upload GPX File"
                 existingFileUrl={route?.gpx_file}
                 accept=".gpx"
                 error={errors.gpx_file}
               />
             </Grid>
           </Grid>
-        </DialogContent>
-        <DialogActions sx={{ p: '16px 24px' }}>
-          <Button onClick={onClose}>Cancel</Button>
-          <Button type="submit" variant="contained" disabled={isLoading}>
-            {isLoading ? "Saving..." : "Save"}
-          </Button>
-        </DialogActions>
-      </form>
+        </Box>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose}>Cancel</Button>
+        <Button
+          type="submit"
+          form="route-form"
+          variant="contained"
+          disabled={createRouteMutation.isPending || updateRouteMutation.isPending}
+        >
+          {isEditing ? "Save Changes" : "Create Route"}
+        </Button>
+      </DialogActions>
     </Dialog>
   );
 }

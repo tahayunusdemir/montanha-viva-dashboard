@@ -12,7 +12,10 @@ import SideMenuMobile from "./SideMenuMobile";
 import MenuButton from "./MenuButton";
 import ThemeToggleButton from "@/components/ThemeToggleButton";
 import Logo from "@/components/Logo";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuthStore } from "@/store/authStore";
+import { Chip } from "@mui/material";
+import StarIcon from "@mui/icons-material/Star";
 
 const Toolbar = styled(MuiToolbar)({
   width: "100%",
@@ -32,9 +35,15 @@ const Toolbar = styled(MuiToolbar)({
 
 export default function AppNavbar() {
   const [open, setOpen] = React.useState(false);
+  const user = useAuthStore((state) => state.user);
+  const navigate = useNavigate();
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
+  };
+
+  const handlePointsClick = () => {
+    navigate("/dashboard/points-and-rewards");
   };
 
   return (
@@ -69,6 +78,17 @@ export default function AppNavbar() {
               <Logo />
             </Link>
           </Stack>
+          <Chip
+            icon={<StarIcon />}
+            label={user?.points ?? 0}
+            onClick={handlePointsClick}
+            sx={{
+              cursor: "pointer",
+              "&:hover": {
+                bgcolor: "action.hover",
+              },
+            }}
+          />
           <ThemeToggleButton />
           <MenuButton aria-label="menu" onClick={toggleDrawer(true)}>
             <MenuRoundedIcon />

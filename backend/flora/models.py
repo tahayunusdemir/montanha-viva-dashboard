@@ -5,19 +5,19 @@ from django.db import models
 
 class Plant(models.Model):
     scientific_name = models.CharField(
-        max_length=255, unique=True, help_text="Bilimsel ad, örn: Arbutus unedo"
+        max_length=255, unique=True, help_text="Scientific name, e.g.: Arbutus unedo"
     )
     common_names = models.CharField(
         max_length=500,
-        help_text="Yaygın adlar, virgülle ayrılmış, örn: Kocayemiş, Sandal Ağacı",
+        help_text="Common names, comma-separated, e.g.: Strawberry Tree, Sandalwood",
     )
     interaction_fauna = models.TextField(
         blank=True,
         null=True,
-        help_text="Böcekler ve kuşlar için besin ve barınak kaynağıdır.",
+        help_text="Source of food and shelter for insects and birds.",
     )
 
-    # Opsiyonel kullanım alanları
+    # Optional usage fields
     food_uses = models.TextField(blank=True, null=True)
     medicinal_uses = models.TextField(blank=True, null=True)
     ornamental_uses = models.TextField(blank=True, null=True)

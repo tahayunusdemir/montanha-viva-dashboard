@@ -15,6 +15,7 @@ interface AuthActions {
   logout: (localOnly?: boolean) => Promise<void>;
   setUser: (user: User | null) => void;
   setAccessToken: (token: string) => void;
+  updateUserPoints: (points: number) => void;
 }
 
 const initialState: AuthState = {
@@ -51,6 +52,12 @@ export const useAuthStore = create<AuthState & AuthActions>()(
       },
       setAccessToken: (token: string) => {
         set({ accessToken: token });
+      },
+      updateUserPoints: (points: number) => {
+        set((state) => ({
+          ...state,
+          user: state.user ? { ...state.user, points } : null,
+        }));
       },
     }),
     {

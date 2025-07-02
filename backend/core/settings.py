@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist",
     "rest_framework_csv",
+    "django_filters",
     # Local apps
     "api",
     "feedback",
@@ -61,6 +62,7 @@ INSTALLED_APPS = [
     "stations",
     "flora",
     "routes",
+    "qr",
 ]
 
 MIDDLEWARE = [

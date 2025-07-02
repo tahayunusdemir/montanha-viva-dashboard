@@ -3,7 +3,6 @@ import apiClient from "@/lib/axios";
 import {
   Route,
   RoutePayload,
-  PointOfInterest,
 } from "@/types";
 
 // Helper to create FormData from route payload
@@ -19,12 +18,7 @@ const createRouteFormData = (payload: RoutePayload): FormData => {
       } else if (value instanceof File) {
          formData.append(key, value);
       }
-    } else if (key === "points_of_interest_ids") {
-      if (Array.isArray(value)) {
-        value.forEach((id) => formData.append("points_of_interest_ids", id.toString()));
-      }
-    }
-    else if (value !== null && value !== undefined) {
+    } else if (value !== null && value !== undefined) {
       formData.append(key, value.toString());
     }
   });
@@ -134,23 +128,5 @@ export const useDeleteRoute = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["adminRoutes"] });
     },
-  });
-};
-
-// =================================================================================
-// ADMIN Points of Interest API
-// =================================================================================
-
-const fetchPointsOfInterest = async (): Promise<PointOfInterest[]> => {
-  const { data } = await apiClient.get<PointOfInterest[]>(
-    "/routes/admin/points-of-interest/",
-  );
-  return data;
-};
-
-export const usePointsOfInterest = () => {
-  return useQuery<PointOfInterest[], Error>({
-    queryKey: ["pointsOfInterest"],
-    queryFn: fetchPointsOfInterest,
   });
 };

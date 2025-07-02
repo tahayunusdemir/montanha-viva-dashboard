@@ -3,7 +3,7 @@ import shutil
 from django.core.files import File
 from django.core.management.base import BaseCommand
 from django.conf import settings
-from routes.models import Route, PointOfInterest
+from routes.models import Route
 from pathlib import Path
 
 # Sample data for the routes.
@@ -179,18 +179,10 @@ class Command(BaseCommand):
         for data in ROUTE_DATA:
             self.stdout.write(f"Processing route: {data['name']}")
 
-            # Create or get Points of Interest
-            poi_objects = []
+            # Convert list of POIs to a comma-separated string
+            poi_string = None
             if data.get("points_of_interest"):
-                for poi_name in data["points_of_interest"]:
-                    poi, created = PointOfInterest.objects.get_or_create(name=poi_name)
-                    poi_objects.append(poi)
-                    if created:
-                        self.stdout.write(
-                            self.style.SUCCESS(
-                                f"  Created Point of Interest: {poi_name}"
-                            )
-                        )
+                poi_string = ", ".join(data["points_of_interest"])
 
             # Create the Route object
             route, created = Route.objects.update_or_create(
@@ -205,12 +197,9 @@ class Command(BaseCommand):
                     "accumulated_climb_m": data["accumulated_climb_m"],
                     "start_point_gps": data.get("start_point_gps"),
                     "description": data["description"],
+                    "points_of_interest": poi_string,
                 },
             )
-
-            # Add points of interest to the route
-            if poi_objects:
-                route.points_of_interest.set(poi_objects)
 
             # Handle image and gpx files
             for field, source_path_key in [

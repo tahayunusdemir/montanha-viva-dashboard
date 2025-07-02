@@ -3,16 +3,6 @@ from django.db import models
 # Create your models here.
 
 
-class PointOfInterest(models.Model):
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True, null=True)
-    latitude = models.FloatField(blank=True, null=True)
-    longitude = models.FloatField(blank=True, null=True)
-
-    def __str__(self):
-        return self.name
-
-
 class Route(models.Model):
     ROUTE_TYPE_CHOICES = [("circular", "Circular"), ("linear", "Linear")]
     DIFFICULTY_CHOICES = [("Easy", "Easy"), ("Medium", "Medium"), ("Hard", "Hard")]
@@ -30,7 +20,9 @@ class Route(models.Model):
     )
     description = models.TextField()
 
-    points_of_interest = models.ManyToManyField(PointOfInterest, blank=True)
+    points_of_interest = models.TextField(
+        blank=True, null=True, help_text="Comma-separated list of points of interest."
+    )
 
     image_card = models.ImageField(
         upload_to="routes_images/", help_text="Image for the route card"

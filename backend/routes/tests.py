@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.test import APIClient
 
 from users.models import CustomUser
-from .models import PointOfInterest, Route
+from .models import Route
 
 # Mark all tests in this file as Django DB tests
 pytestmark = pytest.mark.django_db
@@ -50,71 +50,14 @@ def authenticate_client(api_client, user):
     api_client.force_authenticate(user=user)
 
 
-# --- PointOfInterestViewSet Tests ---
-
-
-class TestPointOfInterestViewSet:
-    """Tests for the PointOfInterestViewSet."""
-
-    list_url = reverse("pointofinterest-list")
-
-    def detail_url(self, poi_id):
-        return reverse("pointofinterest-detail", args=[poi_id])
-
-    def test_poi_list_unauthenticated(self, api_client):
-        """Verify unauthenticated users cannot list POIs."""
-        response = api_client.get(self.list_url)
-        assert response.status_code == status.HTTP_401_UNAUTHORIZED
-
-    def test_poi_list_common_user(self, api_client, common_user):
-        """Verify non-admin users cannot list POIs."""
-        authenticate_client(api_client, common_user)
-        response = api_client.get(self.list_url)
-        assert response.status_code == status.HTTP_403_FORBIDDEN
-
-    def test_poi_create_admin(self, api_client, admin_user):
-        """Verify admin users can create a POI."""
-        authenticate_client(api_client, admin_user)
-        data = {"name": "Test POI", "description": "A test POI."}
-        response = api_client.post(self.list_url, data)
-        assert response.status_code == status.HTTP_201_CREATED
-        assert PointOfInterest.objects.filter(name="Test POI").exists()
-
-    def test_poi_update_admin(self, api_client, admin_user):
-        """Verify admin users can update a POI."""
-        authenticate_client(api_client, admin_user)
-        poi = PointOfInterest.objects.create(name="Old Name")
-        data = {"name": "New Name"}
-        response = api_client.put(self.detail_url(poi.id), data)
-        assert response.status_code == status.HTTP_200_OK
-        poi.refresh_from_db()
-        assert poi.name == "New Name"
-
-    def test_poi_delete_admin(self, api_client, admin_user):
-        """Verify admin users can delete a POI."""
-        authenticate_client(api_client, admin_user)
-        poi = PointOfInterest.objects.create(name="To be deleted")
-        response = api_client.delete(self.detail_url(poi.id))
-        assert response.status_code == status.HTTP_204_NO_CONTENT
-        assert not PointOfInterest.objects.filter(id=poi.id).exists()
-
-
 # --- RouteViewSet Tests ---
 
 
 @pytest.fixture
-def sample_poi():
-    """Fixture for a sample PointOfInterest."""
-    return PointOfInterest.objects.create(
-        name="Sample POI", description="A sample POI."
-    )
-
-
-@pytest.fixture
-def sample_route(sample_poi):
+def sample_route():
     """Fixture for a sample Route."""
-    route = Route.objects.create(
-        name="Sample Route",
+    return Route.objects.create(
+        name="Sample Route Alpha",
         distance_km=10.5,
         duration="3h",
         route_type="circular",
@@ -122,7 +65,8 @@ def sample_route(sample_poi):
         altitude_min_m=100,
         altitude_max_m=500,
         accumulated_climb_m=400,
-        description="A beautiful sample route.",
+        description="A beautiful sample route with pine trees.",
+        points_of_interest="Viewpoint, Waterfall, Old Bridge",
         image_card=SimpleUploadedFile(
             "card.jpg", b"file_content", content_type="image/jpeg"
         ),
@@ -130,19 +74,39 @@ def sample_route(sample_poi):
             "map.jpg", b"file_content", content_type="image/jpeg"
         ),
     )
-    route.points_of_interest.add(sample_poi)
-    return route
 
 
-class TestRouteViewSet:
-    """Tests for the RouteViewSet."""
+@pytest.fixture
+def another_sample_route():
+    """Fixture for another sample Route for filtering tests."""
+    return Route.objects.create(
+        name="Sample Route Beta",
+        distance_km=5.0,
+        duration="1h",
+        route_type="linear",
+        difficulty="Easy",
+        altitude_min_m=50,
+        altitude_max_m=150,
+        accumulated_climb_m=100,
+        description="An easy walk near the lake.",
+        points_of_interest="Lake, Picnic Area",
+        image_card=SimpleUploadedFile(
+            "card2.jpg", b"file_content", content_type="image/jpeg"
+        ),
+        image_map=SimpleUploadedFile(
+            "map2.jpg", b"file_content", content_type="image/jpeg"
+        ),
+    )
 
-    list_url = reverse("route-list")
+
+class TestPublicRouteViewSet:
+    """Tests for the public-facing Route viewset."""
+
+    list_url = reverse("public-route-list")
 
     def detail_url(self, route_id):
-        return reverse("route-detail", args=[route_id])
+        return reverse("public-route-detail", args=[route_id])
 
-    # Public access tests
     def test_route_list_public(self, api_client, sample_route):
         """Verify anyone can list routes."""
         response = api_client.get(self.list_url)
@@ -155,10 +119,34 @@ class TestRouteViewSet:
         response = api_client.get(self.detail_url(sample_route.id))
         assert response.status_code == status.HTTP_200_OK
         assert response.data["name"] == sample_route.name
-        assert "points_of_interest" in response.data
-        assert len(response.data["points_of_interest"]) == 1
+        assert response.data["points_of_interest"] == "Viewpoint, Waterfall, Old Bridge"
 
-    # Permission tests for write actions
+    def test_search_routes(self, api_client, sample_route, another_sample_route):
+        """Verify searching for routes by name or description works."""
+        response = api_client.get(self.list_url, {"search": "pine trees"})
+        assert response.status_code == status.HTTP_200_OK
+        assert len(response.data) == 1
+        assert response.data[0]["name"] == "Sample Route Alpha"
+
+    def test_filter_routes_by_difficulty(
+        self, api_client, sample_route, another_sample_route
+    ):
+        """Verify filtering routes by difficulty works."""
+        response = api_client.get(self.list_url, {"difficulty": "Easy"})
+        assert response.status_code == status.HTTP_200_OK
+        assert len(response.data) == 1
+        assert response.data[0]["name"] == "Sample Route Beta"
+
+
+class TestAdminRouteViewSet:
+    """Tests for the admin-only Route viewset."""
+
+    list_url = reverse("admin-route-list")
+
+    def detail_url(self, route_id):
+        return reverse("admin-route-detail", args=[route_id])
+
+    # Permission tests
     @pytest.mark.parametrize("user_type", ["unauthenticated", "common"])
     def test_route_create_permission_denied(self, api_client, common_user, user_type):
         """Verify non-admins cannot create routes."""
@@ -176,12 +164,11 @@ class TestRouteViewSet:
         assert response.status_code == expected_status
 
     # Admin CRUD tests
-    def test_route_create_admin(self, api_client, admin_user, sample_poi):
+    def test_route_create_admin(self, api_client, admin_user):
         """Verify admin can create a route with file uploads."""
         authenticate_client(api_client, admin_user)
 
-        # Create a minimal valid GIF for image uploads
-        gif_content = b"\x47\x49\x46\x38\x39\x61\x01\x00\x01\x00\x80\x00\x00\x05\x04\x04\x00\x00\x00\x2c\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02\x44\x01\x00\x3b"
+        gif_content = b"GIF89a\x01\x00\x01\x00\x80\x00\x00\x05\x04\x04\x00\x00\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02D\x01\x00;"
         image_card = SimpleUploadedFile("card_new.jpg", gif_content, "image/gif")
         image_map = SimpleUploadedFile("map_new.jpg", gif_content, "image/gif")
         gpx_file = SimpleUploadedFile(
@@ -198,7 +185,7 @@ class TestRouteViewSet:
             "altitude_max_m": 1000,
             "accumulated_climb_m": 800,
             "description": "A challenging new route.",
-            "points_of_interest_ids": [sample_poi.id],
+            "points_of_interest": "Start Point, Summit, End Point",
             "image_card": image_card,
             "image_map": image_map,
             "gpx_file": gpx_file,
@@ -210,7 +197,7 @@ class TestRouteViewSet:
         assert Route.objects.filter(name="Admin's New Route").exists()
         new_route = Route.objects.get(name="Admin's New Route")
         assert new_route.gpx_file is not None
-        assert new_route.points_of_interest.count() == 1
+        assert new_route.points_of_interest == "Start Point, Summit, End Point"
 
     def test_route_create_duplicate_name_fails(
         self, api_client, admin_user, sample_route
@@ -222,6 +209,7 @@ class TestRouteViewSet:
             "distance_km": 5.0,
             "duration": "1h",
             "difficulty": "Easy",
+            "route_type": "circular",
             "altitude_min_m": 1,
             "altitude_max_m": 2,
             "accumulated_climb_m": 1,

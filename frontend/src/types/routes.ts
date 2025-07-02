@@ -18,8 +18,7 @@ export interface Route {
   accumulated_climb_m: number;
   start_point_gps?: string;
   description: string;
-  interaction_fauna: string;
-  points_of_interest: PointOfInterest[];
+  points_of_interest?: string;
   image_card?: string;
   image_map?: string;
   gpx_file?: string;
@@ -38,8 +37,7 @@ export interface RoutePayload {
   accumulated_climb_m: number;
   start_point_gps?: string;
   description: string;
-  interaction_fauna: string;
-  points_of_interest_ids: number[];
+  points_of_interest?: string;
   image_card?: File | null;
   image_map?: File | null;
   gpx_file?: File | null;

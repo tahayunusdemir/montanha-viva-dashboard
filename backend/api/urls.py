@@ -5,5 +5,6 @@ urlpatterns = [
     path("feedback/", include("feedback.urls")),
     path("flora/", include("flora.urls")),
     path("routes/", include("routes.urls")),
+    path("qr/", include("qr.urls")),
     path("", include("stations.urls")),
 ]
