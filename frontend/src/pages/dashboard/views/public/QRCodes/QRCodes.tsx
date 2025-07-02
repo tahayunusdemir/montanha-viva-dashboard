@@ -16,9 +16,9 @@ const qrReaderId = "qr-reader";
 
 export default function QRCodes() {
   const scannerRef = useRef<Html5Qrcode | null>(null);
-  const [scannerState, setScannerState] = useState<"idle" | "scanning" | "error">(
-    "idle",
-  );
+  const [scannerState, setScannerState] = useState<
+    "idle" | "scanning" | "error"
+  >("idle");
   const [snackbar, setSnackbar] = useState<{
     open: boolean;
     message: string;
@@ -53,8 +53,15 @@ export default function QRCodes() {
         { facingMode: "environment" },
         {
           fps: 10,
-          qrbox: { width: 250, height: 250 },
-          aspectRatio: 1.777778, // 16:9
+          qrbox: (viewfinderWidth, viewfinderHeight) => {
+            const minEdge = Math.min(viewfinderWidth, viewfinderHeight);
+            // Makes the qrbox 80% of the smaller edge of the viewfinder.
+            const qrboxSize = Math.floor(minEdge * 0.8);
+            return {
+              width: qrboxSize,
+              height: qrboxSize,
+            };
+          },
         },
         (decodedText) => {
           handleStopScan();
@@ -103,7 +110,7 @@ export default function QRCodes() {
       setScannerState("idle");
     }
   };
-  
+
   const handleCloseSnackbar = () => {
     setSnackbar(null);
   };
@@ -113,6 +120,19 @@ export default function QRCodes() {
       <Typography variant="h4" gutterBottom>
         Scan QR Code
       </Typography>
+      <Alert severity="info" sx={{ mb: 2 }}>
+        <Typography variant="h6" component="h3" sx={{ mb: 1 }}>
+          How it works
+        </Typography>
+        <Typography component="div" variant="body2">
+          Earn points by scanning the QR codes you find along the mountain
+          trails. Each unique scan will bring you closer to unlocking rewards.
+          <br />
+          <br />
+          Just press <strong>Start Scan</strong> and point your camera at a
+          code!
+        </Typography>
+      </Alert>
       <Paper
         variant="outlined"
         sx={{
@@ -134,10 +154,21 @@ export default function QRCodes() {
           sx={{
             width: "100%",
             minHeight: "300px",
-            border: "1px dashed",
-            borderColor: "divider",
+            background: "#f0f0f0",
             borderRadius: 1,
+            overflow: "hidden",
+            position: "relative",
             display: scannerState !== "scanning" ? "none" : "block",
+            "& video": {
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            },
+            "& #qr-reader__scan_region": {
+              borderRadius: "8px",
+              border: "4px solid rgba(255, 255, 255, 0.5) !important",
+              boxShadow: "0 0 0 4000px rgba(0, 0, 0, 0.3)",
+            },
           }}
         />
 
@@ -159,8 +190,8 @@ export default function QRCodes() {
 
         {scannerState === "error" && (
           <Alert severity="error">
-            Failed to start the camera. Please ensure you have given the necessary
-            permissions and try again.
+            Failed to start the camera. Please ensure you have given the
+            necessary permissions and try again.
           </Alert>
         )}
 

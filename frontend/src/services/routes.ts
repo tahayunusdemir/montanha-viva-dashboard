@@ -1,9 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import apiClient from "@/lib/axios";
-import {
-  Route,
-  RoutePayload,
-} from "@/types";
+import { Route, RoutePayload } from "@/types";
 
 // Helper to create FormData from route payload
 const createRouteFormData = (payload: RoutePayload): FormData => {
@@ -16,7 +13,7 @@ const createRouteFormData = (payload: RoutePayload): FormData => {
       if (value instanceof FileList && value.length > 0) {
         formData.append(key, value[0]);
       } else if (value instanceof File) {
-         formData.append(key, value);
+        formData.append(key, value);
       }
     } else if (value !== null && value !== undefined) {
       formData.append(key, value.toString());
@@ -50,12 +47,11 @@ export const usePublicRoutes = (params: FetchRoutesParams) => {
   });
 };
 
-
 // =================================================================================
 // ADMIN Routes API
 // =================================================================================
 
-const ADMIN_ROUTES_ENDPOINT = "/routes/admin/routes/";
+const ADMIN_ROUTES_ENDPOINT = "/admin/routes/";
 
 const fetchAdminRoutes = async (
   params: FetchRoutesParams,
@@ -71,7 +67,6 @@ export const useRoutes = (params: FetchRoutesParams) => {
   return useQuery<Route[], Error>({
     queryKey: ["adminRoutes", params],
     queryFn: () => fetchAdminRoutes(params),
-
   });
 };
 
@@ -101,9 +96,13 @@ const updateRoute = async ({
   payload: RoutePayload;
 }): Promise<Route> => {
   const formData = createRouteFormData(payload);
-  const { data } = await apiClient.put(`${ADMIN_ROUTES_ENDPOINT}${id}/`, formData, {
-    headers: { "Content-Type": "multipart/form-data" },
-  });
+  const { data } = await apiClient.put(
+    `${ADMIN_ROUTES_ENDPOINT}${id}/`,
+    formData,
+    {
+      headers: { "Content-Type": "multipart/form-data" },
+    },
+  );
   return data;
 };
 

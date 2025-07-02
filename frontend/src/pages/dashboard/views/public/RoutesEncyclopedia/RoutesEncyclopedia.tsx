@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import {
   Typography,
   Grid,
@@ -10,12 +10,12 @@ import {
   Select,
   MenuItem,
   FormControl,
-  InputLabel,
+  FormLabel,
   SelectChangeEvent,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import PageLayout from "@/pages/dashboard/components/PageLayout";
-import { useRoutes } from "@/services/routes";
+import { usePublicRoutes } from "@/services/routes";
 import { Route } from "@/types";
 import RouteCard from "./components/RouteCard";
 import RouteDetailModal from "./components/RouteDetailModal";
@@ -26,7 +26,7 @@ export default function RoutesEncyclopedia() {
   const [selectedRoute, setSelectedRoute] = useState<Route | null>(null);
   const [isModalOpen, setModalOpen] = useState(false);
 
-  const { data: routes, isLoading, isError, error } = useRoutes({
+  const { data: routes, isLoading, isError, error } = usePublicRoutes({
     search: searchTerm,
     difficulty: difficultyFilter === "All" ? undefined : difficultyFilter,
   });
@@ -65,29 +65,52 @@ export default function RoutesEncyclopedia() {
           flexWrap: "wrap",
         }}
       >
-        <TextField
-          variant="outlined"
-          placeholder="Search routes..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          sx={{ minWidth: 300 }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          }}
-        />
-        <FormControl sx={{ minWidth: 150 }}>
-          <InputLabel id="difficulty-filter-label">Difficulty</InputLabel>
-          <Select
-            labelId="difficulty-filter-label"
-            value={difficultyFilter}
-            label="Difficulty"
-            onChange={handleDifficultyChange}
+        <FormControl sx={{ minWidth: 300 }}>
+          <FormLabel
+            id="search-routes-label"
+            sx={{
+              mb: 1,
+              fontWeight: 500,
+              color: "text.primary",
+              fontSize: "1rem",
+            }}
           >
-            <MenuItem value="All">All</MenuItem>
+            Search
+          </FormLabel>
+          <TextField
+            variant="outlined"
+            placeholder="Search routes..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+          />
+        </FormControl>
+        <FormControl sx={{ minWidth: 200 }}>
+          <FormLabel
+            id="difficulty-filter-label"
+            sx={{
+              mb: 1,
+              fontWeight: 500,
+              color: "text.primary",
+              fontSize: "1rem",
+            }}
+          >
+            Filter by Difficulty
+          </FormLabel>
+          <Select
+            aria-labelledby="difficulty-filter-label"
+            value={difficultyFilter}
+            onChange={handleDifficultyChange}
+            displayEmpty
+            sx={{ backgroundColor: "background.paper" }}
+          >
+            <MenuItem value="All">All Difficulties</MenuItem>
             <MenuItem value="Easy">Easy</MenuItem>
             <MenuItem value="Medium">Medium</MenuItem>
             <MenuItem value="Hard">Hard</MenuItem>

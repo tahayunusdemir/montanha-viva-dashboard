@@ -9,6 +9,8 @@ import {
   Grid,
   Snackbar,
   Alert,
+  FormControl,
+  FormLabel,
 } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import { useCreateQRCode, QRCodeCreatePayload } from "@/services/qr";
@@ -80,56 +82,68 @@ export default function AddQRCodeModal({ open, onClose }: AddQRCodeModalProps) {
           <DialogContent>
             <Grid container spacing={2} sx={{ mt: 1 }}>
               <Grid size={12}>
-                <Controller
-                  name="name"
-                  control={control}
-                  rules={{ required: "Name is required" }}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="QR Code Name"
-                      fullWidth
-                      error={!!errors.name}
-                      helperText={errors.name?.message}
-                    />
-                  )}
-                />
+                <FormControl fullWidth error={!!errors.name} sx={{ mb: 2 }}>
+                  <FormLabel>QR Code Name</FormLabel>
+                  <Controller
+                    name="name"
+                    control={control}
+                    rules={{ required: "Name is required" }}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        fullWidth
+                        error={!!errors.name}
+                        helperText={errors.name?.message}
+                        variant="outlined"
+                        size="small"
+                      />
+                    )}
+                  />
+                </FormControl>
               </Grid>
               <Grid size={12}>
-                <Controller
-                  name="text_content"
-                  control={control}
-                  rules={{ required: "Text or URL is required" }}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="Text or URL for QR Code"
-                      fullWidth
-                      error={!!errors.text_content}
-                      helperText={errors.text_content?.message}
-                    />
-                  )}
-                />
+                <FormControl fullWidth error={!!errors.text_content} sx={{ mb: 2 }}>
+                  <FormLabel>Text or URL for QR Code</FormLabel>
+                  <Controller
+                    name="text_content"
+                    control={control}
+                    rules={{ required: "Text or URL is required" }}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        fullWidth
+                        error={!!errors.text_content}
+                        helperText={errors.text_content?.message}
+                        variant="outlined"
+                        size="small"
+                      />
+                    )}
+                  />
+                </FormControl>
               </Grid>
               <Grid size={12}>
-                <Controller
-                  name="points"
-                  control={control}
-                  rules={{
-                    required: "Points are required",
-                    min: { value: 1, message: "Points must be positive" },
-                  }}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="Points"
-                      type="number"
-                      fullWidth
-                      error={!!errors.points}
-                      helperText={errors.points?.message}
-                    />
-                  )}
-                />
+                <FormControl fullWidth error={!!errors.points} sx={{ mb: 2 }}>
+                  <FormLabel>Points</FormLabel>
+                  <Controller
+                    name="points"
+                    control={control}
+                    rules={{
+                      required: "Points are required",
+                      min: { value: 1, message: "Points must be positive" },
+                    }}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        type="number"
+                        fullWidth
+                        error={!!errors.points}
+                        helperText={errors.points?.message}
+                        variant="outlined"
+                        size="small"
+                      />
+                    )}
+                  />
+                </FormControl>
               </Grid>
             </Grid>
           </DialogContent>
@@ -164,4 +178,4 @@ export default function AddQRCodeModal({ open, onClose }: AddQRCodeModalProps) {
       )}
     </>
   );
-} 
+}

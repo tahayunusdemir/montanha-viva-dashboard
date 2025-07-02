@@ -6,8 +6,6 @@ import Drawer, { drawerClasses } from "@mui/material/Drawer";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
-import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
-import MenuButton from "./MenuButton";
 import MenuContent from "./MenuContent";
 import ThemeToggleButton from "@/components/ThemeToggleButton";
 import { useAuthStore } from "@/store/authStore";
@@ -65,9 +63,6 @@ export default function SideMenuMobile({
               {user?.first_name} {user?.last_name}
             </Typography>
           </Stack>
-          <MenuButton showBadge>
-            <NotificationsRoundedIcon />
-          </MenuButton>
           <ThemeToggleButton />
         </Stack>
         <Divider />

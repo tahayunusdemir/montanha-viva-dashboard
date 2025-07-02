@@ -49,6 +49,15 @@ const DetailItem = ({
 );
 
 export default function ViewRouteDetails({ route }: ViewRouteDetailsProps) {
+  const pointsOfInterestArray =
+    typeof route.points_of_interest === "string" && route.points_of_interest
+      ? route.points_of_interest.split(",").map((poi, index) => ({
+          id: index,
+          name: poi.trim(),
+          description: "",
+        }))
+      : [];
+
   return (
     <Paper variant="outlined" sx={{ p: 3 }}>
       <Typography variant="h5" gutterBottom>
@@ -94,13 +103,6 @@ export default function ViewRouteDetails({ route }: ViewRouteDetailsProps) {
         {route.description}
       </Typography>
 
-      <Typography variant="h6" sx={{ mt: 2 }}>
-        Fauna Interaction
-      </Typography>
-      <Typography variant="body1" paragraph>
-        {route.interaction_fauna}
-      </Typography>
-
       <Divider sx={{ my: 2 }} />
 
       <Typography variant="h6" gutterBottom>
@@ -137,21 +139,21 @@ export default function ViewRouteDetails({ route }: ViewRouteDetailsProps) {
           primary="Start GPS"
           secondary={route.start_point_gps}
         />
-         <DetailItem
+        <DetailItem
           icon={<InfoIcon color="action" />}
           primary="GPX File"
           secondary={route.gpx_file}
         />
       </Grid>
 
-      {route.points_of_interest.length > 0 && (
+      {pointsOfInterestArray.length > 0 && (
         <>
           <Divider sx={{ my: 2 }} />
           <Typography variant="h6" gutterBottom>
             Points of Interest
           </Typography>
           <List dense>
-            {route.points_of_interest.map((poi) => (
+            {pointsOfInterestArray.map((poi) => (
               <ListItem key={poi.id}>
                 <ListItemIcon>
                   <PlaceIcon />

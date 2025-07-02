@@ -162,6 +162,10 @@ export default function Profile() {
           <Typography variant="h4" gutterBottom>
             Profile Management
           </Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+            Use this page to manage your personal details, update your password,
+            and configure account settings. Navigate using the tabs below.
+          </Typography>
           <Card>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <FormControl component="fieldset" sx={{ pl: 3, width: "100%" }}>

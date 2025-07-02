@@ -62,9 +62,18 @@ export default function RouteDetailModal({
 }: RouteDetailModalProps) {
   if (!route) return null;
 
-  const handleDownloadGpx = () => {
-    if (route.gpx_file) {
-      window.open(route.gpx_file, "_blank");
+  const pointsOfInterestArray =
+    typeof route.points_of_interest === "string" && route.points_of_interest
+      ? route.points_of_interest.split(",").map((poi, index) => ({
+          id: index,
+          name: poi.trim(),
+          description: "", // The model only provides a name
+        }))
+      : [];
+
+  const handleDownloadMap = () => {
+    if (route.image_map) {
+      window.open(route.image_map, "_blank");
     }
   };
 
@@ -96,7 +105,7 @@ export default function RouteDetailModal({
                 width: "100%",
                 borderRadius: 1,
                 objectFit: "cover",
-                aspectRatio: "16/9",
+                aspectRatio: "4/3",
                 maxHeight: "500px"
               }}
             />
@@ -136,22 +145,17 @@ export default function RouteDetailModal({
                 primary="Route Type"
                 secondary={route.route_type}
               />
-               <DetailItem
-                icon={<PetsIcon />}
-                primary="Fauna Interaction"
-                secondary={route.interaction_fauna}
-              />
             </Grid>
           </Grid>
 
-          {route.points_of_interest.length > 0 && (
+          {pointsOfInterestArray.length > 0 && (
             <Grid size={12}>
               <Divider sx={{ my: 1 }} />
               <Typography variant="h6" gutterBottom>
                 Points of Interest
               </Typography>
               <List dense>
-                {route.points_of_interest.map((poi) => (
+                {pointsOfInterestArray.map((poi) => (
                   <ListItem key={poi.id}>
                     <ListItemIcon>
                       <PlaceIcon />
@@ -171,10 +175,10 @@ export default function RouteDetailModal({
         <Button
           variant="outlined"
           startIcon={<DownloadIcon />}
-          onClick={handleDownloadGpx}
-          disabled={!route.gpx_file}
+          onClick={handleDownloadMap}
+          disabled={!route.image_map}
         >
-          Download GPX
+          Download Map
         </Button>
         <Button onClick={onClose}>Close</Button>
       </DialogActions>

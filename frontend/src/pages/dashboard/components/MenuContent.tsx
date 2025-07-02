@@ -15,13 +15,11 @@ import QrCodeScannerRoundedIcon from "@mui/icons-material/QrCodeScannerRounded";
 import SensorsRoundedIcon from "@mui/icons-material/SensorsRounded";
 import EmojiEventsRoundedIcon from "@mui/icons-material/EmojiEventsRounded";
 import FeedbackRoundedIcon from "@mui/icons-material/FeedbackRounded";
-import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import PeopleRoundedIcon from "@mui/icons-material/PeopleRounded";
 import RouterRoundedIcon from "@mui/icons-material/RouterRounded";
 import RouteRoundedIcon from "@mui/icons-material/RouteRounded";
 import QrCode2RoundedIcon from "@mui/icons-material/QrCode2Rounded";
-import MessageRoundedIcon from "@mui/icons-material/MessageRounded";
 import RateReviewRoundedIcon from "@mui/icons-material/RateReviewRounded";
 import { Divider } from "@mui/material";
 import { useAuthStore } from "@/store/authStore";
@@ -83,11 +81,6 @@ const adminListItems = [
     icon: <QrCode2RoundedIcon />,
   },
   {
-    path: "/dashboard/admin/notification-management",
-    text: "Notification Management",
-    icon: <MessageRoundedIcon />,
-  },
-  {
     path: "/dashboard/admin/feedback-management",
     text: "Feedback Management",
     icon: <RateReviewRoundedIcon />,
@@ -110,11 +103,6 @@ const secondaryListItems = [
     path: "/dashboard/send-feedback",
     text: "Send Feedback",
     icon: <FeedbackRoundedIcon />,
-  },
-  {
-    path: "/dashboard/notification-history",
-    text: "Notification History",
-    icon: <NotificationsRoundedIcon />,
   },
 ];
 

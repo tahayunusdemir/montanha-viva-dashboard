@@ -109,6 +109,10 @@ export default function SendFeedback() {
       <Typography variant="h4" sx={{ mb: 2 }}>
         Send Feedback
       </Typography>
+      <Typography variant="body1" sx={{ mb: 3, maxWidth: 600, mx: "auto" }}>
+        We value your feedback. Please fill out the form below to share your
+        thoughts, report a bug, or suggest a new feature.
+      </Typography>
       {createFeedbackMutation.isSuccess && (
         <Alert severity="success" sx={{ mb: 2, maxWidth: 600, mx: "auto" }}>
           Your feedback has been successfully submitted!
@@ -159,7 +163,7 @@ export default function SendFeedback() {
             <TextField
               id="standard-multiline-static"
               multiline
-              rows={4}
+              rows={2}
               variant="outlined"
               fullWidth
               value={message}

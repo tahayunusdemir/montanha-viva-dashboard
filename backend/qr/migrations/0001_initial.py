@@ -15,38 +15,98 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='QRCode',
+            name="QRCode",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(help_text='QR Kodun adı (örn: Ana Giriş QR)', max_length=255)),
-                ('text_content', models.CharField(help_text='QR kodun içerdiği metin veya URL', max_length=500, unique=True)),
-                ('points', models.PositiveIntegerField(default=10, help_text='Bu QR kod okutulduğunda kazanılacak puan')),
-                ('qr_image', models.ImageField(blank=True, upload_to='qr_codes/')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        help_text="QR Kodun adı (örn: Ana Giriş QR)", max_length=255
+                    ),
+                ),
+                (
+                    "text_content",
+                    models.CharField(
+                        help_text="QR kodun içerdiği metin veya URL",
+                        max_length=500,
+                        unique=True,
+                    ),
+                ),
+                (
+                    "points",
+                    models.PositiveIntegerField(
+                        default=10, help_text="Bu QR kod okutulduğunda kazanılacak puan"
+                    ),
+                ),
+                ("qr_image", models.ImageField(blank=True, upload_to="qr_codes/")),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
             ],
         ),
         migrations.CreateModel(
-            name='DiscountCoupon',
+            name="DiscountCoupon",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('code', models.CharField(max_length=50, unique=True)),
-                ('points_spent', models.PositiveIntegerField(default=100)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('expires_at', models.DateTimeField()),
-                ('is_used', models.BooleanField(default=False)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='coupons', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("code", models.CharField(max_length=50, unique=True)),
+                ("points_spent", models.PositiveIntegerField(default=100)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("expires_at", models.DateTimeField()),
+                ("is_used", models.BooleanField(default=False)),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="coupons",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='UserScannedQR',
+            name="UserScannedQR",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('scanned_at', models.DateTimeField(auto_now_add=True)),
-                ('qr_code', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='qr.qrcode')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='scanned_qrs', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("scanned_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "qr_code",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="qr.qrcode"
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="scanned_qrs",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
-                'unique_together': {('user', 'qr_code')},
+                "unique_together": {("user", "qr_code")},
             },
         ),
     ]

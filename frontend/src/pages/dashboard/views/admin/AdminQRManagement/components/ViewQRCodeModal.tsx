@@ -97,4 +97,4 @@ export default function ViewQRCodeModal({
       </DialogActions>
     </Dialog>
   );
-} 
+}

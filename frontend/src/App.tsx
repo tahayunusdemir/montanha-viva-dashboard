@@ -19,14 +19,12 @@ import QRCodes from "./pages/dashboard/views/public/QRCodes/QRCodes";
 import SensorData from "./pages/dashboard/views/public/SensorData/SensorData";
 import PointsAndRewards from "./pages/dashboard/views/public/PointsAndRewards/PointsAndRewards";
 import SendFeedback from "./pages/dashboard/views/public/SendFeedback/SendFeedback";
-import NotificationHistory from "./pages/dashboard/views/public/NotificationHistory/NotificationHistory";
 import Profile from "./pages/dashboard/views/public/Profile/Profile";
 import RoutesEncyclopedia from "./pages/dashboard/views/public/RoutesEncyclopedia/RoutesEncyclopedia";
 import FloraEncyclopedia from "./pages/dashboard/views/public/FloraEncyclopedia/FloraEncyclopedia";
 import AdminUserManagement from "./pages/dashboard/views/admin/AdminUserManagement/AdminUserManagement";
 import AdminStationManagament from "./pages/dashboard/views/admin/AdminStationManagament/AdminStationManagament";
 import AdminQRManagement from "./pages/dashboard/views/admin/AdminQRManagement/AdminQRManagement";
-import AdminNotificationManagement from "./pages/dashboard/views/admin/AdminNotificationManagement/AdminNotificationManagement";
 import AdminFeedbackManagement from "./pages/dashboard/views/admin/AdminFeedbackManagement/AdminFeedbackManagement";
 import AdminRoutesManagement from "./pages/dashboard/views/admin/AdminRoutesManagement/AdminRoutesManagement";
 import AdminWikiManagement from "./pages/dashboard/views/admin/AdminWikiManagement/AdminWikiManagement";
@@ -55,10 +53,6 @@ function App() {
             <Route path="sensor-data" element={<SensorData />} />
             <Route path="points-and-rewards" element={<PointsAndRewards />} />
             <Route path="send-feedback" element={<SendFeedback />} />
-            <Route
-              path="notification-history"
-              element={<NotificationHistory />}
-            />
             <Route path="profile" element={<Profile />} />
 
             {/* Admin-only routes */}
@@ -74,10 +68,6 @@ function App() {
               <Route
                 path="admin/qr-management"
                 element={<AdminQRManagement />}
-              />
-              <Route
-                path="admin/notification-management"
-                element={<AdminNotificationManagement />}
               />
               <Route
                 path="admin/feedback-management"

@@ -76,7 +76,7 @@ export default function PointsAndRewards() {
       },
     });
   };
-  
+
   const handleCloseSnackbar = () => {
     setSnackbar(null);
   };
@@ -106,6 +106,10 @@ export default function PointsAndRewards() {
     <PageLayout>
       <Typography variant="h4" gutterBottom>
         Points & Rewards
+      </Typography>
+      <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
+        Track your points, view your scan history, and redeem your points for
+        exclusive coupons.
       </Typography>
 
       <Grid container spacing={3}>
@@ -157,7 +161,11 @@ export default function PointsAndRewards() {
                   iconPosition="start"
                   label="Scan History"
                 />
-                <Tab icon={<Receipt />} iconPosition="start" label="My Coupons" />
+                <Tab
+                  icon={<Receipt />}
+                  iconPosition="start"
+                  label="My Coupons"
+                />
               </Tabs>
             </Box>
             <TabPanel value={tabIndex} index={0}>

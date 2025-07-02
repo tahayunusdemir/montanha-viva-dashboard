@@ -3,23 +3,26 @@
 ## 🌐 Genel Bakış
 
 ### 🎯 Hedef
+
 Bu döküman, proje için QR kod tabanlı bir oyunlaştırma ve ödül sistemi oluşturmak amacıyla gereken tam yığın (full-stack) teknik planı detaylandırmaktadır. Sistem, adminlerin puan değerli QR kodlar oluşturmasını, kullanıcıların ise bu kodları okutarak puan kazanmasını ve kazandıkları puanları ödüllere dönüştürmesini sağlayacaktır.
 
--   **Admin Kullanıcıları (`/admin/qr-management`):** Puan değerli QR kodları oluşturabilir, yönetebilir, görüntüleyebilir ve silebilir.
--   **Normal Kullanıcılar (`/qrcodes`):** Mobil cihazlarının kamerasıyla QR kodları okutarak puan kazanır.
--   **Ödül Sayfası (`/points-and-rewards`):** Kullanıcılar puanlarını, kazandıkları geçmiş ödülleri görüntüler ve yeterli puana ulaştıklarında indirim kuponu gibi ödüller oluşturabilir.
+- **Admin Kullanıcıları (`/admin/qr-management`):** Puan değerli QR kodları oluşturabilir, yönetebilir, görüntüleyebilir ve silebilir.
+- **Normal Kullanıcılar (`/qrcodes`):** Mobil cihazlarının kamerasıyla QR kodları okutarak puan kazanır.
+- **Ödül Sayfası (`/points-and-rewards`):** Kullanıcılar puanlarını, kazandıkları geçmiş ödülleri görüntüler ve yeterli puana ulaştıklarında indirim kuponu gibi ödüller oluşturabilir.
 
 ---
+
 ## 🛠️ Teknolojiler
 
-| Katman | Teknoloji | Açıklama |
-| :--- | :--- | :--- |
-| **Frontend** | React, TypeScript, MUI, TanStack Query, **react-qr-reader** | Yönetim ve kullanıcı arayüzlerini oluşturmak, QR kod okutmak için. |
-| **Backend** | Django, Django REST Framework, **qrcode**, Pillow | QR kodları oluşturmak, doğrulamak ve puan sistemini yönetmek için. |
-| **Veritabanı** | PostgreSQL | QR kodları, kullanıcı puanları ve taranan kodların verilerini depolamak için. |
-| **Kimlik Doğrulama** | JWT (Simple JWT) | Admin yetkilendirmesi ve kullanıcı oturumları için. |
+| Katman               | Teknoloji                                                   | Açıklama                                                                      |
+| :------------------- | :---------------------------------------------------------- | :---------------------------------------------------------------------------- |
+| **Frontend**         | React, TypeScript, MUI, TanStack Query, **react-qr-reader** | Yönetim ve kullanıcı arayüzlerini oluşturmak, QR kod okutmak için.            |
+| **Backend**          | Django, Django REST Framework, **qrcode**, Pillow           | QR kodları oluşturmak, doğrulamak ve puan sistemini yönetmek için.            |
+| **Veritabanı**       | PostgreSQL                                                  | QR kodları, kullanıcı puanları ve taranan kodların verilerini depolamak için. |
+| **Kimlik Doğrulama** | JWT (Simple JWT)                                            | Admin yetkilendirmesi ve kullanıcı oturumları için.                           |
 
 ---
+
 ## 🏗️ Backend Mimarisi (Django)
 
 Yeni bir `qr` Django app'i oluşturularak tüm backend mantığı bu uygulama içinde merkezileştirilecektir.
@@ -27,6 +30,7 @@ Yeni bir `qr` Django app'i oluşturularak tüm backend mantığı bu uygulama i�
 ### 🔢 Modeller
 
 #### `qr/models.py`
+
 Sistemin temel veri yapılarını içerir.
 
 ```python
@@ -81,6 +85,7 @@ class DiscountCoupon(models.Model):
 ```
 
 #### `users/models.py`
+
 Kullanıcı modelinde `points` alanı zaten mevcut ve bu sistemde aktif olarak kullanılacaktır.
 
 ```python
@@ -93,6 +98,7 @@ class CustomUser(AbstractUser):
 ```
 
 ### 📦 Serializer'lar (`qr/serializers.py`)
+
 ```python
 # qr/serializers.py
 from rest_framework import serializers
@@ -227,23 +233,37 @@ urlpatterns = [
 ## 🧩 Frontend Mimarisi (React)
 
 ### 1. Servis Katmanı (`src/services/qr.ts`)
+
 ```typescript
 // src/services/qr.ts
-import axios from '@/lib/axios';
-import { QRCode, RewardsData, DiscountCoupon } from '@/types/qr';
+import axios from "@/lib/axios";
+import { QRCode, RewardsData, DiscountCoupon } from "@/types/qr";
 
 // Admin
-export const getQRCodes = (): Promise<QRCode[]> => axios.get('/api/qr/qrcodes/').then(res => res.data);
-export const createQRCode = (data: { name: string; text_content: string; points: number }): Promise<QRCode> => axios.post('/api/qr/qrcodes/', data).then(res => res.data);
-export const deleteQRCode = (id: number): Promise<void> => axios.delete(`/api/qr/qrcodes/${id}/`);
+export const getQRCodes = (): Promise<QRCode[]> =>
+  axios.get("/api/qr/qrcodes/").then((res) => res.data);
+export const createQRCode = (data: {
+  name: string;
+  text_content: string;
+  points: number;
+}): Promise<QRCode> =>
+  axios.post("/api/qr/qrcodes/", data).then((res) => res.data);
+export const deleteQRCode = (id: number): Promise<void> =>
+  axios.delete(`/api/qr/qrcodes/${id}/`);
 
 // User
-export const scanQRCode = (text_content: string): Promise<{ message: string; new_total_points: number }> => axios.post('/api/qr/scan/', { text_content }).then(res => res.data);
-export const getRewardsData = (): Promise<RewardsData> => axios.get('/api/qr/rewards/').then(res => res.data);
-export const generateCoupon = (): Promise<DiscountCoupon> => axios.post('/api/qr/generate-coupon/').then(res => res.data);
+export const scanQRCode = (
+  text_content: string,
+): Promise<{ message: string; new_total_points: number }> =>
+  axios.post("/api/qr/scan/", { text_content }).then((res) => res.data);
+export const getRewardsData = (): Promise<RewardsData> =>
+  axios.get("/api/qr/rewards/").then((res) => res.data);
+export const generateCoupon = (): Promise<DiscountCoupon> =>
+  axios.post("/api/qr/generate-coupon/").then((res) => res.data);
 ```
 
 ### 2. Tip Tanımları (`src/types/qr.ts`)
+
 ```typescript
 // src/types/qr.ts
 export interface QRCode {
@@ -278,6 +298,7 @@ export interface RewardsData {
 ```
 
 ### 3. Global Durum Yönetimi (`src/store/authStore.ts`)
+
 Kullanıcının puanını global olarak saklamak için `authStore` güncellenmelidir. `getMe` isteği sonrası dönen `user` objesindeki `points` değeri `authStore`'a yazılmalıdır. QR okutma sonrası da puan güncellenmelidir.
 
 ```typescript
@@ -299,70 +320,75 @@ export const useAuthStore = create<AuthState>()(
     (set) => ({
       // ...
       setUser: (user) => set({ user }),
-      updatePoints: (newPoints) => set((state) => ({
-        user: state.user ? { ...state.user, points: newPoints } : null,
-      })),
+      updatePoints: (newPoints) =>
+        set((state) => ({
+          user: state.user ? { ...state.user, points: newPoints } : null,
+        })),
       // ...
     }),
-    { name: 'auth-storage' }
-  )
+    { name: "auth-storage" },
+  ),
 );
 ```
 
 ### 4. Admin Paneli (`AdminQRManagement.tsx`)
--   `AdminTemplate` bileşeni kullanılarak QR kodları listelenir.
--   **Tablo Sütunları:** ID, İsim, Puan, Oluşturulma Tarihi, Aksiyonlar (Detay/İndir, Sil).
--   **Ekleme Modalı (`AddQRCodeModal`):** `name`, `text_content`, `points` alanları için `react-hook-form` ile bir form içerir.
--   **Detay Modalı (`ViewQRCodeModal`):** Bir satırdaki "Detay" butonuna tıklandığında açılır, QR kodunun görselini ve indirme linkini gösterir.
+
+- `AdminTemplate` bileşeni kullanılarak QR kodları listelenir.
+- **Tablo Sütunları:** ID, İsim, Puan, Oluşturulma Tarihi, Aksiyonlar (Detay/İndir, Sil).
+- **Ekleme Modalı (`AddQRCodeModal`):** `name`, `text_content`, `points` alanları için `react-hook-form` ile bir form içerir.
+- **Detay Modalı (`ViewQRCodeModal`):** Bir satırdaki "Detay" butonuna tıklandığında açılır, QR kodunun görselini ve indirme linkini gösterir.
 
 ### 5. Kullanıcı QR Okutma Sayfası (`QRCodes.tsx`)
--   **Kütüphane:** `react-qr-reader` veya benzeri bir kütüphane kullanılır.
--   **Mantık:**
-    1.  Sayfa yüklendiğinde kamera izni istenir.
-    2.  Kullanıcı QR kodu kameraya gösterdiğinde, `onResult` fonksiyonu tetiklenir.
-    3.  `scanQRCode` servisi çağrılır.
-    4.  Başarılı olursa, `Snackbar` ile başarı mesajı gösterilir ve global `authStore`'daki puan `updatePoints` ile güncellenir.
-    5.  Hata olursa, `Snackbar` ile hata mesajı gösterilir.
+
+- **Kütüphane:** `react-qr-reader` veya benzeri bir kütüphane kullanılır.
+- **Mantık:**
+  1.  Sayfa yüklendiğinde kamera izni istenir.
+  2.  Kullanıcı QR kodu kameraya gösterdiğinde, `onResult` fonksiyonu tetiklenir.
+  3.  `scanQRCode` servisi çağrılır.
+  4.  Başarılı olursa, `Snackbar` ile başarı mesajı gösterilir ve global `authStore`'daki puan `updatePoints` ile güncellenir.
+  5.  Hata olursa, `Snackbar` ile hata mesajı gösterilir.
 
 ### 6. Puan ve Ödül Sayfası (`PointsAndRewards.tsx`)
--   **Veri Çekme:** `useQuery(['rewards'], qrService.getRewardsData)` ile kullanıcının tüm ödül verileri çekilir.
--   **Gösterim:**
-    -   En üstte büyük bir kart içinde kullanıcının mevcut puanı (`rewardsData.points`) gösterilir.
-    -   "İndirim Kuponu Oluştur" butonu bulunur. `rewardsData.points < 100` ise `disabled` olur.
-    -   Butona tıklandığında `generateCoupon` mutasyonu çalışır, başarılı olursa `rewards` query'si `invalidate` edilir.
-    -   İki ayrı sekme veya liste halinde "Geçmiş İşlemler" (okutulan QR'lar) ve "Kuponlarım" gösterilir.
+
+- **Veri Çekme:** `useQuery(['rewards'], qrService.getRewardsData)` ile kullanıcının tüm ödül verileri çekilir.
+- **Gösterim:**
+  - En üstte büyük bir kart içinde kullanıcının mevcut puanı (`rewardsData.points`) gösterilir.
+  - "İndirim Kuponu Oluştur" butonu bulunur. `rewardsData.points < 100` ise `disabled` olur.
+  - Butona tıklandığında `generateCoupon` mutasyonu çalışır, başarılı olursa `rewards` query'si `invalidate` edilir.
+  - İki ayrı sekme veya liste halinde "Geçmiş İşlemler" (okutulan QR'lar) ve "Kuponlarım" gösterilir.
 
 ---
 
 ## ✅ Detaylı Görev Listesi
 
 ### Backend (`qr` app)
--   [ ] Yeni `qr` app oluştur: `python manage.py startapp qr`.
--   [ ] `qr`'ı `INSTALLED_APPS`'e ekle.
--   [ ] `qrcode` ve `Pillow` kütüphanelerini `requirements.txt`'ye ekle: `pip install qrcode[pil] Pillow`.
--   [ ] `qr/models.py`: `QRCode`, `UserScannedQR`, `DiscountCoupon` modellerini oluştur.
--   [ ] Migration oluştur ve uygula: `makemigrations qr` & `migrate`.
--   [ ] `qr/serializers.py`: Gerekli serializer'ları oluştur.
--   [ ] `qr/views.py`: `QRCodeViewSet`, `ScanQRCodeAPIView`, `RewardsAPIView`, `GenerateCouponAPIView`'ları oluştur.
--   [ ] `qr/urls.py`: View'ler için URL'leri yapılandır ve `core/urls.py`'e `path("api/qr/", include("qr.urls"))` olarak dahil et.
--   [ ] `qr/admin.py`: Modelleri Django admin paneline kaydet.
+
+- [ ] Yeni `qr` app oluştur: `python manage.py startapp qr`.
+- [ ] `qr`'ı `INSTALLED_APPS`'e ekle.
+- [ ] `qrcode` ve `Pillow` kütüphanelerini `requirements.txt`'ye ekle: `pip install qrcode[pil] Pillow`.
+- [ ] `qr/models.py`: `QRCode`, `UserScannedQR`, `DiscountCoupon` modellerini oluştur.
+- [ ] Migration oluştur ve uygula: `makemigrations qr` & `migrate`.
+- [ ] `qr/serializers.py`: Gerekli serializer'ları oluştur.
+- [ ] `qr/views.py`: `QRCodeViewSet`, `ScanQRCodeAPIView`, `RewardsAPIView`, `GenerateCouponAPIView`'ları oluştur.
+- [ ] `qr/urls.py`: View'ler için URL'leri yapılandır ve `core/urls.py`'e `path("api/qr/", include("qr.urls"))` olarak dahil et.
+- [ ] `qr/admin.py`: Modelleri Django admin paneline kaydet.
 
 ### Frontend
--   [ ] **Servis Katmanı (`src/services/qr.ts`):**
-    -   [ ] Admin ve kullanıcı için gerekli API fonksiyonlarını oluştur.
--   [ ] **Tip Tanımları (`src/types/qr.ts`):**
-    -   [ ] `QRCode`, `UserScannedQR`, `DiscountCoupon`, `RewardsData` interfacelerini oluştur.
--   [ ] **Global State (`src/store/authStore.ts`):**
-    -   [ ] `user` objesine `points` ekle ve `updatePoints` action'ını tanımla.
-    -   [ ] Login ve `getMe` sonrası puanın store'a yazıldığından emin ol.
--   [ ] **Navigasyon ve UI:**
-    -   [ ] `AppNavbar.tsx` içinde kullanıcının puanını göster. Tıklanınca `/points-and-rewards` sayfasına yönlendir.
--   [ ] **Admin Paneli (`AdminQRManagement.tsx`):**
-    -   [ ] `AdminTemplate` kullanarak tabloyu ve temel aksiyonları ayarla.
-    -   [ ] `AddQRCodeModal.tsx` ve `ViewQRCodeModal.tsx` bileşenlerini oluştur.
-    -   [ ] `create`, `delete` mutasyonlarını bağla.
--   [ ] **Kullanıcı Sayfaları:**
-    -   [ ] `QRCodes.tsx` sayfasına `react-qr-reader` ekle ve tarama mantığını kur.
-    -   [ ] `PointsAndRewards.tsx` sayfasını `useQuery` ve `useMutation` kullanarak oluştur.
-        -   [ ] Puan gösterimini, kupon oluşturma butonunu ve geçmiş işlem listelerini implemente et.
 
+- [ ] **Servis Katmanı (`src/services/qr.ts`):**
+  - [ ] Admin ve kullanıcı için gerekli API fonksiyonlarını oluştur.
+- [ ] **Tip Tanımları (`src/types/qr.ts`):**
+  - [ ] `QRCode`, `UserScannedQR`, `DiscountCoupon`, `RewardsData` interfacelerini oluştur.
+- [ ] **Global State (`src/store/authStore.ts`):**
+  - [ ] `user` objesine `points` ekle ve `updatePoints` action'ını tanımla.
+  - [ ] Login ve `getMe` sonrası puanın store'a yazıldığından emin ol.
+- [ ] **Navigasyon ve UI:**
+  - [ ] `AppNavbar.tsx` içinde kullanıcının puanını göster. Tıklanınca `/points-and-rewards` sayfasına yönlendir.
+- [ ] **Admin Paneli (`AdminQRManagement.tsx`):**
+  - [ ] `AdminTemplate` kullanarak tabloyu ve temel aksiyonları ayarla.
+  - [ ] `AddQRCodeModal.tsx` ve `ViewQRCodeModal.tsx` bileşenlerini oluştur.
+  - [ ] `create`, `delete` mutasyonlarını bağla.
+- [ ] **Kullanıcı Sayfaları:**
+  - [ ] `QRCodes.tsx` sayfasına `react-qr-reader` ekle ve tarama mantığını kur.
+  - [ ] `PointsAndRewards.tsx` sayfasını `useQuery` ve `useMutation` kullanarak oluştur.
+    - [ ] Puan gösterimini, kupon oluşturma butonunu ve geçmiş işlem listelerini implemente et.

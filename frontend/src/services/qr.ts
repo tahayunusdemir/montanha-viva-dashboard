@@ -32,9 +32,7 @@ export const useQRCodes = () => {
 };
 
 // Create a new QR code
-const createQRCode = async (
-  payload: QRCodeCreatePayload,
-): Promise<QRCode> => {
+const createQRCode = async (payload: QRCodeCreatePayload): Promise<QRCode> => {
   const { data } = await apiClient.post(QR_CODES_ENDPOINT, payload);
   return data;
 };
@@ -73,9 +71,7 @@ interface ScanResponse {
   message: string;
   new_total_points: number;
 }
-const scanQRCode = async (
-  textContent: string,
-): Promise<ScanResponse> => {
+const scanQRCode = async (textContent: string): Promise<ScanResponse> => {
   const { data } = await apiClient.post("/qr/scan/", {
     text_content: textContent,
   });
@@ -122,12 +118,13 @@ export const useGenerateCoupon = () => {
       // Refresh rewards data to get the new coupon and updated points
       // For a more accurate update, we refetch and then update.
       queryClient.refetchQueries({ queryKey: ["rewardsData"] }).then(() => {
-        const updatedData =
-          queryClient.getQueryData<RewardsData>(["rewardsData"]);
+        const updatedData = queryClient.getQueryData<RewardsData>([
+          "rewardsData",
+        ]);
         if (updatedData) {
           updateUserPoints(updatedData.points);
         }
       });
     },
   });
-}; 
+};

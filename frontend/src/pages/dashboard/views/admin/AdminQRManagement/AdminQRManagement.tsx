@@ -18,12 +18,7 @@ export default function AdminQRManagement() {
     severity: "success" | "error";
   } | null>(null);
 
-  const {
-    data: qrCodes = [],
-    isLoading,
-    isError,
-    error,
-  } = useQRCodes();
+  const { data: qrCodes = [], isLoading, isError, error } = useQRCodes();
   const deleteMutation = useDeleteQRCode();
 
   const handleDelete = (id: number | string) => {
@@ -49,7 +44,7 @@ export default function AdminQRManagement() {
     setSelectedQRCode(qrCode);
     setViewModalOpen(true);
   };
-  
+
   const handleCloseSnackbar = () => {
     setSnackbar(null);
   };
@@ -79,9 +74,6 @@ export default function AdminQRManagement() {
         isError={isError}
         error={error as { message: string } | null}
         onAdd={() => setAddModalOpen(true)}
-        onEdit={() => {
-          /* Edit functionality can be added here if needed */
-        }}
         onDelete={handleDelete}
         onView={handleView}
         onSearchChange={() => {

@@ -26,4 +26,4 @@ export interface RewardsData {
   points: number;
   scan_history: UserScannedQR[];
   coupon_history: DiscountCoupon[];
-} 
+}

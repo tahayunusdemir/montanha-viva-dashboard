@@ -48,12 +48,30 @@ export default function RouteCard({ route, onClick }: RouteCardProps) {
       }}
       onClick={onClick}
     >
-      <CardMedia
-        component="img"
-        image={route.image_card || "/placeholder.jpg"}
-        alt={route.name}
-        sx={{ objectFit: "cover", aspectRatio: "4/5" }}
-      />
+      <Box
+        sx={{
+          width: "100%",
+          overflow: "hidden",
+          aspectRatio: "1/1",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <CardMedia
+          component="img"
+          image={route.image_card || "/placeholder.jpg"}
+          alt={route.name}
+          sx={{
+            width: "100%",
+            height: "160%",
+            objectFit: "cover",
+            objectPosition: "center",
+            // Fotoğrafı yukarıdan ve aşağıdan kırpılmış gibi göstermek için
+            // yükseklik %120, kutu overflow:hidden
+          }}
+        />
+      </Box>
       <CardContent>
         <Stack spacing={1.5}>
           <Typography gutterBottom variant="h6" component="div" noWrap>

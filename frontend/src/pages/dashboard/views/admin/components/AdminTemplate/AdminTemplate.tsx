@@ -91,7 +91,7 @@ interface AdminTemplateProps<T extends { id: number | string }> {
   data: T[];
   columns: GridColDef<T>[];
   onAdd?: () => void;
-  onEdit: (item: T) => void;
+  onEdit?: (item: T) => void;
   onDelete: (id: number | string) => void;
   onView: (item: T) => void;
   onSearchChange: (searchTerm: string) => void;
@@ -156,11 +156,13 @@ export default function AdminTemplate<T extends { id: number | string }>({
               <Visibility />
             </IconButton>
           </Tooltip>
-          <Tooltip title="Edit">
-            <IconButton size="small" onClick={() => onEdit(params.row)}>
-              <Edit />
-            </IconButton>
-          </Tooltip>
+          {onEdit && (
+            <Tooltip title="Edit">
+              <IconButton size="small" onClick={() => onEdit(params.row)}>
+                <Edit />
+              </IconButton>
+            </Tooltip>
+          )}
           <Tooltip title="Delete">
             <IconButton
               size="small"

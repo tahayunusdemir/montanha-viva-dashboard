@@ -7,30 +7,100 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Route',
+            name="Route",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255, unique=True)),
-                ('distance_km', models.FloatField(help_text='Distance in kilometers')),
-                ('duration', models.CharField(help_text='Duration, e.g., 4 h 30 min', max_length=50)),
-                ('route_type', models.CharField(choices=[('circular', 'Circular'), ('linear', 'Linear')], max_length=10)),
-                ('difficulty', models.CharField(choices=[('Easy', 'Easy'), ('Medium', 'Medium'), ('Hard', 'Hard')], max_length=10)),
-                ('altitude_min_m', models.IntegerField(help_text='Minimum altitude in meters')),
-                ('altitude_max_m', models.IntegerField(help_text='Maximum altitude in meters')),
-                ('accumulated_climb_m', models.IntegerField(help_text='Accumulated climb in meters')),
-                ('start_point_gps', models.CharField(blank=True, help_text='Start point GPS coordinates', max_length=100, null=True)),
-                ('description', models.TextField()),
-                ('points_of_interest', models.TextField(blank=True, help_text='Comma-separated list of points of interest.', null=True)),
-                ('image_card', models.ImageField(help_text='Image for the route card', upload_to='routes_images/')),
-                ('image_map', models.ImageField(help_text='Image of the route map', upload_to='routes_images/')),
-                ('gpx_file', models.FileField(blank=True, help_text='GPX file for the route', null=True, upload_to='gpx_files/')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=255, unique=True)),
+                ("distance_km", models.FloatField(help_text="Distance in kilometers")),
+                (
+                    "duration",
+                    models.CharField(
+                        help_text="Duration, e.g., 4 h 30 min", max_length=50
+                    ),
+                ),
+                (
+                    "route_type",
+                    models.CharField(
+                        choices=[("circular", "Circular"), ("linear", "Linear")],
+                        max_length=10,
+                    ),
+                ),
+                (
+                    "difficulty",
+                    models.CharField(
+                        choices=[
+                            ("Easy", "Easy"),
+                            ("Medium", "Medium"),
+                            ("Hard", "Hard"),
+                        ],
+                        max_length=10,
+                    ),
+                ),
+                (
+                    "altitude_min_m",
+                    models.IntegerField(help_text="Minimum altitude in meters"),
+                ),
+                (
+                    "altitude_max_m",
+                    models.IntegerField(help_text="Maximum altitude in meters"),
+                ),
+                (
+                    "accumulated_climb_m",
+                    models.IntegerField(help_text="Accumulated climb in meters"),
+                ),
+                (
+                    "start_point_gps",
+                    models.CharField(
+                        blank=True,
+                        help_text="Start point GPS coordinates",
+                        max_length=100,
+                        null=True,
+                    ),
+                ),
+                ("description", models.TextField()),
+                (
+                    "points_of_interest",
+                    models.TextField(
+                        blank=True,
+                        help_text="Comma-separated list of points of interest.",
+                        null=True,
+                    ),
+                ),
+                (
+                    "image_card",
+                    models.ImageField(
+                        help_text="Image for the route card", upload_to="routes_images/"
+                    ),
+                ),
+                (
+                    "image_map",
+                    models.ImageField(
+                        help_text="Image of the route map", upload_to="routes_images/"
+                    ),
+                ),
+                (
+                    "gpx_file",
+                    models.FileField(
+                        blank=True,
+                        help_text="GPX file for the route",
+                        null=True,
+                        upload_to="gpx_files/",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
             ],
         ),
     ]

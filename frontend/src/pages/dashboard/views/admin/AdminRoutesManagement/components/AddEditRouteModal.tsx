@@ -10,6 +10,7 @@ import {
   Select,
   MenuItem,
   FormControl,
+  FormLabel,
   InputLabel,
   Box,
   Typography,
@@ -20,10 +21,7 @@ import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Route, RoutePayload } from "@/types";
-import {
-  useCreateRoute,
-  useUpdateRoute,
-} from "@/services/routes";
+import { useCreateRoute, useUpdateRoute } from "@/services/routes";
 import { CloudUpload, InsertDriveFile, CheckCircle } from "@mui/icons-material";
 
 // Schema definition
@@ -54,9 +52,7 @@ const routeSchema = (isEditing: boolean) =>
     image_map: isEditing
       ? z.instanceof(FileList).optional().nullable()
       : fileSchema,
-    gpx_file: isEditing
-      ? z.instanceof(FileList).optional().nullable()
-      : fileSchema,
+    gpx_file: z.instanceof(FileList).optional().nullable(),
   });
 
 type RouteFormValues = z.infer<ReturnType<typeof routeSchema>>;
@@ -108,7 +104,8 @@ const FileInput = ({
   }, [existingFileUrl]);
 
   return (
-    <FormControl fullWidth error={!!error}>
+    <FormControl fullWidth error={!!error} component="fieldset" sx={{ mb: 2 }}>
+      <FormLabel component="legend">{label}</FormLabel>
       <Controller
         name={name}
         control={control}
@@ -118,7 +115,7 @@ const FileInput = ({
               component="label"
               variant="outlined"
               startIcon={<CloudUpload />}
-              sx={{ width: "100%", justifyContent: "flex-start", py: 1.5 }}
+              sx={{ width: "100%", justifyContent: "flex-start", py: 1.5, mt: 1 }}
             >
               {label}
               <VisuallyHiddenInput
@@ -258,95 +255,122 @@ export default function AddEditRouteModal({
           <Grid container spacing={2} sx={{ mt: 1 }}>
             {/* Basic Info */}
             <Grid size={{ xs: 12, sm: 6 }}>
-              <Controller
-                name="name"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    label="Route Name"
-                    fullWidth
-                    required
-                    error={!!errors.name}
-                    helperText={errors.name?.message}
-                  />
-                )}
-              />
+              <FormControl fullWidth error={!!errors.name} component="fieldset" sx={{ mb: 2 }}>
+                <FormLabel required htmlFor="route-name">
+                  Route Name
+                </FormLabel>
+                <Controller
+                  name="name"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      id="route-name"
+                      fullWidth
+                      required
+                      error={!!errors.name}
+                      helperText={errors.name?.message}
+                    />
+                  )}
+                />
+              </FormControl>
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
-              <Controller
-                name="duration"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    label="Duration (e.g., 4h 30min)"
-                    fullWidth
-                    required
-                    error={!!errors.duration}
-                    helperText={errors.duration?.message}
-                  />
-                )}
-              />
+              <FormControl fullWidth error={!!errors.duration} component="fieldset" sx={{ mb: 2 }}>
+                <FormLabel required htmlFor="route-duration">
+                  Duration (e.g., 4h 30min)
+                </FormLabel>
+                <Controller
+                  name="duration"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      id="route-duration"
+                      fullWidth
+                      required
+                      error={!!errors.duration}
+                      helperText={errors.duration?.message}
+                    />
+                  )}
+                />
+              </FormControl>
             </Grid>
-            
+
             {/* Metrics */}
             <Grid size={{ xs: 12, sm: 4 }}>
-              <Controller
-                name="distance_km"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    label="Distance (km)"
-                    type="number"
-                    fullWidth
-                    required
-                    error={!!errors.distance_km}
-                    helperText={errors.distance_km?.message}
-                  />
-                )}
-              />
+              <FormControl fullWidth error={!!errors.distance_km} component="fieldset" sx={{ mb: 2 }}>
+                <FormLabel required htmlFor="route-distance-km">
+                  Distance (km)
+                </FormLabel>
+                <Controller
+                  name="distance_km"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      id="route-distance-km"
+                      type="number"
+                      fullWidth
+                      required
+                      error={!!errors.distance_km}
+                      helperText={errors.distance_km?.message}
+                    />
+                  )}
+                />
+              </FormControl>
             </Grid>
             <Grid size={{ xs: 12, sm: 4 }}>
-              <Controller
-                name="accumulated_climb_m"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    label="Accumulated Climb (m)"
-                    type="number"
-                    fullWidth
-                    required
-                    error={!!errors.accumulated_climb_m}
-                    helperText={errors.accumulated_climb_m?.message}
-                  />
-                )}
-              />
+              <FormControl fullWidth error={!!errors.accumulated_climb_m} component="fieldset" sx={{ mb: 2 }}>
+                <FormLabel required htmlFor="route-accumulated-climb-m">
+                  Accumulated Climb (m)
+                </FormLabel>
+                <Controller
+                  name="accumulated_climb_m"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      id="route-accumulated-climb-m"
+                      type="number"
+                      fullWidth
+                      required
+                      error={!!errors.accumulated_climb_m}
+                      helperText={errors.accumulated_climb_m?.message}
+                    />
+                  )}
+                />
+              </FormControl>
             </Grid>
             <Grid size={{ xs: 12, sm: 4 }}>
-              <Controller
-                name="altitude_max_m"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    label="Max Altitude (m)"
-                    type="number"
-                    fullWidth
-                    required
-                    error={!!errors.altitude_max_m}
-                    helperText={errors.altitude_max_m?.message}
-                  />
-                )}
-              />
+              <FormControl fullWidth error={!!errors.altitude_max_m} component="fieldset" sx={{ mb: 2 }}>
+                <FormLabel required htmlFor="route-altitude-max-m">
+                  Max Altitude (m)
+                </FormLabel>
+                <Controller
+                  name="altitude_max_m"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      id="route-altitude-max-m"
+                      type="number"
+                      fullWidth
+                      required
+                      error={!!errors.altitude_max_m}
+                      helperText={errors.altitude_max_m?.message}
+                    />
+                  )}
+                />
+              </FormControl>
             </Grid>
 
             {/* Selects */}
             <Grid size={{ xs: 12, sm: 6 }}>
-              <FormControl fullWidth error={!!errors.difficulty}>
-                <InputLabel>Difficulty</InputLabel>
+              <FormControl fullWidth error={!!errors.difficulty} component="fieldset" sx={{ mb: 2 }}>
+                <FormLabel component="legend" required>
+                  Difficulty
+                </FormLabel>
                 <Controller
                   name="difficulty"
                   control={control}
@@ -361,8 +385,10 @@ export default function AddEditRouteModal({
               </FormControl>
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
-              <FormControl fullWidth error={!!errors.route_type}>
-                <InputLabel>Route Type</InputLabel>
+              <FormControl fullWidth error={!!errors.route_type} component="fieldset" sx={{ mb: 2 }}>
+                <FormLabel component="legend" required>
+                  Route Type
+                </FormLabel>
                 <Controller
                   name="route_type"
                   control={control}
@@ -378,88 +404,118 @@ export default function AddEditRouteModal({
 
             {/* Text Areas */}
             <Grid size={{ xs: 12 }}>
-              <Controller
-                name="description"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    label="Description"
-                    multiline
-                    rows={4}
-                    fullWidth
-                    required
-                    error={!!errors.description}
-                    helperText={errors.description?.message}
-                  />
-                )}
-              />
+              <FormControl fullWidth error={!!errors.description} component="fieldset" sx={{ mb: 2 }}>
+                <FormLabel required htmlFor="description">
+                  Description
+                </FormLabel>
+                <Controller
+                  name="description"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      id="description"
+                      multiline
+                      rows={2}
+                      fullWidth
+                      required
+                      error={!!errors.description}
+                      helperText={errors.description?.message}
+                    />
+                  )}
+                />
+              </FormControl>
             </Grid>
             <Grid size={{ xs: 12 }}>
-              <Controller
-                name="points_of_interest"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    label="Points of Interest (comma-separated)"
-                    multiline
-                    rows={2}
-                    fullWidth
-                    error={!!errors.points_of_interest}
-                    helperText={errors.points_of_interest?.message}
-                  />
-                )}
-              />
+              <FormControl fullWidth error={!!errors.points_of_interest} component="fieldset" sx={{ mb: 2 }}>
+                <FormLabel htmlFor="points-of-interest">
+                  Points of Interest (comma-separated)
+                </FormLabel>
+                <Controller
+                  name="points_of_interest"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      id="points-of-interest"
+                      multiline
+                      rows={2}
+                      fullWidth
+                      error={!!errors.points_of_interest}
+                      helperText={errors.points_of_interest?.message}
+                    />
+                  )}
+                />
+              </FormControl>
             </Grid>
 
             <Grid size={{ xs: 12 }}>
-              <Controller
-                name="start_point_gps"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    label="Start Point GPS"
-                    fullWidth
-                    required
-                    error={!!errors.start_point_gps}
-                    helperText={errors.start_point_gps?.message}
-                  />
-                )}
-              />
+              <FormControl fullWidth error={!!errors.start_point_gps} component="fieldset" sx={{ mb: 2 }}>
+                <FormLabel required htmlFor="start-point-gps">
+                  Start Point GPS
+                </FormLabel>
+                <Controller
+                  name="start_point_gps"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      id="start-point-gps"
+                      fullWidth
+                      required
+                      error={!!errors.start_point_gps}
+                      helperText={errors.start_point_gps?.message}
+                    />
+                  )}
+                />
+              </FormControl>
             </Grid>
 
             {/* File Inputs */}
             <Grid size={{ xs: 12, sm: 4 }}>
-              <FileInput
-                control={control}
-                name="image_card"
-                label="Upload Card Image"
-                existingFileUrl={route?.image_card}
-                accept="image/*"
-                error={errors.image_card}
-              />
+              <FormControl fullWidth error={!!errors.image_card} component="fieldset" sx={{ mb: 2 }}>
+                <FormLabel required htmlFor="image-card-file-input" component="legend">
+                  Upload Card Image
+                </FormLabel>
+                <FileInput
+                  control={control}
+                  name="image_card"
+                  label=""
+                  existingFileUrl={route?.image_card}
+                  accept="image/*"
+                  error={errors.image_card}
+                />
+              </FormControl>
             </Grid>
             <Grid size={{ xs: 12, sm: 4 }}>
-              <FileInput
-                control={control}
-                name="image_map"
-                label="Upload Map Image"
-                existingFileUrl={route?.image_map}
-                accept="image/*"
-                error={errors.image_map}
-              />
+              <FormControl fullWidth error={!!errors.image_map} component="fieldset" sx={{ mb: 2 }}>
+                <FormLabel required htmlFor="image-map-file-input" component="legend">
+                  Upload Map Image
+                </FormLabel>
+                <FileInput
+                  control={control}
+                  name="image_map"
+                  label=""
+                  existingFileUrl={route?.image_map}
+                  accept="image/*"
+                  error={errors.image_map}
+                />
+              </FormControl>
             </Grid>
             <Grid size={{ xs: 12, sm: 4 }}>
-              <FileInput
-                control={control}
-                name="gpx_file"
-                label="Upload GPX File"
-                existingFileUrl={route?.gpx_file}
-                accept=".gpx"
-                error={errors.gpx_file}
-              />
+              <FormControl fullWidth error={!!errors.gpx_file} component="fieldset" sx={{ mb: 2 }}>
+                <FormLabel required htmlFor="gpx-file-input" component="legend">
+                  Upload GPX File
+                </FormLabel>
+                <FileInput
+                  control={control}
+                  name="gpx_file"
+                  label=""
+                  existingFileUrl={route?.gpx_file}
+                  accept=".gpx"
+                  error={errors.gpx_file}
+                />
+              </FormControl>
             </Grid>
           </Grid>
         </Box>
@@ -470,7 +526,9 @@ export default function AddEditRouteModal({
           type="submit"
           form="route-form"
           variant="contained"
-          disabled={createRouteMutation.isPending || updateRouteMutation.isPending}
+          disabled={
+            createRouteMutation.isPending || updateRouteMutation.isPending
+          }
         >
           {isEditing ? "Save Changes" : "Create Route"}
         </Button>
