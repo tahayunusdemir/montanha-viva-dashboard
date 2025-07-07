@@ -26,10 +26,7 @@ services:
       - key: DEBUG
         value: false
       - key: CLIENT_URL
-        fromService:
-          type: static
-          name: frontend
-          property: url
+        value: https://frontend.onrender.com # WORKAROUND: Manually set URL. Render does not support dynamic URL from static sites in blueprints. You may need to update this value in the Render UI after the first deploy if the URL is different.
 
   # 3. React Frontend Service
   - name: frontend
