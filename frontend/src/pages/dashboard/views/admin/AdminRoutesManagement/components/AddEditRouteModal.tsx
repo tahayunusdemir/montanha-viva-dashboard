@@ -504,7 +504,7 @@ export default function AddEditRouteModal({
             </Grid>
             <Grid size={{ xs: 12, sm: 4 }}>
               <FormControl fullWidth error={!!errors.gpx_file} component="fieldset" sx={{ mb: 2 }}>
-                <FormLabel required htmlFor="gpx-file-input" component="legend">
+                <FormLabel htmlFor="gpx-file-input" component="legend">
                   Upload GPX File
                 </FormLabel>
                 <FileInput

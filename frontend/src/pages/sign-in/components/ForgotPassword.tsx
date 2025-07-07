@@ -8,6 +8,8 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import Alert from "@mui/material/Alert";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
 import { requestPasswordReset } from "@/services/auth";
 import { PasswordResetRequestPayload } from "@/types/auth";
 
@@ -81,31 +83,33 @@ export default function ForgotPassword({
                   "An error occurred. Please try again."}
               </Alert>
             )}
-            <Controller
-              name="email"
-              control={control}
-              rules={{
-                required: "Email is required.",
-                pattern: {
-                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  message: "Invalid email address.",
-                },
-              }}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  autoFocus
-                  required
-                  margin="dense"
-                  id="email"
-                  label="Email address"
-                  type="email"
-                  fullWidth
-                  error={!!errors.email}
-                  helperText={errors.email?.message}
-                />
-              )}
-            />
+            <FormControl fullWidth margin="dense" required error={!!errors.email}>
+              <FormLabel htmlFor="email">Email address</FormLabel>
+              <Controller
+                name="email"
+                control={control}
+                rules={{
+                  required: "Email is required.",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    message: "Invalid email address.",
+                  },
+                }}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    autoFocus
+                    id="email"
+                    type="email"
+                    fullWidth
+                    error={!!errors.email}
+                    helperText={errors.email?.message}
+                    // Remove label from TextField, as FormLabel is used
+                    label={undefined}
+                  />
+                )}
+              />
+            </FormControl>
           </>
         )}
       </DialogContent>

@@ -9,7 +9,6 @@ import {
   Typography,
   Divider,
   Grid,
-  Link,
 } from "@mui/material";
 import { QRCode } from "@/types";
 import { format } from "date-fns";
@@ -51,11 +50,15 @@ export default function ViewQRCodeModal({
                 p: 1,
               }}
             />
-            <Typography variant="caption" display="block" sx={{ mt: 1 }}>
-              <Link href={qrCode.qr_image} target="_blank" download>
-                Download QR Code
-              </Link>
-            </Typography>
+            <Button
+              variant="outlined"
+              href={qrCode.qr_image}
+              download
+              target="_blank"
+              sx={{ mt: 2 }}
+            >
+              Download QR Code
+            </Button>
           </Grid>
           <Grid size={12}>
             <Divider sx={{ my: 2 }} />

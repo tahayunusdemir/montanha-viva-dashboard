@@ -8,6 +8,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
 import Alert from "@mui/material/Alert";
+import { useState } from "react";
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -132,15 +133,17 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
       passwordConfirmation: "",
     },
   });
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const login = useAuthStore((state) => state.login);
   const setUser = useAuthStore((state) => state.setUser);
 
   const mutation = useMutation<AuthResponse, Error, RegisterData>({
     mutationFn: register,
-    onSuccess: (data) => {
-      login({ access: data.access });
-      setUser(data.user);
-      navigate("/dashboard");
+    onSuccess: () => {
+      setShowSuccessMessage(true);
+      setTimeout(() => {
+        navigate("/sign-in");
+      }, 3000); // Redirect after 3 seconds
     },
   });
 
@@ -173,6 +176,11 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
             {mutation.isError && (
               <Alert severity="error" sx={{ mb: 2 }}>
                 {getErrorMessage(mutation.error)}
+              </Alert>
+            )}
+            {showSuccessMessage && (
+              <Alert severity="success" sx={{ mb: 2 }}>
+                Registration successful! Redirecting to login...
               </Alert>
             )}
             <Grid container spacing={2}>

@@ -179,7 +179,7 @@ export default function Features() {
         <div>
           <Box
             sx={{
-              display: "flex",
+              display: { xs: "none", sm: "flex" },
               flexDirection: "column",
               gap: 2,
               height: "100%",
@@ -238,7 +238,7 @@ export default function Features() {
         </div>
         <Box
           sx={{
-            display: "flex",
+            display: { xs: "none", sm: "flex" },
             width: "100%",
             height: "var(--items-image-height)",
           }}
@@ -258,6 +258,8 @@ export default function Features() {
                 width: 420,
                 height: 500,
                 backgroundSize: "contain",
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "center",
                 backgroundImage: "var(--items-imageLight)",
                 ...theme.applyStyles("dark", {
                   backgroundImage: "var(--items-imageDark)",

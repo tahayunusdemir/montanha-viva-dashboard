@@ -1,6 +1,0 @@
-- [x] **Backend Kurulumu**: Hava durumu özelliği için Django altyapısını oluştur.
-- [x] **Backend API Endpoints**: IPMA API'sinden hava durumu verilerini alıp sunacak backend endpoint'lerini oluştur.
-- [x] **Frontend Servis Katmanı**: Backend'deki yeni hava durumu endpoint'leriyle iletişim kuracak frontend servislerini ve tiplerini oluştur.
-- [x] **Frontend Arayüz Bileşeni**: Kullanıcının şehir seçebileceği ve hava durumu tahminini görebileceği React bileşenini (`WeatherWidget.tsx`) geliştir.
-- [x] **Frontend Entegrasyonu**: Oluşturulan `WeatherWidget.tsx` bileşenini masaüstü (`Header.tsx`) ve mobil (`AppNavbar.tsx`) görünümlerine ekle.
-- [x] **Test ve Sonlandırma**: Özelliğin uçtan uca doğru çalıştığını test et ve stilin tasarıma uygun olduğundan emin ol.
