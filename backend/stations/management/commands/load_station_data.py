@@ -1,7 +1,6 @@
 import csv
 from datetime import datetime, timezone
 from django.core.management.base import BaseCommand, CommandParser
-from django.utils.timezone import make_aware
 from stations.models import Station, Measurement
 
 
@@ -39,7 +38,9 @@ class Command(BaseCommand):
                     station_id = row.get("DeviceID")
                     if not station_id:
                         self.stdout.write(
-                            self.style.WARNING(f"Skipping row {i+1}: Missing DeviceID")
+                            self.style.WARNING(
+                                f"Skipping row {i + 1}: Missing DeviceID"
+                            )
                         )
                         continue
 
@@ -65,7 +66,7 @@ class Command(BaseCommand):
                     except (ValueError, TypeError):
                         self.stdout.write(
                             self.style.WARNING(
-                                f'Skipping row {i+1}: Invalid timestamp format for value "{row.get("Timestamp")}"'
+                                f'Skipping row {i + 1}: Invalid timestamp format for value "{row.get("Timestamp")}"'
                             )
                         )
                         continue
@@ -86,7 +87,7 @@ class Command(BaseCommand):
                             except (ValueError, TypeError):
                                 self.stdout.write(
                                     self.style.WARNING(
-                                        f'Skipping measurement {col_name} in row {i+1}: Invalid value "{value_str}"'
+                                        f'Skipping measurement {col_name} in row {i + 1}: Invalid value "{value_str}"'
                                     )
                                 )
 

@@ -28,11 +28,27 @@ import { Plant } from "@/types";
 
 const useFlags = [
   { id: "food", label: "Food", icon: <RestaurantIcon fontSize="small" /> },
-  { id: "medicinal", label: "Medicinal", icon: <LocalHospitalIcon fontSize="small" /> },
-  { id: "ornamental", label: "Ornamental", icon: <YardIcon fontSize="small" /> },
-  { id: "traditional", label: "Traditional", icon: <MenuBookIcon fontSize="small" /> },
+  {
+    id: "medicinal",
+    label: "Medicinal",
+    icon: <LocalHospitalIcon fontSize="small" />,
+  },
+  {
+    id: "ornamental",
+    label: "Ornamental",
+    icon: <YardIcon fontSize="small" />,
+  },
+  {
+    id: "traditional",
+    label: "Traditional",
+    icon: <MenuBookIcon fontSize="small" />,
+  },
   { id: "aromatic", label: "Aromatic", icon: <AirIcon fontSize="small" /> },
-  { id: "fauna_interaction", label: "Fauna Interaction", icon: <BugReportIcon fontSize="small" /> },
+  {
+    id: "fauna_interaction",
+    label: "Fauna Interaction",
+    icon: <BugReportIcon fontSize="small" />,
+  },
 ];
 
 interface FloraDetailModalProps {
@@ -75,14 +91,19 @@ export default function FloraDetailModal({
     return null;
   }
 
-  const activeUseFlags = useFlags.filter(flag => plant.uses && plant.uses[flag.id]);
+  const activeUseFlags = useFlags.filter(
+    (flag) => plant.uses && plant.uses[flag.id],
+  );
 
   const handleNextImage = () => {
     setSelectedImageIndex((prevIndex) => (prevIndex + 1) % plant.images.length);
   };
 
   const handlePrevImage = () => {
-    setSelectedImageIndex((prevIndex) => (prevIndex - 1 + plant.images.length) % plant.images.length);
+    setSelectedImageIndex(
+      (prevIndex) =>
+        (prevIndex - 1 + plant.images.length) % plant.images.length,
+    );
   };
 
   const hasImages = plant.images && plant.images.length > 0;
@@ -114,13 +135,29 @@ export default function FloraDetailModal({
                     <>
                       <IconButton
                         onClick={handlePrevImage}
-                        sx={{ position: "absolute", top: "50%", left: 8, transform: "translateY(-50%)", color: "white", backgroundColor: "rgba(0, 0, 0, 0.5)", "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.7)"} }}
+                        sx={{
+                          position: "absolute",
+                          top: "50%",
+                          left: 8,
+                          transform: "translateY(-50%)",
+                          color: "white",
+                          backgroundColor: "rgba(0, 0, 0, 0.5)",
+                          "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.7)" },
+                        }}
                       >
                         <ArrowBackIosNewIcon />
                       </IconButton>
                       <IconButton
                         onClick={handleNextImage}
-                        sx={{ position: "absolute", top: "50%", right: 8, transform: "translateY(-50%)", color: "white", backgroundColor: "rgba(0, 0, 0, 0.5)", "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.7)"} }}
+                        sx={{
+                          position: "absolute",
+                          top: "50%",
+                          right: 8,
+                          transform: "translateY(-50%)",
+                          color: "white",
+                          backgroundColor: "rgba(0, 0, 0, 0.5)",
+                          "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.7)" },
+                        }}
                       >
                         <ArrowForwardIosIcon />
                       </IconButton>
@@ -141,42 +178,83 @@ export default function FloraDetailModal({
                         objectFit: "cover",
                         borderRadius: 1,
                         cursor: "pointer",
-                        border: selectedImageIndex === index ? "2px solid" : "2px solid transparent",
-                        borderColor: selectedImageIndex === index ? "primary.main" : "transparent",
-                        transition: 'border-color 0.3s'
+                        border:
+                          selectedImageIndex === index
+                            ? "2px solid"
+                            : "2px solid transparent",
+                        borderColor:
+                          selectedImageIndex === index
+                            ? "primary.main"
+                            : "transparent",
+                        transition: "border-color 0.3s",
                       }}
                     />
                   ))}
                 </Box>
               </Box>
             ) : (
-              <Paper variant="outlined" sx={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'grey.100' }}>
+              <Paper
+                variant="outlined"
+                sx={{
+                  height: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: "grey.100",
+                }}
+              >
                 <Typography>No Image Available</Typography>
               </Paper>
             )}
           </Grid>
           <Grid size={{ xs: 12, md: 7 }}>
             <DetailItem label="Common Names" value={plant.common_names} />
-            <DetailItem label="Fauna Interaction" value={plant.interaction_fauna} />
+            <DetailItem
+              label="Fauna Interaction"
+              value={plant.interaction_fauna}
+            />
 
             {activeUseFlags.length > 0 && (
               <FormControl fullWidth sx={{ mb: 2 }}>
-                <FormLabel sx={{ color: "text.secondary", fontSize: "0.75rem", mb: 1 }}>
+                <FormLabel
+                  sx={{ color: "text.secondary", fontSize: "0.75rem", mb: 1 }}
+                >
                   Uses
                 </FormLabel>
                 <Box display="flex" flexWrap="wrap" gap={1}>
-                  {activeUseFlags.map(flag => (
-                    <Chip key={flag.id} icon={flag.icon} label={flag.label} size="small" />
+                  {activeUseFlags.map((flag) => (
+                    <Chip
+                      key={flag.id}
+                      icon={flag.icon}
+                      label={flag.label}
+                      size="small"
+                    />
                   ))}
                 </Box>
               </FormControl>
             )}
 
-            {plant.food_uses && <DetailItem label="Food Uses" value={plant.food_uses} />}
-            {plant.medicinal_uses && <DetailItem label="Medicinal Uses" value={plant.medicinal_uses} />}
-            {plant.ornamental_uses && <DetailItem label="Ornamental Uses" value={plant.ornamental_uses} />}
-            {plant.traditional_uses && <DetailItem label="Traditional Uses" value={plant.traditional_uses} />}
-            {plant.aromatic_uses && <DetailItem label="Aromatic Uses" value={plant.aromatic_uses} />}
+            {plant.food_uses && (
+              <DetailItem label="Food Uses" value={plant.food_uses} />
+            )}
+            {plant.medicinal_uses && (
+              <DetailItem label="Medicinal Uses" value={plant.medicinal_uses} />
+            )}
+            {plant.ornamental_uses && (
+              <DetailItem
+                label="Ornamental Uses"
+                value={plant.ornamental_uses}
+              />
+            )}
+            {plant.traditional_uses && (
+              <DetailItem
+                label="Traditional Uses"
+                value={plant.traditional_uses}
+              />
+            )}
+            {plant.aromatic_uses && (
+              <DetailItem label="Aromatic Uses" value={plant.aromatic_uses} />
+            )}
           </Grid>
         </Grid>
       </DialogContent>

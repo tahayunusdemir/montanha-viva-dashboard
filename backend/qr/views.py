@@ -107,7 +107,9 @@ class GenerateCouponAPIView(generics.GenericAPIView):
         user = request.user
         if user.points < self.POINTS_FOR_COUPON:
             return Response(
-                {"error": "You do not have enough points to generate a discount coupon."},
+                {
+                    "error": "You do not have enough points to generate a discount coupon."
+                },
                 status=status.HTTP_400_BAD_REQUEST,
             )
 

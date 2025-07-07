@@ -44,7 +44,7 @@ export default function AdminWikiManagement() {
     return allPlants.filter(
       (plant) =>
         plant.scientific_name.toLowerCase().includes(searchLower) ||
-        plant.common_names.toLowerCase().includes(searchLower)
+        plant.common_names.toLowerCase().includes(searchLower),
     );
   }, [plants, searchText]);
 
@@ -52,11 +52,19 @@ export default function AdminWikiManagement() {
     mutationFn: floraService.createPlant,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["plants"] });
-      setNotification({ open: true, message: "Plant created successfully!", severity: "success" });
+      setNotification({
+        open: true,
+        message: "Plant created successfully!",
+        severity: "success",
+      });
       handleAddEditModalClose();
     },
     onError: (e: any) => {
-      setNotification({ open: true, message: e.response?.data?.detail || "Failed to create plant.", severity: "error" });
+      setNotification({
+        open: true,
+        message: e.response?.data?.detail || "Failed to create plant.",
+        severity: "error",
+      });
     },
   });
 
@@ -65,11 +73,19 @@ export default function AdminWikiManagement() {
       floraService.updatePlant({ id, data }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["plants"] });
-      setNotification({ open: true, message: "Plant updated successfully!", severity: "success" });
+      setNotification({
+        open: true,
+        message: "Plant updated successfully!",
+        severity: "success",
+      });
       handleAddEditModalClose();
     },
     onError: (e: any) => {
-      setNotification({ open: true, message: e.response?.data?.detail || "Failed to update plant.", severity: "error" });
+      setNotification({
+        open: true,
+        message: e.response?.data?.detail || "Failed to update plant.",
+        severity: "error",
+      });
     },
   });
 
@@ -77,10 +93,18 @@ export default function AdminWikiManagement() {
     mutationFn: floraService.deletePlant,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["plants"] });
-      setNotification({ open: true, message: "Plant deleted successfully!", severity: "success" });
+      setNotification({
+        open: true,
+        message: "Plant deleted successfully!",
+        severity: "success",
+      });
     },
     onError: (e: any) => {
-      setNotification({ open: true, message: e.response?.data?.detail || "Failed to delete plant.", severity: "error" });
+      setNotification({
+        open: true,
+        message: e.response?.data?.detail || "Failed to delete plant.",
+        severity: "error",
+      });
     },
   });
 

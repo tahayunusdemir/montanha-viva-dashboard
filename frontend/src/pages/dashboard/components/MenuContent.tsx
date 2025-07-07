@@ -24,7 +24,6 @@ import RateReviewRoundedIcon from "@mui/icons-material/RateReviewRounded";
 import { Divider } from "@mui/material";
 import { useAuthStore } from "@/store/authStore";
 
-
 const publicListItems = [
   { path: "/dashboard", text: "Home", icon: <HomeRoundedIcon /> },
   {

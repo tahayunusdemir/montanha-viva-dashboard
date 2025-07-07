@@ -6,9 +6,5 @@ interface PageLayoutProps {
 }
 
 export default function PageLayout({ children }: PageLayoutProps) {
-  return (
-    <Box sx={{ width: "100%" }}>
-      {children}
-    </Box>
-  );
+  return <Box sx={{ width: "100%" }}>{children}</Box>;
 }

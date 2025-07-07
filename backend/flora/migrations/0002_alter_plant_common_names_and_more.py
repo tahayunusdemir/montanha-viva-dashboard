@@ -6,23 +6,34 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('flora', '0001_initial'),
+        ("flora", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='plant',
-            name='common_names',
-            field=models.CharField(help_text='Common names, comma-separated, e.g.: Strawberry Tree, Sandalwood', max_length=500),
+            model_name="plant",
+            name="common_names",
+            field=models.CharField(
+                help_text="Common names, comma-separated, e.g.: Strawberry Tree, Sandalwood",
+                max_length=500,
+            ),
         ),
         migrations.AlterField(
-            model_name='plant',
-            name='interaction_fauna',
-            field=models.TextField(blank=True, help_text='Source of food and shelter for insects and birds.', null=True),
+            model_name="plant",
+            name="interaction_fauna",
+            field=models.TextField(
+                blank=True,
+                help_text="Source of food and shelter for insects and birds.",
+                null=True,
+            ),
         ),
         migrations.AlterField(
-            model_name='plant',
-            name='scientific_name',
-            field=models.CharField(help_text='Scientific name, e.g.: Arbutus unedo', max_length=255, unique=True),
+            model_name="plant",
+            name="scientific_name",
+            field=models.CharField(
+                help_text="Scientific name, e.g.: Arbutus unedo",
+                max_length=255,
+                unique=True,
+            ),
         ),
     ]

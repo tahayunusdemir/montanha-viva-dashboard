@@ -1,11 +1,13 @@
 # Montanha Viva - Living Mountain
 
 ## Website Metadata
+
 - **Title:** Montanha Viva
 - **Author:** Bistial - Brand and Image Solutions
 - **Website:** https://montanhaviva.pt/
 
 ## Navigation Menu
+
 - Home
 - Montanha Viva
 - Purpose (Propósito)
@@ -17,16 +19,18 @@
 ## Hero Section
 
 ### Main Headline
+
 **Montanha Viva seeks to discuss**
 
 **the relationships between**
+
 - Tourism (o Turismo)
 - Technology (a Tecnologia)
 - Sustainability (a Sustentabilidade)
 
 **Learn More**
 
-*[Note: There was also a commented-out YouTube video embed with ID: MGNgbNGOzh8]*
+_[Note: There was also a commented-out YouTube video embed with ID: MGNgbNGOzh8]_
 
 ## About Montanha Viva
 
@@ -38,7 +42,7 @@ Through the initiative of the University of Beira Interior - Center for Mechanic
 
 Thus, the development of an intelligent predictive system for sustainability decision support in mountain areas that allows to enhance local wild flora with a view to stimulating increased production and reduced consumption of natural resources, contributing to the promotion of biodiversity and preservation of environmental sustainability.
 
-*[Image: Serra da Gardunha - trismoserra.jpg, 520x446px]*
+_[Image: Serra da Gardunha - trismoserra.jpg, 520x446px]_
 
 ## Library and Events
 
@@ -46,11 +50,11 @@ Thus, the development of an intelligent predictive system for sustainability dec
 
 Here you can consult all documents related to the project, such as:
 
-*[Image: Icons representing different types of documents and resources - icons.png, 580x133px]*
+_[Image: Icons representing different types of documents and resources - icons.png, 580x133px]_
 
 **Library**
 
-*[Note: There was a commented-out email subscription form]*
+_[Note: There was a commented-out email subscription form]_
 
 ## Why Montanha Viva?
 
@@ -62,7 +66,7 @@ Thus, it is essential to make agricultural crops more resilient and sustainable.
 
 Promote integrated management of natural resources. And, protect and enhance mountain areas and wild flora. Thus, enhancing environmental and economic sustainability, promoting leisure and health activities and studying and disseminating the potential of wild plants allows the enhancement of local and sustainable wild flora, combating some of the challenges.
 
-*[Image: Project Montanha Viva - Imagem1.jpg, 500px width]*
+_[Image: Project Montanha Viva - Imagem1.jpg, 500px width]_
 
 ## Consortium
 
@@ -71,25 +75,28 @@ Promote integrated management of natural resources. And, protect and enhance mou
 Being a project with a multidisciplinary character, Montanha Viva brings together a diverse team in the areas of research, innovation and knowledge transfer.
 
 #### Scientific and Technological Research Centers
+
 **Knowledge construction and dissemination by the scientific community**
 
 - **Area:** Knowledge
 - **Action:** Learn More
-- *[Image: professional-golf-player.jpg]*
+- _[Image: professional-golf-player.jpg]_
 
 #### Business and Technological Fabric
+
 **Valorization of obtained results, through the use of technology to obtain or provide services**
 
 - **Area:** Technology
 - **Action:** Learn More
-- *[Image: tecido.jpg]*
+- _[Image: tecido.jpg]_
 
 #### Social Innovation Platform and Local Municipality
+
 **Identification of user needs, dissemination and capacity building of beneficiaries for technology use**
 
 - **Area:** Social
 - **Action:** Learn More
-- *[Image: girl-taking-selfie-with-friends-golf-field.jpg]*
+- _[Image: girl-taking-selfie-with-friends-golf-field.jpg]_
 
 ## What is the Approach?
 
@@ -101,7 +108,7 @@ In addition to this, it favors the development of pedestrian routes with informa
 
 Therefore, the project aims to stimulate increased production and reduced consumption of natural resources, contributing to the promotion of biodiversity and preservation of environmental sustainability. As well as providing support for the development of new businesses.
 
-*[Image: Infographic - infografia.png, 600x537px]*
+_[Image: Infographic - infografia.png, 600x537px]_
 
 ## Footer Information
 
@@ -110,42 +117,50 @@ Therefore, the project aims to stimulate increased production and reduced consum
 Montanha Viva was funded by the Promove 2022 Program - a competition promoted by the "la Caixa" Foundation and the Foundation for Science and Technology, to boost the border regions of Portugal's interior.
 
 **More information about the consortium**
+
 - Link: https://montanhaviva.pt/#consorcio
 
 ### Partnership Information
 
-*[Images in footer:]*
-- *Logo Montanha Viva (B&W) - logo montanhavivaPB.png, 300px width*
-- *Funding bar - barra.png, 480x59px*
-- *Partner logos - logos.png, 600px width*
+_[Images in footer:]_
+
+- _Logo Montanha Viva (B&W) - logo montanhavivaPB.png, 300px width_
+- _Funding bar - barra.png, 480x59px_
+- _Partner logos - logos.png, 600px width_
 
 ### Footer Note
-*Small text: "Montanha Viva was funded by the Promove 2022 Program - competition promoted by the 'la Caixa' Foundation and the Foundation for Science and Technology, to boost the border regions of Portugal's interior."*
+
+_Small text: "Montanha Viva was funded by the Promove 2022 Program - competition promoted by the 'la Caixa' Foundation and the Foundation for Science and Technology, to boost the border regions of Portugal's interior."_
 
 ## Contact Section
+
 - **Section ID:** section_5 (placeholder for contact information)
 
 ## Key Features and Objectives
 
 ### Environmental Sustainability
+
 - Promote biodiversity conservation
 - Reduce natural resource consumption
 - Enhance wild flora potential
 - Support sustainable agricultural practices
 
 ### Technology Integration
+
 - Develop intelligent monitoring systems
 - Create decision support tools
 - Implement remote area solutions
 - Foster innovation in mountain regions
 
 ### Social Impact
+
 - Support local community development
 - Create educational walking trails
 - Promote health and leisure activities
 - Build capacity for technology adoption
 
 ### Economic Development
+
 - Support new business development
 - Enhance agricultural productivity
 - Promote sustainable tourism
@@ -154,12 +169,14 @@ Montanha Viva was funded by the Promove 2022 Program - a competition promoted by
 ## Project Scope
 
 ### Geographic Focus
+
 - Serra da Gardunha mountain region
 - Iberian Peninsula interior
 - Remote mountain areas
 - Border regions of Portugal
 
 ### Target Areas
+
 - Wild flora preservation
 - Sustainable agriculture
 - Tourism development
@@ -167,6 +184,7 @@ Montanha Viva was funded by the Promove 2022 Program - a competition promoted by
 - Community engagement
 
 ### Research Components
+
 - Bioactive plant properties study
 - Environmental monitoring
 - Agricultural optimization
@@ -176,19 +194,22 @@ Montanha Viva was funded by the Promove 2022 Program - a competition promoted by
 ## Technical Implementation
 
 ### Monitoring Systems
+
 - Innovative autonomous systems for remote areas
 - Intelligent information systems
 - Agricultural support systems
 - Sustainable practice incentivization
 
 ### Information Dissemination
+
 - Scientific community knowledge sharing
 - Technology-based service provision
 - User needs identification
 - Beneficiary capacity building
 
 ## External Links and Resources
+
 - Main website: https://montanhaviva.pt/
 - Event details: https://montanhaviva.pt/event-detail.html
 - Library and deliverables: https://montanhaviva.pt/entregaveis.html
-- Home page: https://montanhaviva.pt/index.html 
+- Home page: https://montanhaviva.pt/index.html

@@ -32,7 +32,9 @@ import { weatherService } from "@/services/weather";
 import { WeatherForecast, WeatherLocation } from "@/types/weather";
 
 // Mapping from IPMA weather type ID to description and icon
-const weatherTypeMap: { [key: number]: { desc: string; icon: React.ElementType } } = {
+const weatherTypeMap: {
+  [key: number]: { desc: string; icon: React.ElementType };
+} = {
   1: { desc: "Clear sky", icon: WbSunnyIcon },
   2: { desc: "Partly cloudy", icon: WbCloudyIcon },
   3: { desc: "Partly cloudy", icon: WbCloudyIcon },
@@ -56,27 +58,40 @@ const weatherTypeMap: { [key: number]: { desc: string; icon: React.ElementType }
 };
 
 const getWeatherDisplay = (id: number) => {
-  return weatherTypeMap[id] || { desc: 'Unknown', icon: HelpOutlineIcon };
+  return weatherTypeMap[id] || { desc: "Unknown", icon: HelpOutlineIcon };
 };
 
 const DailyForecastItem: React.FC<{ day: WeatherForecast }> = ({ day }) => {
   const { icon: WeatherIcon } = getWeatherDisplay(day.idWeatherType);
   return (
-    <ListItem sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', py: 1.5 }}>
+    <ListItem
+      sx={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        py: 1.5,
+      }}
+    >
       <Stack direction="row" alignItems="center" spacing={2}>
-        <ListItemIcon sx={{ minWidth: 'auto' }}>
-          <WeatherIcon sx={{ fontSize: '2rem', color: 'primary.main' }} />
+        <ListItemIcon sx={{ minWidth: "auto" }}>
+          <WeatherIcon sx={{ fontSize: "2rem", color: "primary.main" }} />
         </ListItemIcon>
         <Stack>
           <Typography variant="body1" fontWeight="medium">
-            {new Date(day.forecastDate).toLocaleDateString('en-US', { weekday: 'long' })}
+            {new Date(day.forecastDate).toLocaleDateString("en-US", {
+              weekday: "long",
+            })}
           </Typography>
           <Typography variant="body2" color="text.secondary">
             {day.tMin}°C / {day.tMax}°C
           </Typography>
         </Stack>
       </Stack>
-      <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'right' }}>
+      <Typography
+        variant="body2"
+        color="text.secondary"
+        sx={{ textAlign: "right" }}
+      >
         {day.precipitaProb}% Rain
       </Typography>
     </ListItem>
@@ -101,37 +116,48 @@ const WeatherForecastPopover: React.FC<WeatherForecastPopoverProps> = ({
   error,
 }) => {
   const locationName =
-    locations?.find((l) => l.globalIdLocal === selectedLocation)?.local || "Location";
+    locations?.find((l) => l.globalIdLocal === selectedLocation)?.local ||
+    "Location";
 
   return (
     <Box sx={{ p: 2, minWidth: 320 }}>
       <Stack spacing={2}>
         <Typography variant="h6">5-Day Weather Forecast</Typography>
         <FormControl fullWidth size="small">
-          <FormLabel id="location-popover-select-label" sx={{ mb: 1 }}>Location</FormLabel>
+          <FormLabel id="location-popover-select-label" sx={{ mb: 1 }}>
+            Location
+          </FormLabel>
           <Select
             labelId="location-popover-select-label"
             value={selectedLocation}
             onChange={(e) => onLocationChange(e.target.value as number)}
           >
             {locations?.map((location) => (
-              <MenuItem key={location.globalIdLocal} value={location.globalIdLocal}>
+              <MenuItem
+                key={location.globalIdLocal}
+                value={location.globalIdLocal}
+              >
                 {location.local}
               </MenuItem>
             ))}
           </Select>
         </FormControl>
-        {isLoading && <CircularProgress sx={{ alignSelf: 'center' }} />}
+        {isLoading && <CircularProgress sx={{ alignSelf: "center" }} />}
         {error && <Alert severity="error">Could not load forecast.</Alert>}
         {forecast?.data && (
           <List>
-            <Typography variant="subtitle1" sx={{ px: 2, pt: 1, fontWeight: 'bold' }}>
+            <Typography
+              variant="subtitle1"
+              sx={{ px: 2, pt: 1, fontWeight: "bold" }}
+            >
               {locationName}
             </Typography>
             {forecast.data.map((day, index) => (
               <React.Fragment key={day.forecastDate}>
                 <DailyForecastItem day={day} />
-                {index < forecast.data.length - 1 && <Divider component="li" variant="inset" />}
+                {index < forecast.data.length - 1 && (
+                  <Divider component="li" variant="inset" />
+                )}
               </React.Fragment>
             ))}
           </List>
@@ -143,13 +169,12 @@ const WeatherForecastPopover: React.FC<WeatherForecastPopoverProps> = ({
 
 export const WeatherWidget: React.FC = () => {
   // Default to Castelo Branco (globalIdLocal: 1050200)
-  const [selectedLocation, setSelectedLocation] = useState<number | "">(1050200);
+  const [selectedLocation, setSelectedLocation] = useState<number | "">(
+    1050200,
+  );
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
 
-  const {
-    data: locations,
-    isLoading: isLoadingLocations,
-  } = useQuery({
+  const { data: locations, isLoading: isLoadingLocations } = useQuery({
     queryKey: ["weatherLocations"],
     queryFn: weatherService.getLocations,
   });
@@ -176,13 +201,17 @@ export const WeatherWidget: React.FC = () => {
   };
 
   const open = Boolean(anchorEl);
-  const id = open ? 'weather-popover' : undefined;
+  const id = open ? "weather-popover" : undefined;
 
   const todayForecast = forecast?.data?.[0];
-  const TodayWeatherIcon = todayForecast ? getWeatherDisplay(todayForecast.idWeatherType).icon : HelpOutlineIcon;
+  const TodayWeatherIcon = todayForecast
+    ? getWeatherDisplay(todayForecast.idWeatherType).icon
+    : HelpOutlineIcon;
 
   if (isLoadingLocations) {
-    return <Chip label={<CircularProgress size={20} />} sx={{ height: "2.25rem" }} />;
+    return (
+      <Chip label={<CircularProgress size={20} />} sx={{ height: "2.25rem" }} />
+    );
   }
 
   return (
@@ -206,12 +235,12 @@ export const WeatherWidget: React.FC = () => {
         anchorEl={anchorEl}
         onClose={handleClosePopover}
         anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
+          vertical: "bottom",
+          horizontal: "right",
         }}
         transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
+          vertical: "top",
+          horizontal: "right",
         }}
       >
         <WeatherForecastPopover
@@ -225,4 +254,4 @@ export const WeatherWidget: React.FC = () => {
       </Popover>
     </div>
   );
-}; 
+};

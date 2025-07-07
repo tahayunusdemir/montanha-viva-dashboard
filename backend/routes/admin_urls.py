@@ -8,4 +8,4 @@ router.register(r"", AdminRouteViewSet, basename="admin-route")
 
 urlpatterns = [
     path("", include(router.urls)),
-] 
+]

@@ -1,4 +1,3 @@
-from django.shortcuts import render
 import requests
 from django.core.cache import cache
 from rest_framework.views import APIView
@@ -40,9 +39,7 @@ class LocationListView(APIView):
             )
 
 
-IPMA_FORECAST_URL = (
-    "https://api.ipma.pt/open-data/forecast/meteorology/cities/daily/{globalIdLocal}.json"
-)
+IPMA_FORECAST_URL = "https://api.ipma.pt/open-data/forecast/meteorology/cities/daily/{globalIdLocal}.json"
 CACHE_TIMEOUT_FORECAST = 60 * 15  # 15 minutes
 
 

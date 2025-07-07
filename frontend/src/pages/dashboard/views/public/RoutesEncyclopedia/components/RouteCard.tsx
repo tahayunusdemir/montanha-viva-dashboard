@@ -11,7 +11,7 @@ import {
 import { Route } from "@/types";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import RouteIcon from "@mui/icons-material/Route";
-import TerrainIcon from '@mui/icons-material/Terrain';
+import TerrainIcon from "@mui/icons-material/Terrain";
 import { styled } from "@mui/material/styles";
 
 interface RouteCardProps {
@@ -98,7 +98,13 @@ export default function RouteCard({ route, onClick }: RouteCardProps) {
               {route.duration}
             </Typography>
           </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
             <Typography
               variant="body2"
               color="text.secondary"

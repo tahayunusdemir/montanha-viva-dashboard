@@ -73,15 +73,13 @@ const features = [
   },
   {
     title: "Send Feedback",
-    description:
-      "Share your thoughts, report issues, or suggest new features.",
+    description: "Share your thoughts, report issues, or suggest new features.",
     icon: <FeedbackIcon color="primary" sx={{ fontSize: 48 }} />,
     path: "/dashboard/send-feedback",
   },
   {
     title: "About the Project",
-    description:
-      "Learn more about the Montanha Viva initiative and its goals.",
+    description: "Learn more about the Montanha Viva initiative and its goals.",
     icon: <InfoIcon color="primary" sx={{ fontSize: 48 }} />,
     path: "/dashboard/about",
   },

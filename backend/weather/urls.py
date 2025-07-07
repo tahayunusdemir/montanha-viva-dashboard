@@ -11,4 +11,4 @@ urlpatterns = [
         ForecastView.as_view(),
         name="weather-forecast",
     ),
-] 
+]

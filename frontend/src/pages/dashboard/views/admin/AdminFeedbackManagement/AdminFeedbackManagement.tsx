@@ -1,8 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
-import {
-  Chip,
-  SelectChangeEvent,
-} from "@mui/material";
+import { Chip, SelectChangeEvent } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import {
   useFeedback,
@@ -13,12 +10,7 @@ import { Feedback, FeedbackStatus } from "@/types/feedback";
 import AdminTemplate from "../components/AdminTemplate/AdminTemplate";
 import FeedbackDetailsModal from "./components/FeedbackDetailsModal";
 import EditFeedbackModal from "./components/EditFeedbackModal";
-import {
-  FormControl,
-  FormLabel,
-  Select,
-  MenuItem,
-} from "@mui/material";
+import { FormControl, FormLabel, Select, MenuItem } from "@mui/material";
 
 const statusColors: {
   [key in FeedbackStatus]: "default" | "info" | "success" | "warning";

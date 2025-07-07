@@ -30,4 +30,4 @@ export interface ForecastResponse {
   data: WeatherForecast[];
   globalIdLocal: number;
   dataUpdate: string;
-} 
+}

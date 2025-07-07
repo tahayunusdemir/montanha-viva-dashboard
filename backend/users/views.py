@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.contrib.auth import get_user_model
 from rest_framework import generics, permissions, status, viewsets
 from rest_framework.response import Response
@@ -12,7 +11,6 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 import logging
-from django.utils.decorators import method_decorator
 
 # from ratelimit.decorators import ratelimit
 from .tokens import account_activation_token_generator

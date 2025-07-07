@@ -3,9 +3,9 @@ from django.conf import settings
 import qrcode
 from io import BytesIO
 from django.core.files import File
-from PIL import Image
 
 # Models for QR code system
+
 
 class QRCode(models.Model):
     """
@@ -18,27 +18,21 @@ class QRCode(models.Model):
         qr_image (Image): The generated QR code image file.
         created_at (datetime): Timestamp when the QR code was created.
     """
+
     name = models.CharField(
-        max_length=255,
-        help_text="The name of the QR code (e.g., Main Entrance QR)"
+        max_length=255, help_text="The name of the QR code (e.g., Main Entrance QR)"
     )
     text_content = models.CharField(
-        max_length=500,
-        unique=True,
-        help_text="The text or URL encoded in the QR code"
+        max_length=500, unique=True, help_text="The text or URL encoded in the QR code"
     )
     points = models.PositiveIntegerField(
-        default=10,
-        help_text="Points awarded when this QR code is scanned"
+        default=10, help_text="Points awarded when this QR code is scanned"
     )
     qr_image = models.ImageField(
-        upload_to="qr_codes/",
-        blank=True,
-        help_text="The generated QR code image"
+        upload_to="qr_codes/", blank=True, help_text="The generated QR code image"
     )
     created_at = models.DateTimeField(
-        auto_now_add=True,
-        help_text="Timestamp when the QR code was created"
+        auto_now_add=True, help_text="Timestamp when the QR code was created"
     )
 
     def save(self, *args, **kwargs):
@@ -81,20 +75,18 @@ class UserScannedQR(models.Model):
         qr_code (QRCode): The QR code that was scanned.
         scanned_at (datetime): Timestamp when the QR code was scanned.
     """
+
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name="scanned_qrs",
-        help_text="The user who scanned the QR code"
+        help_text="The user who scanned the QR code",
     )
     qr_code = models.ForeignKey(
-        QRCode,
-        on_delete=models.CASCADE,
-        help_text="The QR code that was scanned"
+        QRCode, on_delete=models.CASCADE, help_text="The QR code that was scanned"
     )
     scanned_at = models.DateTimeField(
-        auto_now_add=True,
-        help_text="Timestamp when the QR code was scanned"
+        auto_now_add=True, help_text="Timestamp when the QR code was scanned"
     )
 
     class Meta:
@@ -118,31 +110,27 @@ class DiscountCoupon(models.Model):
         expires_at (datetime): Expiration date and time of the coupon.
         is_used (bool): Whether the coupon has been used.
     """
+
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name="coupons",
-        help_text="The user who owns the coupon"
+        help_text="The user who owns the coupon",
     )
     code = models.CharField(
-        max_length=50,
-        unique=True,
-        help_text="The unique code for the discount coupon"
+        max_length=50, unique=True, help_text="The unique code for the discount coupon"
     )
     points_spent = models.PositiveIntegerField(
-        default=100,
-        help_text="Points spent to obtain this coupon"
+        default=100, help_text="Points spent to obtain this coupon"
     )
     created_at = models.DateTimeField(
-        auto_now_add=True,
-        help_text="Timestamp when the coupon was created"
+        auto_now_add=True, help_text="Timestamp when the coupon was created"
     )
     expires_at = models.DateTimeField(
         help_text="Expiration date and time of the coupon"
     )
     is_used = models.BooleanField(
-        default=False,
-        help_text="Indicates whether the coupon has been used"
+        default=False, help_text="Indicates whether the coupon has been used"
     )
 
     def __str__(self):

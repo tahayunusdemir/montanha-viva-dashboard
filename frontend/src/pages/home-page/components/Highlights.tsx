@@ -82,9 +82,10 @@ export default function Highlights() {
             Highlights
           </Typography>
           <Typography variant="body1" sx={{ color: "grey.400" }}>
-            From empowering local communities with data to creating unforgettable
-            ecotourism experiences, discover the core benefits that make Montanha
-            Viva a landmark project for sustainable development.
+            From empowering local communities with data to creating
+            unforgettable ecotourism experiences, discover the core benefits
+            that make Montanha Viva a landmark project for sustainable
+            development.
           </Typography>
         </Box>
         <Grid container spacing={2}>

@@ -83,7 +83,12 @@ export default function ForgotPassword({
                   "An error occurred. Please try again."}
               </Alert>
             )}
-            <FormControl fullWidth margin="dense" required error={!!errors.email}>
+            <FormControl
+              fullWidth
+              margin="dense"
+              required
+              error={!!errors.email}
+            >
               <FormLabel htmlFor="email">Email address</FormLabel>
               <Controller
                 name="email"

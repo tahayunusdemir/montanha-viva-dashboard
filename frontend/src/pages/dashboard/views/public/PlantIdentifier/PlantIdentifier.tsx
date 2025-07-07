@@ -136,7 +136,11 @@ export default function PlantIdentifier() {
               <img
                 src={preview}
                 alt="Preview"
-                style={{ maxHeight: "300px", maxWidth: "100%", borderRadius: "8px" }}
+                style={{
+                  maxHeight: "300px",
+                  maxWidth: "100%",
+                  borderRadius: "8px",
+                }}
               />
               <Box sx={{ mt: 2 }}>
                 <Button
@@ -174,7 +178,7 @@ export default function PlantIdentifier() {
                 <List>
                   {results.map((prediction, index) => {
                     const plant = allPlants?.find(
-                      (p) => p.scientific_name === prediction.class
+                      (p) => p.scientific_name === prediction.class,
                     );
                     return (
                       <ListItemButton

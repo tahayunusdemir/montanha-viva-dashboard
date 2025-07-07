@@ -60,11 +60,7 @@ export default function FAQ() {
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Typography
-              variant="body2"
-              gutterBottom
-              sx={{ maxWidth: "100%" }}
-            >
+            <Typography variant="body2" gutterBottom sx={{ maxWidth: "100%" }}>
               Montanha Viva is an intelligent platform designed to promote
               sustainability, tourism, and technology in the Serra da Gardunha
               region. It combines real-time IoT data, a comprehensive
@@ -87,11 +83,7 @@ export default function FAQ() {
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Typography
-              variant="body2"
-              gutterBottom
-              sx={{ maxWidth: "100%" }}
-            >
+            <Typography variant="body2" gutterBottom sx={{ maxWidth: "100%" }}>
               Our platform is for everyone! Tourists and hikers can use our
               interactive trail guides, farmers can leverage our data for
               sustainable agriculture, researchers and students can access
@@ -114,11 +106,7 @@ export default function FAQ() {
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Typography
-              variant="body2"
-              gutterBottom
-              sx={{ maxWidth: "100%" }}
-            >
+            <Typography variant="body2" gutterBottom sx={{ maxWidth: "100%" }}>
               Yes. We use a network of IoT (Internet of Things) sensors placed
               throughout the Serra da Gardunha to collect and transmit
               environmental data, such as soil moisture and weather conditions.
@@ -141,11 +129,7 @@ export default function FAQ() {
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Typography
-              variant="body2"
-              gutterBottom
-              sx={{ maxWidth: "100%" }}
-            >
+            <Typography variant="body2" gutterBottom sx={{ maxWidth: "100%" }}>
               Our Biodiversity Explorer includes a vast database of the local
               flora. While exploring, you can use our QR-code system on marked
               trails to instantly get information about plants. We are also

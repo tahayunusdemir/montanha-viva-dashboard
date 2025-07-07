@@ -106,7 +106,7 @@ export default function RouteDetailModal({
                 borderRadius: 1,
                 objectFit: "cover",
                 aspectRatio: "4/3",
-                maxHeight: "500px"
+                maxHeight: "500px",
               }}
             />
           </Grid>
@@ -171,7 +171,7 @@ export default function RouteDetailModal({
           )}
         </Grid>
       </DialogContent>
-      <DialogActions sx={{ p: 2, justifyContent: 'space-between' }}>
+      <DialogActions sx={{ p: 2, justifyContent: "space-between" }}>
         <Button
           variant="outlined"
           startIcon={<DownloadIcon />}

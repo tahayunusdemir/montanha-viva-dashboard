@@ -115,7 +115,12 @@ const FileInput = ({
               component="label"
               variant="outlined"
               startIcon={<CloudUpload />}
-              sx={{ width: "100%", justifyContent: "flex-start", py: 1.5, mt: 1 }}
+              sx={{
+                width: "100%",
+                justifyContent: "flex-start",
+                py: 1.5,
+                mt: 1,
+              }}
             >
               {label}
               <VisuallyHiddenInput
@@ -255,7 +260,12 @@ export default function AddEditRouteModal({
           <Grid container spacing={2} sx={{ mt: 1 }}>
             {/* Basic Info */}
             <Grid size={{ xs: 12, sm: 6 }}>
-              <FormControl fullWidth error={!!errors.name} component="fieldset" sx={{ mb: 2 }}>
+              <FormControl
+                fullWidth
+                error={!!errors.name}
+                component="fieldset"
+                sx={{ mb: 2 }}
+              >
                 <FormLabel required htmlFor="route-name">
                   Route Name
                 </FormLabel>
@@ -276,7 +286,12 @@ export default function AddEditRouteModal({
               </FormControl>
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
-              <FormControl fullWidth error={!!errors.duration} component="fieldset" sx={{ mb: 2 }}>
+              <FormControl
+                fullWidth
+                error={!!errors.duration}
+                component="fieldset"
+                sx={{ mb: 2 }}
+              >
                 <FormLabel required htmlFor="route-duration">
                   Duration (e.g., 4h 30min)
                 </FormLabel>
@@ -299,7 +314,12 @@ export default function AddEditRouteModal({
 
             {/* Metrics */}
             <Grid size={{ xs: 12, sm: 4 }}>
-              <FormControl fullWidth error={!!errors.distance_km} component="fieldset" sx={{ mb: 2 }}>
+              <FormControl
+                fullWidth
+                error={!!errors.distance_km}
+                component="fieldset"
+                sx={{ mb: 2 }}
+              >
                 <FormLabel required htmlFor="route-distance-km">
                   Distance (km)
                 </FormLabel>
@@ -321,7 +341,12 @@ export default function AddEditRouteModal({
               </FormControl>
             </Grid>
             <Grid size={{ xs: 12, sm: 4 }}>
-              <FormControl fullWidth error={!!errors.accumulated_climb_m} component="fieldset" sx={{ mb: 2 }}>
+              <FormControl
+                fullWidth
+                error={!!errors.accumulated_climb_m}
+                component="fieldset"
+                sx={{ mb: 2 }}
+              >
                 <FormLabel required htmlFor="route-accumulated-climb-m">
                   Accumulated Climb (m)
                 </FormLabel>
@@ -343,7 +368,12 @@ export default function AddEditRouteModal({
               </FormControl>
             </Grid>
             <Grid size={{ xs: 12, sm: 4 }}>
-              <FormControl fullWidth error={!!errors.altitude_max_m} component="fieldset" sx={{ mb: 2 }}>
+              <FormControl
+                fullWidth
+                error={!!errors.altitude_max_m}
+                component="fieldset"
+                sx={{ mb: 2 }}
+              >
                 <FormLabel required htmlFor="route-altitude-max-m">
                   Max Altitude (m)
                 </FormLabel>
@@ -367,7 +397,12 @@ export default function AddEditRouteModal({
 
             {/* Selects */}
             <Grid size={{ xs: 12, sm: 6 }}>
-              <FormControl fullWidth error={!!errors.difficulty} component="fieldset" sx={{ mb: 2 }}>
+              <FormControl
+                fullWidth
+                error={!!errors.difficulty}
+                component="fieldset"
+                sx={{ mb: 2 }}
+              >
                 <FormLabel component="legend" required>
                   Difficulty
                 </FormLabel>
@@ -385,7 +420,12 @@ export default function AddEditRouteModal({
               </FormControl>
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
-              <FormControl fullWidth error={!!errors.route_type} component="fieldset" sx={{ mb: 2 }}>
+              <FormControl
+                fullWidth
+                error={!!errors.route_type}
+                component="fieldset"
+                sx={{ mb: 2 }}
+              >
                 <FormLabel component="legend" required>
                   Route Type
                 </FormLabel>
@@ -404,7 +444,12 @@ export default function AddEditRouteModal({
 
             {/* Text Areas */}
             <Grid size={{ xs: 12 }}>
-              <FormControl fullWidth error={!!errors.description} component="fieldset" sx={{ mb: 2 }}>
+              <FormControl
+                fullWidth
+                error={!!errors.description}
+                component="fieldset"
+                sx={{ mb: 2 }}
+              >
                 <FormLabel required htmlFor="description">
                   Description
                 </FormLabel>
@@ -427,7 +472,12 @@ export default function AddEditRouteModal({
               </FormControl>
             </Grid>
             <Grid size={{ xs: 12 }}>
-              <FormControl fullWidth error={!!errors.points_of_interest} component="fieldset" sx={{ mb: 2 }}>
+              <FormControl
+                fullWidth
+                error={!!errors.points_of_interest}
+                component="fieldset"
+                sx={{ mb: 2 }}
+              >
                 <FormLabel htmlFor="points-of-interest">
                   Points of Interest (comma-separated)
                 </FormLabel>
@@ -450,7 +500,12 @@ export default function AddEditRouteModal({
             </Grid>
 
             <Grid size={{ xs: 12 }}>
-              <FormControl fullWidth error={!!errors.start_point_gps} component="fieldset" sx={{ mb: 2 }}>
+              <FormControl
+                fullWidth
+                error={!!errors.start_point_gps}
+                component="fieldset"
+                sx={{ mb: 2 }}
+              >
                 <FormLabel required htmlFor="start-point-gps">
                   Start Point GPS
                 </FormLabel>
@@ -473,8 +528,17 @@ export default function AddEditRouteModal({
 
             {/* File Inputs */}
             <Grid size={{ xs: 12, sm: 4 }}>
-              <FormControl fullWidth error={!!errors.image_card} component="fieldset" sx={{ mb: 2 }}>
-                <FormLabel required htmlFor="image-card-file-input" component="legend">
+              <FormControl
+                fullWidth
+                error={!!errors.image_card}
+                component="fieldset"
+                sx={{ mb: 2 }}
+              >
+                <FormLabel
+                  required
+                  htmlFor="image-card-file-input"
+                  component="legend"
+                >
                   Upload Card Image
                 </FormLabel>
                 <FileInput
@@ -488,8 +552,17 @@ export default function AddEditRouteModal({
               </FormControl>
             </Grid>
             <Grid size={{ xs: 12, sm: 4 }}>
-              <FormControl fullWidth error={!!errors.image_map} component="fieldset" sx={{ mb: 2 }}>
-                <FormLabel required htmlFor="image-map-file-input" component="legend">
+              <FormControl
+                fullWidth
+                error={!!errors.image_map}
+                component="fieldset"
+                sx={{ mb: 2 }}
+              >
+                <FormLabel
+                  required
+                  htmlFor="image-map-file-input"
+                  component="legend"
+                >
                   Upload Map Image
                 </FormLabel>
                 <FileInput
@@ -503,7 +576,12 @@ export default function AddEditRouteModal({
               </FormControl>
             </Grid>
             <Grid size={{ xs: 12, sm: 4 }}>
-              <FormControl fullWidth error={!!errors.gpx_file} component="fieldset" sx={{ mb: 2 }}>
+              <FormControl
+                fullWidth
+                error={!!errors.gpx_file}
+                component="fieldset"
+                sx={{ mb: 2 }}
+              >
                 <FormLabel htmlFor="gpx-file-input" component="legend">
                   Upload GPX File
                 </FormLabel>

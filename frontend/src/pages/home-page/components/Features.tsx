@@ -159,10 +159,7 @@ export default function Features() {
         >
           Our Core Features
         </Typography>
-        <Typography
-          variant="body1"
-          sx={{ color: "text.secondary", mb: 4 }}
-        >
+        <Typography variant="body1" sx={{ color: "text.secondary", mb: 4 }}>
           Discover the tools we've built to connect you with the environment.
           From real-time data monitoring to interactive nature guides, our
           platform is designed to support sustainability, education, and

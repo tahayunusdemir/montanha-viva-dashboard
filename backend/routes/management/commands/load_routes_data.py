@@ -1,6 +1,4 @@
-import os
 import shutil
-from django.core.files import File
 from django.core.management.base import BaseCommand
 from django.conf import settings
 from routes.models import Route

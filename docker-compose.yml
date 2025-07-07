@@ -14,11 +14,11 @@ services:
       retries: 5
 
   backend:
-    image: montanha-viva-dashboard-kopya-backend
+    image: montanha-viva-dashboard-backend
     build:
       context: ./backend
       dockerfile: Dockerfile
-    command: gunicorn --bind 0.0.0.0:8000 core.wsgi:application
+    command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./backend:/app
       - ./backend/media:/app/media

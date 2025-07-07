@@ -14,9 +14,9 @@ This document provides a guide to using the Portuguese Institute for Sea and Atm
 
 Before fetching a weather forecast, you need the `globalIdLocal` for the desired location. This ID is available from the `distrits-islands.json` endpoint.
 
-*   **Endpoint:** `https://api.ipma.pt/open-data/distrits-islands.json`
-*   **Method:** `GET`
-*   **Description:** Provides a list of districts, islands, and other relevant forecast locations in Portugal, along with their corresponding identifiers.
+- **Endpoint:** `https://api.ipma.pt/open-data/distrits-islands.json`
+- **Method:** `GET`
+- **Description:** Provides a list of districts, islands, and other relevant forecast locations in Portugal, along with their corresponding identifiers.
 
 ### Example Response Snippet
 
@@ -78,10 +78,10 @@ Before fetching a weather forecast, you need the `globalIdLocal` for the desired
 
 Once you have the `globalIdLocal`, you can retrieve the 5-day weather forecast for that location.
 
-*   **Endpoint:** `https://api.ipma.pt/open-data/forecast/meteorology/cities/daily/{globalIdLocal}.json`
-*   **Method:** `GET`
-*   **URL Parameters:**
-    *   `{globalIdLocal}` (required): The identifier for the location (e.g., `1060300` for Coimbra).
+- **Endpoint:** `https://api.ipma.pt/open-data/forecast/meteorology/cities/daily/{globalIdLocal}.json`
+- **Method:** `GET`
+- **URL Parameters:**
+  - `{globalIdLocal}` (required): The identifier for the location (e.g., `1060300` for Coimbra).
 
 ### Example Request
 
@@ -127,20 +127,20 @@ https://api.ipma.pt/open-data/forecast/meteorology/cities/daily/1060300.json
 
 ### Response Fields
 
-| Key              | Type    | Description                                                                |
-| ---------------- | ------- | -------------------------------------------------------------------------- |
-| `forecastDate`   | String  | The date of the forecast (YYYY-MM-DD).                                     |
-| `tMin`           | String  | Minimum daily temperature in Celsius (°C).                                 |
-| `tMax`           | String  | Maximum daily temperature in Celsius (°C).                                 |
-| `precipitaProb`  | String  | Probability of precipitation (%).                                          |
-| `predWindDir`    | String  | Predominant wind direction (N, NE, E, SE, S, SW, W, NW).                     |
-| `idWeatherType`  | Integer | Code for the weather type. See [Weather Type Codes](#31-weather-type-codes). |
-| `classWindSpeed` | Integer | Code for wind speed class. See [Wind Speed Codes](#32-wind-speed-codes).     |
+| Key              | Type    | Description                                                                                           |
+| ---------------- | ------- | ----------------------------------------------------------------------------------------------------- |
+| `forecastDate`   | String  | The date of the forecast (YYYY-MM-DD).                                                                |
+| `tMin`           | String  | Minimum daily temperature in Celsius (°C).                                                            |
+| `tMax`           | String  | Maximum daily temperature in Celsius (°C).                                                            |
+| `precipitaProb`  | String  | Probability of precipitation (%).                                                                     |
+| `predWindDir`    | String  | Predominant wind direction (N, NE, E, SE, S, SW, W, NW).                                              |
+| `idWeatherType`  | Integer | Code for the weather type. See [Weather Type Codes](#31-weather-type-codes).                          |
+| `classWindSpeed` | Integer | Code for wind speed class. See [Wind Speed Codes](#32-wind-speed-codes).                              |
 | `classPrecInt`   | Integer | Code for precipitation intensity class. See [Precipitation Codes](#33-precipitation-intensity-codes). |
-| `latitude`       | String  | Latitude of the location.                                                  |
-| `longitude`      | String  | Longitude of the location.                                                 |
-| `globalIdLocal`  | Integer | The location identifier.                                                   |
-| `dataUpdate`     | String  | The timestamp of the last data update (UTC).                               |
+| `latitude`       | String  | Latitude of the location.                                                                             |
+| `longitude`      | String  | Longitude of the location.                                                                            |
+| `globalIdLocal`  | Integer | The location identifier.                                                                              |
+| `dataUpdate`     | String  | The timestamp of the last data update (UTC).                                                          |
 
 ---
 
@@ -150,28 +150,28 @@ To interpret the codes in the forecast response, you can use the following auxil
 
 ### 3.1. Weather Type Codes
 
-*   **Endpoint:** `https://api.ipma.pt/open-data/weather-type-classe.json`
-*   **Description:** Provides a mapping of `idWeatherType` to its description in Portuguese and English.
+- **Endpoint:** `https://api.ipma.pt/open-data/weather-type-classe.json`
+- **Description:** Provides a mapping of `idWeatherType` to its description in Portuguese and English.
 
 #### Sample Data
 
-| `idWeatherType` | `descWeatherTypePT`                 | `descWeatherTypeEN`          |
-| --------------- | ----------------------------------- | ---------------------------- |
-| 1               | Céu limpo                           | Clear sky                    |
-| 2               | Céu pouco nublado                   | Partly cloudy                |
-| 3               | Céu parcialmente nublado            | Partly cloudy sky            |
-| 4               | Céu muito nublado ou encoberto      | Very cloudy sky              |
-| 5               | Céu nublado por nuvens altas        | Sky overcast with high clouds|
-| 6               | Aguaceiros                          | Showers                      |
-| ...             | ...                                 | ...                          |
-| 27              | Aguaceiros e trovoada               | Showers and thunderstorms    |
+| `idWeatherType` | `descWeatherTypePT`            | `descWeatherTypeEN`           |
+| --------------- | ------------------------------ | ----------------------------- |
+| 1               | Céu limpo                      | Clear sky                     |
+| 2               | Céu pouco nublado              | Partly cloudy                 |
+| 3               | Céu parcialmente nublado       | Partly cloudy sky             |
+| 4               | Céu muito nublado ou encoberto | Very cloudy sky               |
+| 5               | Céu nublado por nuvens altas   | Sky overcast with high clouds |
+| 6               | Aguaceiros                     | Showers                       |
+| ...             | ...                            | ...                           |
+| 27              | Aguaceiros e trovoada          | Showers and thunderstorms     |
 
-*(Note: The table is illustrative. Refer to the endpoint for the complete list.)*
+_(Note: The table is illustrative. Refer to the endpoint for the complete list.)_
 
 ### 3.2. Wind Speed Codes
 
-*   **Endpoint:** `https://api.ipma.pt/open-data/wind-speed-daily-classe.json`
-*   **Description:** Provides a mapping of `classWindSpeed` to its description.
+- **Endpoint:** `https://api.ipma.pt/open-data/wind-speed-daily-classe.json`
+- **Description:** Provides a mapping of `classWindSpeed` to its description.
 
 #### Sample Data
 
@@ -184,17 +184,18 @@ To interpret the codes in the forecast response, you can use the following auxil
 
 ### 3.3. Precipitation Intensity Codes
 
-*   **Endpoint:** `https://api.ipma.pt/open-data/precipitation-classe.json`
-*   **Description:** Provides a mapping of `classPrecInt` to its description.
+- **Endpoint:** `https://api.ipma.pt/open-data/precipitation-classe.json`
+- **Description:** Provides a mapping of `classPrecInt` to its description.
 
 #### Sample Data
 
-| `classPrecInt` | `descClassPrecIntPT`   | `descClassPrecIntEN`   |
-| -------------- | ---------------------- | ---------------------- |
-| 0              | Nenhuma                | None                   |
-| 1              | Fraca                  | Weak                   |
-| 2              | Moderada               | Moderate               |
-| 3              | Forte                  | Strong                 |
+| `classPrecInt` | `descClassPrecIntPT` | `descClassPrecIntEN` |
+| -------------- | -------------------- | -------------------- |
+| 0              | Nenhuma              | None                 |
+| 1              | Fraca                | Weak                 |
+| 2              | Moderada             | Moderate             |
+| 3              | Forte                | Strong               |
 
 ---
+
 **Source:** [IPMA API](https://api.ipma.pt/). Copyright © IPMA 2018 | ipma.pt

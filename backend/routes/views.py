@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework import viewsets, permissions, filters
 from rest_framework.parsers import MultiPartParser, JSONParser
 from .models import Route

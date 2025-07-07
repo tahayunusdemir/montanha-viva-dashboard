@@ -26,7 +26,12 @@ export default function RoutesEncyclopedia() {
   const [selectedRoute, setSelectedRoute] = useState<Route | null>(null);
   const [isModalOpen, setModalOpen] = useState(false);
 
-  const { data: routes, isLoading, isError, error } = usePublicRoutes({
+  const {
+    data: routes,
+    isLoading,
+    isError,
+    error,
+  } = usePublicRoutes({
     search: searchTerm,
     difficulty: difficultyFilter === "All" ? undefined : difficultyFilter,
   });
@@ -51,8 +56,8 @@ export default function RoutesEncyclopedia() {
         Discover the amazing routes of Gardunha
       </Typography>
       <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-        Browse through the available routes, filter them by difficulty, and
-        find your next adventure.
+        Browse through the available routes, filter them by difficulty, and find
+        your next adventure.
       </Typography>
 
       <Box

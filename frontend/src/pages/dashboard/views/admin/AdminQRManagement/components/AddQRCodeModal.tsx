@@ -102,7 +102,11 @@ export default function AddQRCodeModal({ open, onClose }: AddQRCodeModalProps) {
                 </FormControl>
               </Grid>
               <Grid size={12}>
-                <FormControl fullWidth error={!!errors.text_content} sx={{ mb: 2 }}>
+                <FormControl
+                  fullWidth
+                  error={!!errors.text_content}
+                  sx={{ mb: 2 }}
+                >
                   <FormLabel>Text or URL for QR Code</FormLabel>
                   <Controller
                     name="text_content"

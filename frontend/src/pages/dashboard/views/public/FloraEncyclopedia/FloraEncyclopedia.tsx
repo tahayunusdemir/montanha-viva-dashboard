@@ -46,7 +46,7 @@ export default function FloraEncyclopedia() {
     return plants.filter(
       (plant) =>
         plant.scientific_name.toLowerCase().includes(lowercasedFilter) ||
-        plant.common_names.toLowerCase().includes(lowercasedFilter)
+        plant.common_names.toLowerCase().includes(lowercasedFilter),
     );
   }, [plants, searchText]);
 
@@ -63,7 +63,12 @@ export default function FloraEncyclopedia() {
   if (isLoading) {
     return (
       <PageLayout>
-        <Box display="flex" justifyContent="center" alignItems="center" height="60vh">
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          height="60vh"
+        >
           <CircularProgress />
         </Box>
       </PageLayout>
@@ -74,7 +79,8 @@ export default function FloraEncyclopedia() {
     return (
       <PageLayout>
         <Alert severity="error">
-          Error loading flora data: {error?.message || "An unknown error occurred."}
+          Error loading flora data:{" "}
+          {error?.message || "An unknown error occurred."}
         </Alert>
       </PageLayout>
     );
@@ -87,7 +93,8 @@ export default function FloraEncyclopedia() {
           Flora Encyclopedia
         </Typography>
         <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
-          Explore the rich biodiversity of the region. Click on any plant to discover its details, uses, and interactions with fauna.
+          Explore the rich biodiversity of the region. Click on any plant to
+          discover its details, uses, and interactions with fauna.
         </Typography>
         <FormControl fullWidth variant="outlined">
           <FormLabel htmlFor="search-input">Search Plants</FormLabel>
@@ -109,14 +116,19 @@ export default function FloraEncyclopedia() {
       <Grid container spacing={2}>
         {filteredPlants.map((plant) => (
           <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={plant.id}>
-            <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-              <CardActionArea onClick={() => handleOpenModal(plant)} sx={{ flexGrow: 1 }}>
+            <Card
+              sx={{ height: "100%", display: "flex", flexDirection: "column" }}
+            >
+              <CardActionArea
+                onClick={() => handleOpenModal(plant)}
+                sx={{ flexGrow: 1 }}
+              >
                 <CardMedia
                   component="img"
                   height="250"
                   image={plant.images?.[0]?.image || "/placeholder.png"} // Use a placeholder if no image
                   alt={plant.scientific_name}
-                  sx={{ objectFit: 'cover' }}
+                  sx={{ objectFit: "cover" }}
                 />
                 <CardContent>
                   <Typography gutterBottom variant="h6" component="div" noWrap>
@@ -134,7 +146,7 @@ export default function FloraEncyclopedia() {
 
       {filteredPlants.length === 0 && !isLoading && (
         <Box mt={4} textAlign="center">
-            <Typography>No plants found matching your search.</Typography>
+          <Typography>No plants found matching your search.</Typography>
         </Box>
       )}
 

@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
-import { Box, Dialog, DialogContent, DialogActions, Button } from "@mui/material";
+import {
+  Box,
+  Dialog,
+  DialogContent,
+  DialogActions,
+  Button,
+} from "@mui/material";
 
 import AdminTemplate from "../components/AdminTemplate/AdminTemplate";
 import AddEditRouteModal from "./components/AddEditRouteModal";
 import ViewRouteDetails from "./components/ViewRouteDetails";
 import { Route } from "@/types";
-import {
-  useRoutes,
-  useDeleteRoute,
-} from "@/services/routes";
+import { useRoutes, useDeleteRoute } from "@/services/routes";
 
 export default function AdminRoutesManagement() {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -55,12 +58,17 @@ export default function AdminRoutesManagement() {
     { field: "id", headerName: "ID", width: 90 },
     { field: "name", headerName: "Name", flex: 1 },
     { field: "difficulty", headerName: "Difficulty", flex: 1 },
-    { field: "distance_km", headerName: "Distance (km)", type: "number", flex: 1 },
+    {
+      field: "distance_km",
+      headerName: "Distance (km)",
+      type: "number",
+      flex: 1,
+    },
     { field: "duration", headerName: "Duration", flex: 1 },
   ];
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: "100%" }}>
       <AdminTemplate
         title="Routes Management"
         data={routesData || []}
@@ -89,11 +97,7 @@ export default function AdminRoutesManagement() {
         fullWidth
       >
         <DialogContent>
-          {selectedRoute && (
-            <ViewRouteDetails
-              route={selectedRoute}
-            />
-          )}
+          {selectedRoute && <ViewRouteDetails route={selectedRoute} />}
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setViewModalOpen(false)}>Close</Button>

@@ -51,19 +51,29 @@ const useFlags = [
   { id: "ornamental", label: "Ornamental", icon: <YardIcon /> },
   { id: "traditional", label: "Traditional", icon: <MenuBookIcon /> },
   { id: "aromatic", label: "Aromatic", icon: <AirIcon /> },
-  { id: "fauna_interaction", label: "Fauna Interaction", icon: <BugReportIcon /> },
+  {
+    id: "fauna_interaction",
+    label: "Fauna Interaction",
+    icon: <BugReportIcon />,
+  },
 ];
 
 // Example data for demonstration
 const exampleData = {
   scientific_name: "Rosa canina L.",
   common_names: "Dog Rose, Wild Rose, Briar Rose, English Rose",
-  interaction_fauna: "Bees and butterflies are attracted to the flowers for nectar. Birds feed on the rose hips during winter months. The plant provides shelter for small insects and nesting material for birds.",
-  food_uses: "Rose hips are rich in vitamin C and can be used to make tea, jam, and syrup. Petals can be used in salads and desserts.",
-  medicinal_uses: "Rose hips are used for their high vitamin C content and antioxidant properties. Rose water is used in traditional medicine for skin conditions.",
-  ornamental_uses: "Widely used in gardens and parks for its beautiful flowers and climbing habit. Popular in rose gardens and as a hedge plant.",
-  traditional_uses: "Used in traditional medicine for digestive issues and skin problems. Rose water has been used in Middle Eastern cultures for centuries.",
-  aromatic_uses: "Rose petals and rose water are used in perfumery and aromatherapy. Essential oil is extracted for use in cosmetics and fragrances.",
+  interaction_fauna:
+    "Bees and butterflies are attracted to the flowers for nectar. Birds feed on the rose hips during winter months. The plant provides shelter for small insects and nesting material for birds.",
+  food_uses:
+    "Rose hips are rich in vitamin C and can be used to make tea, jam, and syrup. Petals can be used in salads and desserts.",
+  medicinal_uses:
+    "Rose hips are used for their high vitamin C content and antioxidant properties. Rose water is used in traditional medicine for skin conditions.",
+  ornamental_uses:
+    "Widely used in gardens and parks for its beautiful flowers and climbing habit. Popular in rose gardens and as a hedge plant.",
+  traditional_uses:
+    "Used in traditional medicine for digestive issues and skin problems. Rose water has been used in Middle Eastern cultures for centuries.",
+  aromatic_uses:
+    "Rose petals and rose water are used in perfumery and aromatherapy. Essential oil is extracted for use in cosmetics and fragrances.",
 };
 
 interface AddEditPlantModalProps {
@@ -190,7 +200,10 @@ export default function AddEditPlantModal({
                       fullWidth
                       placeholder="e.g., Rosa canina L., Quercus robur L., Lavandula angustifolia"
                       error={!!errors.scientific_name}
-                      helperText={errors.scientific_name?.message || "Enter the Latin scientific name with author abbreviation (e.g., L. for Linnaeus, Mill. for Miller)"}
+                      helperText={
+                        errors.scientific_name?.message ||
+                        "Enter the Latin scientific name with author abbreviation (e.g., L. for Linnaeus, Mill. for Miller)"
+                      }
                     />
                   )}
                 />
@@ -210,7 +223,10 @@ export default function AddEditPlantModal({
                       fullWidth
                       placeholder="e.g., Dog Rose, Wild Rose, Briar Rose"
                       error={!!errors.common_names}
-                      helperText={errors.common_names?.message || "Enter common names separated by commas"}
+                      helperText={
+                        errors.common_names?.message ||
+                        "Enter common names separated by commas"
+                      }
                     />
                   )}
                 />
@@ -232,7 +248,10 @@ export default function AddEditPlantModal({
                       fullWidth
                       placeholder="e.g., Birds feed on rose hips during winter. Bees and butterflies pollinate the flowers. Deer browse on young shoots."
                       error={!!errors.interaction_fauna}
-                      helperText={errors.interaction_fauna?.message || "Describe how animals interact with this plant (pollination, feeding, shelter, etc.)"}
+                      helperText={
+                        errors.interaction_fauna?.message ||
+                        "Describe how animals interact with this plant (pollination, feeding, shelter, etc.)"
+                      }
                     />
                   )}
                 />
@@ -339,15 +358,25 @@ export default function AddEditPlantModal({
             {/* Use Flags */}
             <Grid size={{ xs: 12 }}>
               <FormControl component="fieldset" fullWidth>
-                <FormLabel component="legend" sx={{ mb: 1 }}>Use Indicators</FormLabel>
+                <FormLabel component="legend" sx={{ mb: 1 }}>
+                  Use Indicators
+                </FormLabel>
                 <Box display="flex" flexWrap="wrap" gap={1}>
                   {useFlags.map((flag) => (
                     <Chip
                       key={flag.id}
                       icon={flag.icon}
                       label={flag.label}
-                      color={uses[flag.id as keyof typeof uses] ? "primary" : "default"}
-                      variant={uses[flag.id as keyof typeof uses] ? "filled" : "outlined"}
+                      color={
+                        uses[flag.id as keyof typeof uses]
+                          ? "primary"
+                          : "default"
+                      }
+                      variant={
+                        uses[flag.id as keyof typeof uses]
+                          ? "filled"
+                          : "outlined"
+                      }
                     />
                   ))}
                 </Box>
@@ -366,16 +395,16 @@ export default function AddEditPlantModal({
                         alt="plant"
                         width="100"
                         height="100"
-                        style={{ objectFit: 'cover', borderRadius: '8px' }}
+                        style={{ objectFit: "cover", borderRadius: "8px" }}
                       />
                       <IconButton
                         size="small"
                         onClick={() => handleRemoveImage(image.id)}
                         sx={{
-                          position: 'absolute',
+                          position: "absolute",
                           top: 0,
                           right: 0,
-                          backgroundColor: 'rgba(255, 255, 255, 0.7)'
+                          backgroundColor: "rgba(255, 255, 255, 0.7)",
                         }}
                       >
                         <DeleteIcon fontSize="small" />
@@ -385,12 +414,22 @@ export default function AddEditPlantModal({
                   <Button
                     component="label"
                     variant="outlined"
-                    startIcon={uploadMutation.isPending ? <CircularProgress size={20} /> : <AddPhotoAlternateIcon />}
+                    startIcon={
+                      uploadMutation.isPending ? (
+                        <CircularProgress size={20} />
+                      ) : (
+                        <AddPhotoAlternateIcon />
+                      )
+                    }
                     sx={{ height: 100, width: 100 }}
                     disabled={uploadMutation.isPending}
                   >
                     Upload
-                    <VisuallyHiddenInput type="file" accept="image/*" onChange={handleFileChange} />
+                    <VisuallyHiddenInput
+                      type="file"
+                      accept="image/*"
+                      onChange={handleFileChange}
+                    />
                   </Button>
                 </Box>
                 {uploadMutation.isError && (
