@@ -26,10 +26,7 @@ services:
       - key: DEBUG
         value: false
       - key: CLIENT_URL
-        fromService:
-          type: static
-          name: frontend
-          property: url
+        value: https://montanha-viva-dashboard-frontend.onrender.com # WORKAROUND: Update this placeholder with your actual frontend URL after the first deploy. Render Blueprints can't get a static site's URL dynamically.
 
   # 3. React Frontend Service
   - name: frontend
