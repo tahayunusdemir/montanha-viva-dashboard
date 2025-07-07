@@ -1,43 +1,50 @@
-services:
+databases:
   # 1. PostgreSQL Database Service
   - name: db
-    type: pserv
-    plan: free # Using free plan, you can change if needed
+    plan: free
     postgres:
       version: 16
 
+services:
   # 2. Django Backend Service
   - name: backend
     type: web
     plan: free
     runtime: python
+    rootDir: backend # Set the context to the backend folder
     buildCommand: |
       pip install -r requirements.txt
       python manage.py migrate
     startCommand: gunicorn core.wsgi:application
     envVars:
       - key: DATABASE_URL
-        fromService:
-          type: pserv
+        fromDatabase:
           name: db
           property: connectionString
       - key: SECRET_KEY
-        generateValue: true # Render will generate a secure key for you
+        generateValue: true
       - key: DEBUG
         value: false
       - key: CLIENT_URL
-        value: https://frontend.onrender.com # WORKAROUND: Manually set URL. Render does not support dynamic URL from static sites in blueprints. You may need to update this value in the Render UI after the first deploy if the URL is different.
+        fromService:
+          type: static
+          name: frontend
+          property: url
 
   # 3. React Frontend Service
   - name: frontend
     type: static
     plan: free
+    rootDir: frontend # Set the context to the frontend folder
     buildCommand: pnpm install && pnpm run build
-    staticPublishPath: ./dist
+    staticPublishPath: dist # Path is relative to rootDir
     routes:
       - type: rewrite
         source: /*
         destination: /index.html
     envVars:
       - key: VITE_API_BASE_URL
-        value: https://backend.onrender.com # WORKAROUND: Manually set URL. Render does not support dynamic URL from web services in blueprints. You may need to update this value in the Render UI after the first deploy if the URL is different.
+        fromService:
+          type: web
+          name: backend
+          property: url
